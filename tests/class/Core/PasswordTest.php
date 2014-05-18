@@ -5,12 +5,19 @@
 
 class Core_PasswordTest extends PHPUnit_Framework_TestCase
 {
-    function testIsAllowed()
+    function testIsAllowedRepeated()
     {
         // verify that repeated letter strings are disallowed
         $this->assertEquals(false, Core_Password::isAllowed('hhhhhh') );
         $this->assertEquals(false, Core_Password::isAllowed('666666666666') );
 
+        $this->assertEquals(false, Core_Password::isAllowed('hahaha') );
+        $this->assertEquals(false, Core_Password::isAllowed('6969') );
+        $this->assertEquals(false, Core_Password::isAllowed('232323') );
+    }
+
+    function testIsAllowed()
+    {
         // verify that a listed password is blocked, and that check is not case sensitive
         $this->assertEquals(false, Core_Password::isAllowed('abc123') );
         $this->assertEquals(false, Core_Password::isAllowed('ABC123') );
@@ -59,6 +66,22 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( true, Core_Password::verify('test', $hash));
 
         $this->assertEquals( false, Core_Password::needsRehash($hash) );
+    }
+
+    /**
+     * Looks in forbidden passwords file for useless rules, which are covered by the static validation checks
+     */
+    function testFindUselessForbiddenRules()
+    {
+        $filename = Core_Password::getForbiddenPasswordsFilename();
+
+        $rows = explode("\n", trim(file_get_contents($filename)));
+
+        $this->assertGreaterThanOrEqual( 488, count($rows) );
+
+        foreach ($rows as $row) {
+            $this->assertEquals( false, Core_Password::isRepeatingString($row), 'Asserting that string '.$row.' is not repeated' );
+        }
     }
 
     /**

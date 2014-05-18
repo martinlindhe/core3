@@ -38,18 +38,44 @@ class Core_Password
         return password_verify($password, $hash);
     }
 
+    public static function isRepeatingString($s)
+    {
+        $len = strlen($s);
+
+        // disallow repeated letters
+        if (str_repeat(substr($s, 0, 1), $len) == $s) {
+            return true;
+        }
+
+        // disallow repeated letter pairs
+        if (str_repeat(substr($s, 0, 2), $len/2) == $s) {
+            return true;
+        }
+
+        // disallow repeated letter triplets
+        if (str_repeat(substr($s, 0, 3), $len/3) == $s) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function getForbiddenPasswordsFilename()
+    {
+        return dirname(__FILE__).'/../../data/Password.forbidden.txt';
+    }
+
     /**
      * Checks against password blacklist wether input
      * is allowed for use as
      */
     public static function isAllowed($password)
     {
-        // disallow repeated letter strings
-        if (str_repeat(substr($password, 0, 1), strlen($password)) == $password) {
+        if (self::isRepeatingString($password)) {
             return false;
         }
 
-        $chk_file = dirname(__FILE__).'/../../data/Password.forbidden.txt';
+        $chk_file = self::getForbiddenPasswordsFilename();
         if (!file_exists($chk_file))
             throw new \Exception ('file not found '.$chk_file);
 
