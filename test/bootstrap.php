@@ -6,19 +6,14 @@ function my_autoloader($className)
     if (file_exists($fileName)) {
         require_once($fileName);
     }
-
 }
 
-// path for debian installation of "php-tcpdf"
-require_once('/usr/share/php/tcpdf/tcpdf.php');
-
-/*
-set_include_path(
-    '.' . PATH_SEPARATOR .
-    '/usr/share/php/tcpdf'
-);
-*/
-
+require_once( realpath(__DIR__ . '/../lib') . '/tcpdf/tcpdf.php');
+require_once( realpath(__DIR__ . '/../lib') . '/password_compat/password.php');
 
 spl_autoload_register('my_autoloader');
 
+// php config required for tests
+ini_set('memory_limit', '256M');
+
+date_default_timezone_set('UTC');

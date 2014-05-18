@@ -3,7 +3,9 @@
  * @author Martin Lindhe <martin.lindhe@freespee.com>
  */
 
-// TODO drop tcpdf usage, instead use haru: http://se2.php.net/manual/en/intro.haru.php
+// NOTE: tcpdf supports HTML to PDF, which is required
+// NOTE: tcpdf is a set of PHP classes (slow)
+// NOTE: the libharu pdf writer (pecl haru) does not support render html
 
 class Writer_SpreadsheetPdf
 {

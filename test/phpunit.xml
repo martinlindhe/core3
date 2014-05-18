@@ -25,7 +25,7 @@
 
     <filter>
         <blacklist>
-            <directory>/usr/share/php/tcpdf</directory>
+            <directory>../lib/tcpdf</directory>
         </blacklist>
     </filter>
 
