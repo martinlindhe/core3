@@ -31,6 +31,11 @@ class Core_Password
      */
     public static function isAllowed($password)
     {
+        // disallow repeated letter strings
+        if (str_repeat(substr($password, 0, 1), strlen($password)) == $password) {
+            return false;
+        }
+
         $chk_file = dirname(__FILE__).'/../../data/Password.forbidden.txt';
         if (!file_exists($chk_file))
             throw new \Exception ('file not found '.$chk_file);
