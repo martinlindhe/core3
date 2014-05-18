@@ -18,7 +18,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
         $writer = new Writer_SpreadsheetPdf();
         $data = $writer->render($model);
 
-        $this->assertTrue( !empty($data), 'Result was returned' );
+        $this->assertGreaterThan( 1000, strlen($data), 'Some data was returned' );
 
         //$this->markTestIncomplete('TODO  verify generated output');
     }

@@ -8,47 +8,30 @@ class Client_DatabasePdoSqliteTest extends PHPUnit_Framework_TestCase
     protected $db;
     protected $db_file;
 
-    function testMysql()
-    {
-        //$db = new Client_DatabasePdo('mysql');
-        /*
-        $db->setDatabase('test');
-        $db->setServer('localhost');
-        $db->setUsername('root');
-        $db->setPassword('xx');
-        $db->setPort(44308);
-
-        $db->connect();
-        */
-    }
-
     function setUp()
     {
         $this->db_file = tempnam("/tmp", "sqlite");
 
         $this->db = new Client_DatabasePdo('sqlite:'.$this->db_file);
 
-        $this->db->query('DROP TABLE IF EXISTS CoreUser');
-
-        $this->assertEquals(true, $this->db->isConnected() );
-
         $this->db->query(
-        'CREATE TABLE IF NOT EXISTS CoreUser ('.
-            'id INTEGER PRIMARY KEY,'.       // sqlite style for auto increment
+        'CREATE TABLE CoreUser ('.
+            'id INTEGER PRIMARY KEY,'.      // sqlite style for auto increment
             'username VARCHAR(50),'.
-            'password VARCHAR(100)'.
+            'password VARCHAR(255)'.        // password_hash() currently uses 60-byte strings
         ')'
         );
     }
 
     function tearDown()
     {
-        echo "Destorying ".$this->db_file."\n";
         unlink($this->db_file);
     }
 
     function testSqlite()
     {
+        $this->assertEquals(true, $this->db->isConnected() );
+
         $id = $this->db->insert('INSERT INTO CoreUser (username, password) VALUES (:user, :pass)', array(':user' => 'kalle', ':pass' => 'pwd'));
         $this->assertEquals(1, $id);
 
@@ -64,4 +47,20 @@ class Client_DatabasePdoSqliteTest extends PHPUnit_Framework_TestCase
         $res = $this->db->selectRow('SELECT * FROM CoreUser WHERE id = :id', array(':id' => 1));
         $this->assertEquals( array('id'=>1,'username'=>'kalle','password'=>'pwd'), $res);
     }
+
+    /*
+    function testMysql()
+    {
+        $db = new Client_DatabasePdo('mysql');
+
+        $db->setDatabase('test');
+        $db->setServer('localhost');
+        $db->setUsername('root');
+        $db->setPassword('xx');
+        $db->setPort(44308);
+
+        $db->connect();
+    }
+    */
+
 }

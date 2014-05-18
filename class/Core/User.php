@@ -1,6 +1,6 @@
 <?php
 
-class Core_User extends PdoTable
+class Core_User // extends PdoTable
 {
     public static $tableName = 'CoreUser';
 
