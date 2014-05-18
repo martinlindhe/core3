@@ -1,21 +1,27 @@
-= About =
+# About
 
 Hello
 
 
 
-= Requirements =
+## Requirements
 
-== PDF support =
+
+### Testing
+
+PHPUnit
+
+
+### PDF support
 
 Relies on the tcpdf classes.
 
-=== debian ===
+#### debian
 
   sudo apt-get install php-tcpdf
 
 
-=== macports ===
+#### macports
 
 (??)
 

@@ -1,3 +1,2 @@
 test:
-	phpunit --bootstrap tests/phpunitBootstrap.php tests/class/Writer/PdfSpreadsheetWriterTests.php
-
+	phpunit --colors --bootstrap tests/phpunitBootstrap.php tests/class/
