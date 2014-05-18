@@ -3,15 +3,13 @@
  * @author Martin Lindhe <martin.lindhe@freespee.com>
  */
 
+// TODO drop tcpdf usage, instead use haru: http://se2.php.net/manual/en/intro.haru.php
+
 class Writer_SpreadsheetPdf
 {
     private function initTcpdfObject()
     {
-        if (!class_exists('TCPDF')) {
-            throw new Exception ('tcpdf is missing');
-        }
-
-        $tcpdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $tcpdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         // set document information
         //$tcpdf->SetCreator(PDF_CREATOR);

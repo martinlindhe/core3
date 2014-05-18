@@ -3,42 +3,6 @@
 Hello
 
 
-
-## Requirements
-
-
-  php5-sqlite
-
-### Password
-
-  php 5.5, or
-
-
-
-### Testing
-
-PHPUnit 4.1
-
-
-### PDF support
-
-Relies on the tcpdf classes.
-
-#### debian
-
-  sudo apt-get install php-tcpdf
-
-
-#### macports
-
-(??)
-
-  sudo port install pear-TCPDF
-
-
-
-
-
 ## Directory structure
 
 
@@ -61,5 +25,8 @@ Relies on the tcpdf classes.
     cli tool that verifies all tables & columns exist. use reflection to find all classes extending from PdoTable, use their public variables as column names,
     verify db structure!
 
+
+TODO db:
+    Not passing the PDO::PARAM_INT parameter when binding integer variables can sometimes cause PDO to quote them. This can screw up certain MySQL queries. See this bug report.  https://bugs.php.net/bug.php?id=44639
 
 

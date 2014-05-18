@@ -2,18 +2,23 @@
 
 function my_autoloader($className)
 {
-    $className = str_replace('_', '/', $className);
-
-    $fileName = realpath(__DIR__ . '/../class') .'/'. $className . '.php';
+    $fileName = realpath(__DIR__ . '/../class') .'/'. str_replace('_', '/', $className) . '.php';
     if (file_exists($fileName)) {
         require_once($fileName);
-        return true;
     }
 
-    return false;
+    if ($className == 'tcpdf') {
+        // HACK blergh
+        include('/usr/share/php/tcpdf/tcpdf.php');
+    }
 }
 
-spl_autoload_register('my_autoloader');
+/*
+set_include_path(
+    '.' . PATH_SEPARATOR .
+    '/usr/share/php/tcpdf/'         // path for debian installation of "php-tcpdf"
+);
+*/
 
-// path for debian installation of "php-tcpdf"
-require_once('/usr/share/php/tcpdf/tcpdf.php');
+spl_autoload_register('my_autoloader', true, false);
+

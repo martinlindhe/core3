@@ -5,23 +5,31 @@
 
 class Core_PasswordTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * verify that repeated letter strings are disallowed
+     */
     function testIsAllowedRepeated()
     {
-        // verify that repeated letter strings are disallowed
         $this->assertEquals(false, Core_Password::isAllowed('hhhhhh') );
         $this->assertEquals(false, Core_Password::isAllowed('666666666666') );
 
         $this->assertEquals(false, Core_Password::isAllowed('hahaha') );
         $this->assertEquals(false, Core_Password::isAllowed('6969') );
         $this->assertEquals(false, Core_Password::isAllowed('232323') );
+
+        $this->assertEquals(false, Core_Password::isAllowed('lollol') );
+        $this->assertEquals(false, Core_Password::isAllowed('sexsex') );
     }
 
-    function testIsAllowed()
+    function testIsAllowedInBlocklist()
     {
         // verify that a listed password is blocked, and that check is not case sensitive
         $this->assertEquals(false, Core_Password::isAllowed('abc123') );
         $this->assertEquals(false, Core_Password::isAllowed('ABC123') );
+    }
 
+    function testIsAllowed()
+    {
         // verify that passwords containing parts of blocked passwords are still allowed
         $this->assertEquals(true, Core_Password::isAllowed('abc123hej') );
         $this->assertEquals(true, Core_Password::isAllowed('hejabc123') );
