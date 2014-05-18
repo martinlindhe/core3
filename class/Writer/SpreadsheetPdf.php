@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Martin Lindhe <martin@ubique.se>
+ * @author Martin Lindhe <martin.lindhe@freespee.com>
  */
 
 class Writer_SpreadsheetPdf

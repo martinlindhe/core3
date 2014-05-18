@@ -1,11 +1,7 @@
 <?php
-
-// TODO use real model
-class Model_Spreadsheet
-{
-    var $columns = array();
-    var $rows = array();
-}
+/**
+ * @group Writer
+ */
 
 class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 {
@@ -22,7 +18,9 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
         $writer = new Writer_SpreadsheetPdf();
         $data = $writer->render($model);
 
-        // TODO  verify generated output, using pdf reader class (?)
+        $this->assertTrue( !empty($data), 'Result was returned' );
+
+        //$this->markTestIncomplete('TODO  verify generated output');
     }
 
 }
