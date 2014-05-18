@@ -29,4 +29,9 @@
         </blacklist>
     </filter>
 
+    <logging>
+        <log type="coverage-html" target="../coverage-report-html"/>
+        <log type="testdox-html" target="../testdox.html"/>
+    </logging>
+
 </phpunit>

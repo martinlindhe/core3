@@ -12,5 +12,13 @@ function my_autoloader($className)
 // path for debian installation of "php-tcpdf"
 require_once('/usr/share/php/tcpdf/tcpdf.php');
 
-spl_autoload_register('my_autoloader', true, false);
+/*
+set_include_path(
+    '.' . PATH_SEPARATOR .
+    '/usr/share/php/tcpdf'
+);
+*/
+
+
+spl_autoload_register('my_autoloader');
 
