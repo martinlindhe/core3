@@ -7,18 +7,10 @@ function my_autoloader($className)
         require_once($fileName);
     }
 
-    if ($className == 'tcpdf') {
-        // HACK blergh
-        include('/usr/share/php/tcpdf/tcpdf.php');
-    }
 }
 
-/*
-set_include_path(
-    '.' . PATH_SEPARATOR .
-    '/usr/share/php/tcpdf/'         // path for debian installation of "php-tcpdf"
-);
-*/
+// path for debian installation of "php-tcpdf"
+require_once('/usr/share/php/tcpdf/tcpdf.php');
 
 spl_autoload_register('my_autoloader', true, false);
 

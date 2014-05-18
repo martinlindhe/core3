@@ -34,25 +34,15 @@ PHPUnit 4.1
 
 ## PDF support
 
-first install libharu
-
-osx, tried & failed using the "libharu" pkg from macports:
-
-  sudo port install libharu
+NOTE: php-tcpdf supports HTML to PDF, which is required
+NOTE: php-tcpdf is a set of PHP classes (slow)
 
 
-debian:
-  git clone https://github.com/libharu/libharu.git
-  ...
+### debian
+
+  sudo apt-get install php-tcpdf
 
 
+### OSX
 
-next, install PECL/haru
-
-  $ sudo pecl install haru
-
-  path for haru is /opt/local/lib   (name is libhpdf for some reason)
-
-
-  * https://github.com/libharu/libharu/
-  * http://pecl.php.net/package/haru
+  TODO!

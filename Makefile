@@ -1,6 +1,10 @@
+.PHONY: all test coverage
+
 test:
-#	phpunit --report-useless-tests --disallow-test-output --colors --bootstrap tests/bootstrap.php tests/
-	phpunit --colors --bootstrap tests/bootstrap.php tests/
+	phpunit --configuration=test/phpunit.xml
 
 coverage:
-	phpunit --colors --bootstrap tests/bootstrap.php --coverage-html coverage-report-html tests/
+	phpunit --coverage-html coverage-report-html --configuration test/phpunit.xml
+
+clean:
+	rm -r coverage-report-html

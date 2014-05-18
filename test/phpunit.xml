@@ -1,0 +1,32 @@
+<phpunit
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
+         bootstrap="bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         timeoutForSmallTests="1"
+         timeoutForMediumTests="10"
+         timeoutForLargeTests="60"
+         strict="false"
+         verbose="false">
+
+    <testsuites>
+      <testsuite name="AllTests">
+        <directory>.</directory>
+      </testsuite>
+    </testsuites>
+
+    <filter>
+        <blacklist>
+            <directory>/usr/share/php/tcpdf</directory>
+        </blacklist>
+    </filter>
+
+</phpunit>
