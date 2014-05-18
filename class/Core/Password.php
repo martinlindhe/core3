@@ -17,6 +17,19 @@ class Core_Password
     }
 
     /**
+     * Used to determine if password hash needs to be re-generated when cost has changed
+     * @return bool
+     */
+    public static function needsRehash($hash, $cost = 10)
+    {
+        $options = array(
+        'cost' => $cost,
+        );
+
+        return password_needs_rehash($hash, PASSWORD_BCRYPT, $options);
+    }
+
+    /**
      * Verifies if entered password equals stored password hash
      * @return bool
      */

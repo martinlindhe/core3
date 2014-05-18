@@ -41,6 +41,26 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( true, Core_Password::verify('test', $hash2));
     }
 
+    function testNeedRehash()
+    {
+        // create a weak hash using cost 5
+        $hash = Core_Password::hash('test', 5);
+
+        $this->assertEquals( true, Core_Password::verify('test', $hash));
+
+        $this->assertEquals( true, Core_Password::needsRehash($hash, 10) );
+    }
+
+    function testDontNeedRehash()
+    {
+        // create hash using default cost
+        $hash = Core_Password::hash('test');
+
+        $this->assertEquals( true, Core_Password::verify('test', $hash));
+
+        $this->assertEquals( false, Core_Password::needsRehash($hash) );
+    }
+
     /**
      * Calculates an appropriate cost parameter for the current system
      */
