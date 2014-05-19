@@ -11,6 +11,6 @@ abstract class Writer_Barcode
 	public function renderAsPng($code, $type)
 	{
 		$barcode = new TCPDFBarcode($code, $type);
-		return $barcode->getBarcodePNG(2, 30, array(0, 0, 0));
+		return $barcode->getBarcodePNGData(2, 30, array(0, 0, 0));
 	}
 }
