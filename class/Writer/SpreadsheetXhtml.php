@@ -50,7 +50,7 @@ class Writer_SpreadsheetXhtml extends Writer_Spreadsheet
 
 		$html = '<tr>';		
 		$colspan = '';
-	
+
 		if (count($model->getColumns()) > count($footer)) {
 			$padCnt = count($model->getColumns()) - count($footer) + 1;
 			$colspan = ' colspan="'.$padCnt.'"';

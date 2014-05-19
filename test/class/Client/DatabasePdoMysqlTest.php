@@ -54,9 +54,9 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testSelectItem (
-		  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-		  name varchar(32) NOT NULL,
-		  PRIMARY KEY (id)
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(32) NOT NULL,
+			PRIMARY KEY (id)
 		)');
 
 		$this->assertEquals(true, $db->isConnected());
@@ -86,7 +86,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testSelectItemMultiRowsResultFailure (
-		  name varchar(32) NOT NULL
+			name varchar(32) NOT NULL
 		)');
 
 		$this->assertEquals(true, $db->isConnected());
@@ -112,9 +112,9 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testToObject (
-		  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-		  name varchar(32) NOT NULL,
-		  PRIMARY KEY (id)
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(32) NOT NULL,
+			PRIMARY KEY (id)
 		)');
 
 		$db->insert('INSERT INTO testToObject SET name = :name', array(':name' => 'Lisa'));
@@ -149,9 +149,9 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testSelectRow (
-		  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-		  name varchar(32) NOT NULL,
-		  PRIMARY KEY (id)
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(32) NOT NULL,
+			PRIMARY KEY (id)
 		)');
 
 		$res = $db->select('SELECT * FROM testSelectRow');
@@ -179,9 +179,9 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testSelectRowMultipleRowsFailure (
-		  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-		  name varchar(32) NOT NULL,
-		  PRIMARY KEY (id)
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(32) NOT NULL,
+			PRIMARY KEY (id)
 		)');
 
 		$db->insert('INSERT INTO testSelectRowMultipleRowsFailure SET name = :name', array(':name' => 'Lotta'));
@@ -201,9 +201,9 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testSelectRowNoResult (
-		  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-		  name varchar(32) NOT NULL,
-		  PRIMARY KEY (id)
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(32) NOT NULL,
+			PRIMARY KEY (id)
 		)');
 
 		// expected to fail because the id dont exist
@@ -216,9 +216,9 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testUpdate (
-		  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-		  name varchar(32) NOT NULL,
-		  PRIMARY KEY (id)
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(32) NOT NULL,
+			PRIMARY KEY (id)
 		)');
 
 		$db->insert('INSERT INTO testUpdate SET name = :name', array(':name' => 'Pelle'));
@@ -251,7 +251,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testSelect1d (
-		  name VARCHAR(10) NOT NULL
+			name VARCHAR(10) NOT NULL
 		)');
 
 		$db->insert(
@@ -284,8 +284,8 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
 		$db->query('
 		CREATE TABLE testSelectMapped (
-		  id int(11) unsigned NOT NULL,
-		  name VARCHAR(10) NOT NULL
+			id int(11) unsigned NOT NULL,
+			name VARCHAR(10) NOT NULL
 		)');
 
 		$db->insert(
@@ -348,7 +348,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 		)
 
 		BEGIN
-		   SELECT CONCAT(input,"_two");
+			SELECT CONCAT(input,"_two");
 		END;'
 		);
 

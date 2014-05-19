@@ -5,7 +5,6 @@
  */
  function xdebug_find_headers($headerKey)
 {
-	// TODO: test this code
 	$findKey = $headerKey.': ';
 	$len = strlen($findKey);
 	$res = array();
