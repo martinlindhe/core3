@@ -76,6 +76,13 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( false, Core_Password::needsRehash($hash) );
 	}
 
+	function testVerifyForbiddenFileExists()
+	{
+		$filename = Core_Password::getForbiddenPasswordsFilename();
+
+		$this->assertEquals( true, file_exists($filename) );
+	}
+
 	/**
 	 * Looks in forbidden passwords file for useless rules, which are covered by the static validation checks
 	 */
