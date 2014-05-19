@@ -108,6 +108,42 @@ Install on OSX and Debian:
 
 
 
+
+## Linter: phpmd
+
+http://phpmd.org/download/index.html
+
+  git clone git://github.com/phpmd/phpmd.git
+
+STATUS: ???
+
+
+## Linter: phpcs
+
+http://pear.php.net/package/PHP_CodeSniffer/
+
+  git clone https://github.com/squizlabs/PHP_CodeSniffer.git
+
+STATUS: ???
+
+
+
+## Linter: PHPLint
+
+http://www.icosaedro.it/phplint/download.html
+http://www.icosaedro.it/phplint/phplint-2.0_20140331.tar.gz
+
+STATUS: ???
+
+
+
+
+TODO: use composer for php dependencies?!??!!?
+
+
+
+
+
 ## Run tests
 
   make test

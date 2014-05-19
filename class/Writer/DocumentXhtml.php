@@ -33,11 +33,11 @@ class Writer_DocumentXhtml
 
 	public function add(ObjectXhtml $o)
 	{
-		throw new Exception ("TODO");
+		//throw new Exception ("TODO");
 	}
 
 	public function render()
 	{
-		throw new Exception ("TODO");
+		//throw new Exception ("TODO");
 	}
 }
