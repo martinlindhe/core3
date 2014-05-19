@@ -5,4 +5,3 @@ test:
 
 clean:
 	rm -r coverage-report-html
-	rm testdox.html
