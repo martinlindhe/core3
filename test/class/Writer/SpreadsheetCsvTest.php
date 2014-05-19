@@ -2,6 +2,19 @@
 
 class CsvSpreadsheetWriterTests extends PHPUnit_Framework_TestCase
 {
+	function testHttpHeaders()
+	{
+		// NOTE: for header() testing to work, we must run phpunit with --stderr
+
+		$fileName = 'file_'.mt_rand().'.csv';
+		Writer_SpreadsheetCsv::sendHttpAttachmentHeaders($fileName);
+
+		$this->assertEquals( array('text/csv'), xdebug_find_headers('Content-Type'));
+		$this->assertEquals( array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
+		$this->assertEquals( array('no-cache'), xdebug_find_headers('Pragma'));
+		$this->assertEquals( array('0'), xdebug_find_headers('Expires'));
+	}
+
 	function testUsage1()
 	{
 		// NOTE shows basic usage

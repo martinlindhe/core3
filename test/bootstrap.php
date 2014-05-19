@@ -10,6 +10,7 @@ function my_autoloader($className)
 
 require_once( realpath(__DIR__ . '/../lib') . '/tcpdf/tcpdf.php');
 require_once( realpath(__DIR__ . '/../lib') . '/password_compat/password.php');
+require_once( __DIR__ . '/xdebug_extras.php');
 
 spl_autoload_register('my_autoloader');
 

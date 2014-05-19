@@ -25,7 +25,6 @@
     <filter>
         <blacklist>
             <directory>../lib</directory>
-            <directory>../test</directory>
         </blacklist>
     </filter>
 

@@ -10,10 +10,10 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 
 	public static function sendHttpAttachmentHeaders($fileName)
 	{
-		header("Content-Type: text/csv");
-		header("Content-Disposition: attachment; filename=".$fileName);
-		header("Pragma: no-cache");
-		header("Expires: 0");
+		header('Content-Type: text/csv');
+		header('Content-Disposition: attachment; filename="'.$fileName.'"');
+		header('Pragma: no-cache');
+		header('Expires: 0');
 	}
   
 	public function render(Model_Spreadsheet $model)
