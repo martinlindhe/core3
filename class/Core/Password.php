@@ -79,7 +79,7 @@ class Core_Password
 
 		$data = file_get_contents($chk_file);
 
-		return strpos($data, (strtolower($password)) ) === false;
+		return strpos($data, strtolower($password)) === false;
 	}
 
 }
