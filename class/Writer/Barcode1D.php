@@ -1,6 +1,6 @@
 <?php
 
-abstract class Writer_Barcode
+abstract class Writer_Barcode1D
 {
 	public function renderAsHtml($code, $type)
 	{

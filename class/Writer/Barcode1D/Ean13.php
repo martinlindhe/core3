@@ -1,6 +1,6 @@
 <?php
 
-class Writer_BarcodeEan13 extends Writer_Barcode
+class Writer_Barcode1D_Ean13 extends Writer_Barcode1D
 {
     public function renderAsHtml($code)
     {
