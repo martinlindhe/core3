@@ -24,6 +24,7 @@ Debian lenny (old):           php5 5.2.6.dfsg.1-1+lenny13
   curl -O https://pear.php.net/go-pear.phar
   sudo php go-pear.phar
 
+
 type 1, enter /usr/local/pear
 
 type 4, enter /usr/local/bin

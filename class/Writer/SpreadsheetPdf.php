@@ -1,7 +1,5 @@
 <?php
 
-// TODO how to embed a image in the html?
-
 // RATIONALE FOR TCPDF: tcpdf supports HTML to PDF, which is required; haru does not
 
 class Writer_SpreadsheetPdf
@@ -11,6 +9,19 @@ class Writer_SpreadsheetPdf
     protected $title;
     protected $subject;
     protected $keywords = array();
+
+    protected $html_start;
+    protected $html_end;
+
+    public function setStartHtmlBlock($s)
+    {
+        $this->html_start = $s;
+    }
+
+    public function setEndHtmlBlock($s)
+    {
+        $this->html_end = $s;
+    }
 
     public function setCreator($s)
     {
@@ -104,7 +115,11 @@ class Writer_SpreadsheetPdf
         $pdf->AddPage();
 
         $writer = new Writer_SpreadsheetXhtml();
-        $html = $writer->render($model);
+        
+        $html = 
+            $this->html_start.
+            $writer->render($model).
+            $this->html_end;
 
         $pdf->writeHTML($html, true, false, true, false, '');
 
