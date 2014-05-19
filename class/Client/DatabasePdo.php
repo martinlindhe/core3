@@ -1,19 +1,11 @@
 <?php
 /**
  * MySQL driver using the PDO extension
- *
- * @author Martin Lindhe <martin.lindhe@freespee.com>
  */
-
-abstract class PdoTable
-{
-    public static $tableName;
-}
-
 
 class AlreadyConnectedException extends Exception { }
 class ConnectionFailedException extends Exception { }
-class PrepareException extends Exception { }
+class InvalidQueryException extends Exception { }
 class InvalidResultException extends Exception { }
 
 class Client_DatabasePdo
@@ -32,15 +24,40 @@ class Client_DatabasePdo
         $this->driver = $driver;
     }
 
-    public function setServer($s) { $this->server = $s; }
-    public function setPort($n) { $this->port = $n; }
-    public function setUsername($s) { $this->username = $s; }
-    public function setPassword($s) { $this->password = $s; }
-    public function setDatabase($s) { $this->database = $s; }
+    public function setServer($s)
+    {
+        $this->server = $s;
+    }
 
-    public function getServer() { return $this->server; }
+    public function setPort($n)
+    {
+        $this->port = $n;
+    }
 
-    public function isConnected() { return $this->db_handle !== null; }
+    public function setUsername($s)
+    {
+        $this->username = $s;
+    }
+
+    public function setPassword($s)
+    {
+        $this->password = $s;
+    }
+
+    public function setDatabase($s)
+    {
+        $this->database = $s;
+    }
+
+    public function getServer()
+    {
+        return $this->server;
+    }
+
+    public function isConnected()
+    {
+        return $this->db_handle !== null;
+    }
 
 
     private function getPdoConnection($config)
@@ -122,15 +139,18 @@ class Client_DatabasePdo
             $this->connect();
         }
 
-        if (! ($stmt = $this->db_handle->prepare($args[0])) ) {
-            throw new PrepareException ();
-        }
+        $stmt = $this->db_handle->prepare($args[0]);
 
         if (!isset($args[1])) {
             $args[1] = array();
         }
 
-        $res = $stmt->execute($args[1]);
+        try {
+            $res = $stmt->execute($args[1]);
+        } catch (PDOException $e) {
+            throw new InvalidQueryException();
+        }
+
         if ($res) {
             return $stmt;
         }
@@ -211,10 +231,6 @@ class Client_DatabasePdo
         $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (count($res) != 1 || count($res[0]) != 1) {
-            if (count($res) == 0) {
-                return 0;
-            }
-
             throw new InvalidResultException ();
         }
 
@@ -272,7 +288,7 @@ class Client_DatabasePdo
         return $this->db_handle->lastInsertId();
     }
 
-    /**
+    /** 
      * @return number of affected rows
      */
     public function delete()
@@ -281,7 +297,7 @@ class Client_DatabasePdo
         return $stmt->rowCount();
     }
 
-    /**
+    /** 
      * @return number of affected rows
      */
     public function update()

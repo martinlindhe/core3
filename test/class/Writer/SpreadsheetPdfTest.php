@@ -10,9 +10,9 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
         // TODO fix class to actually render the SpreadsheetModel
         $model = new Model_Spreadsheet();
 
-        $model->columns = array('id', 'name');
-        $model->rows[] = array('1', 'kalle');
-        $model->rows[] = array('2', 'olle');
+        $model->defineColumns( array('id', 'name') );
+        $model->addRow( array('1', 'kalle') );
+        $model->addRow( array('2', 'olle') );
 
 
         $writer = new Writer_SpreadsheetPdf();
