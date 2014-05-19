@@ -1,4 +1,7 @@
 <?php
+/**
+ * @group Writer
+ */
 
 class HtmlSpreadsheetWriterTests extends PHPUnit_Framework_TestCase
 {

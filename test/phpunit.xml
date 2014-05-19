@@ -25,6 +25,8 @@
 	<filter>
 		<blacklist>
 			<directory>../lib</directory>
+			<file>bootstrap.php</file>
+			<file>xdebug_extras.php</file>
 		</blacklist>
 	</filter>
 

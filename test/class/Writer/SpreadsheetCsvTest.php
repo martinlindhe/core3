@@ -1,4 +1,7 @@
 <?php
+/**
+ * @group Writer
+ */
 
 class CsvSpreadsheetWriterTests extends PHPUnit_Framework_TestCase
 {

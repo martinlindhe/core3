@@ -1,16 +1,20 @@
 <?php
-/**
- * @group Client
- */
 
 // TODO use PHPUnit_Extensions_Database_TestCase, see http://phpunit.de/manual/current/en/database.html
 
+/**
+ * @group Client
+ * NOTE: each class must be marked with group annotation (phpunit)
+ */
 class test2Table extends Model_DatabaseTable
 {
 	var $id;
 	var $name;
 }
 
+/**
+ * @group Client
+ */
 class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 {
 	function getConnection()
@@ -291,7 +295,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 		$db->insert(
 			'INSERT INTO testSelectMapped (id,name) VALUES (:v1a,:v1b),(:v2a,:v2b),(:v3a,:v3b)',
 			array(
-				':v1a' => 2, ':v1b' => 'boll', 
+				':v1a' => 2, ':v1b' => 'boll',
 				':v2a' => 4, ':v2b' => 'sten',
 				':v3a' => 19, ':v3b' => 'burk'
 			)
