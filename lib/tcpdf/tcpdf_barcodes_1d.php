@@ -174,24 +174,17 @@ class TCPDFBarcode {
 		// calculate image size
 		$width = ($this->barcode_array['maxw'] * $w);
 		$height = $h;
+
 		if (function_exists('imagecreate')) {
 			// GD library
-			$imagick = false;
 			$png = imagecreate($width, $height);
 			$bgcol = imagecolorallocate($png, 255, 255, 255);
 			imagecolortransparent($png, $bgcol);
 			$fgcol = imagecolorallocate($png, $color[0], $color[1], $color[2]);
-		} elseif (extension_loaded('imagick')) {
-			$imagick = true;
-			$bgcol = new imagickpixel('rgb(255,255,255');
-			$fgcol = new imagickpixel('rgb('.$color[0].','.$color[1].','.$color[2].')');
-			$png = new Imagick();
-			$png->newImage($width, $height, 'none', 'png');
-			$bar = new imagickdraw();
-			$bar->setfillcolor($fgcol);
 		} else {
 			return false;
 		}
+
 		// print bars
 		$x = 0;
 		foreach ($this->barcode_array['bcode'] as $k => $v) {
@@ -200,27 +193,17 @@ class TCPDFBarcode {
 			if ($v['t']) {
 				$y = round(($v['p'] * $h / $this->barcode_array['maxh']), 3);
 				// draw a vertical bar
-				if ($imagick) {
-					$bar->rectangle($x, $y, ($x + $bw - 1), ($y + $bh - 1));
-				} else {
-					imagefilledrectangle($png, $x, $y, ($x + $bw - 1), ($y + $bh - 1), $fgcol);
-				}
+				imagefilledrectangle($png, $x, $y, ($x + $bw - 1), ($y + $bh - 1), $fgcol);
 			}
 			$x += $bw;
 		}
-		// send headers
-		header('Content-Type: image/png');
-		header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
-		header('Pragma: public');
-		header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-		header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-		if ($imagick) {
-			$png->drawimage($bar);
-			echo $png;
-		} else {
-			imagepng($png);
-			imagedestroy($png);
-		}
+
+		ob_start();
+		imagepng($png);
+		$imagedata = ob_get_clean();
+		imagedestroy($png);
+
+		return $imagedata;
 	}
 
 	/**
