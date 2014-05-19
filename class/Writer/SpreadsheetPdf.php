@@ -1,38 +1,95 @@
 <?php
-/**
- * @author Martin Lindhe <martin.lindhe@freespee.com>
- */
 
-// NOTE: tcpdf supports HTML to PDF, which is required
-// NOTE: tcpdf is a set of PHP classes (slow)
-// NOTE: the libharu pdf writer (pecl haru) does not support render html
+// TODO how to embed a image in the html?
+
+// RATIONALE FOR TCPDF: tcpdf supports HTML to PDF, which is required; haru does not
 
 class Writer_SpreadsheetPdf
 {
+    protected $creator;
+    protected $author;
+    protected $title;
+    protected $subject;
+    protected $keywords = array();
+
+    public function setCreator($s)
+    {
+        $this->creator = $s;
+    }
+    public function setAuthor($s)
+    {
+        $this->author = $s;
+    }
+
+    public function setTitle($s)
+    {
+        $this->title = $s;
+    }
+
+    public function setSubject($s)
+    {
+        $this->subject = $s;
+    }
+
+    public function addKeyword($s)
+    {
+        $this->keywords[] = $s;
+    }
+
+    /**
+     * @param $a array
+     */
+    public function addKeywords($a)
+    {
+        foreach ($a as $word) {
+            $this->addKeyword($word);
+        }
+    }
+
+    public static function sendHttpAttachmentHeaders($fileName)
+    {
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="'.$fileName.'"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+    }
+
     private function initTcpdfObject()
     {
         $tcpdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-        // set document information
-        //$tcpdf->SetCreator(PDF_CREATOR);
-        //$tcpdf->SetAuthor('Author Name');
-        //$tcpdf->SetTitle('Document title');
-        //$tcpdf->SetSubject('Document subject');
-        //$tcpdf->SetKeywords('comma, separated, keywords');
+        if ($this->creator) {
+            $tcpdf->SetCreator($this->creator);
+        }
+
+        if ($this->author) {
+            $tcpdf->SetAuthor($this->author);
+        }
+
+        if ($this->title) {
+            $tcpdf->SetTitle($this->title);
+        }
+
+        if ($this->subject) {
+            $tcpdf->SetSubject($this->subject);
+        }
+
+        if (!empty($this->keywords)) {
+            $tcpdf->SetKeywords( implode(', ', $this->keywords) );
+        }
 
         // set default header data
         //$tcpdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
 
-        // set image scale factor
-        //$tcpdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-        // set margins
+        // document defaults
         $tcpdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         $tcpdf->SetHeaderMargin(PDF_MARGIN_HEADER);
         $tcpdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-        // set auto page breaks
         $tcpdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+        $tcpdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
         return $tcpdf;
     }
@@ -44,16 +101,11 @@ class Writer_SpreadsheetPdf
     {
         $pdf = $this->initTcpdfObject();
 
-        // add a page
         $pdf->AddPage();
 
-        // TODO how to embed a image in the html?
+        $writer = new Writer_SpreadsheetXhtml();
+        $html = $writer->render($model);
 
-        $html = '<h1>HTML Example åäö unicode é va!</h1>Repåårt<br/><br/><br/>höjj';
-
-        // TODO use Writer_SpreadsheetHtml to create a html report, attach to pdf!
-
-        // output the HTML content
         $pdf->writeHTML($html, true, false, true, false, '');
 
         return $pdf->Output('', 'S');

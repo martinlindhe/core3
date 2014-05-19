@@ -2,6 +2,8 @@
 
 PHP 5.3.7 is minimum requirement, due to password_compat requirements
 
+
+
 # PHP version matrix, 2014
 
 OSX Mavericks shipped: PHP 5.4.24 (cli) (built: Jan 19 2014 21:32:15)
@@ -35,7 +37,13 @@ type 4, enter /usr/local/bin
 
 ## php5-sqlite
 
-  TODO osx?
+### OSX
+
+pdo_sqlite is available out of the box
+
+### Debian
+
+  sudo apt-get install php5-sqlite
 
 
 
@@ -48,6 +56,16 @@ type 4, enter /usr/local/bin
   password_compat is shipped in lib/password_compat
 
 TODO make sure native password_hash() is used on php 5.5 (debian sid)
+
+
+
+
+
+## PDF support
+
+tcpdf 6.0.078 (released 2014-05-12) is shipped in lib/tcpdf
+Licence: GPL
+Source: http://sourceforge.net/projects/tcpdf/files/
 
 
 
@@ -94,16 +112,4 @@ Install on OSX and Debian:
   make test
 
 This will also generate code coverage in coverage-report-html/
-
-
-
-
-
-## PDF support
-
-tcpdf 6.0.078 is shipped in lib/tcpdf
-Licence: GPL
-
-TODO USE A GIT SNAPSHOT INSTEAD:   git clone http://git.code.sf.net/p/tcpdf/code tcpdf-code
-
 
