@@ -77,7 +77,7 @@ class Core_Password
 
         $chk_file = self::getForbiddenPasswordsFilename();
         if (!file_exists($chk_file))
-            throw new \Exception ('file not found '.$chk_file);
+            throw new Exception ('file not found '.$chk_file);
 
         $data = file_get_contents($chk_file);
 

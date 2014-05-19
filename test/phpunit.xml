@@ -25,7 +25,8 @@
 
     <filter>
         <blacklist>
-            <directory>../lib/tcpdf</directory>
+            <directory>../lib</directory>
+            <directory>../test</directory>
         </blacklist>
     </filter>
 
