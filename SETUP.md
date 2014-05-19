@@ -12,7 +12,7 @@ Ubuntu 10.04 LTS (lucid):     php5 5.3.2-1ubuntu4.24
 Debian sid (unstable):        php5 5.5.12+dfsg-2
 Debian wheezy (stable):       php5 5.4.4-14+deb7u9
 Debian squeeze (oldstable):   php5 5.3.3-7+squeeze19
-
+Debian lenny (old):           php5 5.2.6.dfsg.1-1+lenny13
 
 
 
