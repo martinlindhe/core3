@@ -78,24 +78,40 @@ class CsvSpreadsheetWriterTests extends PHPUnit_Framework_TestCase
 	function testEscapedString1()
 	{
 		$this->assertEquals(
-			Writer_SpreadsheetCsv::escapeString('test"str'),
-			'"test""str"'
+			'"test""str"',
+			Writer_SpreadsheetCsv::escapeString('test"str')
 		);
 	}
 
 	function testEscapedString2()
 	{
 		$this->assertEquals(
-			Writer_SpreadsheetCsv::escapeString('test,str'),
-			'"test,str"'
+			'"test,str"',
+			Writer_SpreadsheetCsv::escapeString('test,str')
 		);
 	}
 
 	function testEscapedString3()
 	{
 		$this->assertEquals(
-			Writer_SpreadsheetCsv::escapeString('test;str'),
-			'"test;str"'
+			'"test;str"',
+			Writer_SpreadsheetCsv::escapeString('test;str')
+		);
+	}
+
+	function testEscapedStringContainsPadding()
+	{
+		$this->assertEquals(
+			'" test "',
+			Writer_SpreadsheetCsv::escapeString(' test ')
+		);
+	}
+
+		function testEscapedStringContainsLineFeed()
+	{
+		$this->assertEquals(
+			"\"line1\nline2\"",
+			Writer_SpreadsheetCsv::escapeString("line1\nline2")
 		);
 	}
 }

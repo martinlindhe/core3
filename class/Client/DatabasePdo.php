@@ -151,12 +151,7 @@ class Client_DatabasePdo
             throw new InvalidQueryException();
         }
 
-        if ($res) {
-            return $stmt;
-        }
-
-        $err = $stmt->errorInfo();
-        throw new InvalidResultException ($err[0].' '.$err[2]);
+        return $stmt;
     }
 
     public function select()
