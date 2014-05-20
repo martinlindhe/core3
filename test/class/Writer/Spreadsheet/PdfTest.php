@@ -9,7 +9,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
     {
         // NOTE: for header() testing to work, we must run phpunit with --stderr
 
-        $writer = new Writer_SpreadsheetPdf();
+        $writer = new Writer_Spreadsheet_Pdf();
         $fileName = 'file_'.mt_rand().'.pdf';
         $writer->sendHttpAttachmentHeaders($fileName);
 
@@ -41,7 +41,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
         $model->addRow(array('1', 'kalle'));
         $model->addRow(array('2', 'olle'));
 
-        $writer = new Writer_SpreadsheetPdf();
+        $writer = new Writer_Spreadsheet_Pdf();
         $writer->setCreator('custom framework 1.0');
         $writer->setAuthor('Mr Cool');
         $writer->setTitle('Document title');
@@ -82,7 +82,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 
         $this->createJpeg($imgFile);
 
-        $writer = new Writer_SpreadsheetPdf();
+        $writer = new Writer_Spreadsheet_Pdf();
         $writer->setStartHtmlBlock('<img src="'.$imgFile.'"/><br/>');
         $writer->setEndHtmlBlock('<h2>GOODBYE</h2>');
 

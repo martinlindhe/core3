@@ -87,6 +87,8 @@ tcpdf 6.0.078 (released 2014-05-12) is shipped in lib/tcpdf
 Licence: GPL
 Source: http://sourceforge.net/projects/tcpdf/files/
 
+RATIONALE FOR TCPDF: tcpdf supports HTML to PDF, which is required; haru does not
+
 OPEN PATCH: https://sourceforge.net/p/tcpdf/patches/70/
 	TODO when patch is accepted, drop my lib/tcpdf and use composer to fetch tcpdf instead
 

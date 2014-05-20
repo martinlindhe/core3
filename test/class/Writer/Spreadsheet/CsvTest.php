@@ -11,7 +11,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
         $fileName = 'file_'.mt_rand().'.csv';
 
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
         $writer->sendHttpAttachmentHeaders($fileName);
 
         $this->assertEquals(
@@ -44,7 +44,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
         $model->addRow(array(37, 'hej', '2000-05-05'));
         $model->addRow(array(38, 'nej', '2000-05-06'));
 
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
 
         $this->assertEquals(
             $writer->render($model),
@@ -67,7 +67,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
         $model = new Model_Spreadsheet();
         $model->addRows($data);
 
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
 
         $this->assertEquals(
             $writer->render($model),
@@ -85,7 +85,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
         $model->defineColumns(array('ti,tel', 'namn', 'datum', 'antal'));
         $model->addRow(array('a 1', 'böp,på', 'cdwd', 'devef'));
 
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
         $writer->setLineEnding("\n");
 
         $this->assertEquals(
@@ -97,7 +97,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedString1()
     {
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
         $this->assertEquals(
             '"test""str"',
             $writer->escapeString('test"str')
@@ -106,7 +106,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedString2()
     {
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
         $this->assertEquals(
             '"test,str"',
             $writer->escapeString('test,str')
@@ -115,7 +115,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedString3()
     {
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
         $this->assertEquals(
             '"test;str"',
             $writer->escapeString('test;str')
@@ -124,7 +124,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedStringContainsPadding()
     {
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
         $this->assertEquals(
             '" test "',
             $writer->escapeString(' test ')
@@ -133,7 +133,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedStringContainsLineFeed()
     {
-        $writer = new Writer_SpreadsheetCsv();
+        $writer = new Writer_Spreadsheet_Csv();
         $this->assertEquals(
             "\"line1\nline2\"",
             $writer->escapeString("line1\nline2")

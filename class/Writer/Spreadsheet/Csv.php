@@ -1,6 +1,6 @@
 <?php
 
-class Writer_SpreadsheetCsv extends Writer_Spreadsheet
+class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
 {
     private $delimiter = ';';
     private $lineEnding = "\r\n";

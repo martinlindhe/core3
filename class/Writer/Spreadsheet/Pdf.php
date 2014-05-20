@@ -1,8 +1,6 @@
 <?php
 
-// RATIONALE FOR TCPDF: tcpdf supports HTML to PDF, which is required; haru does not
-
-class Writer_SpreadsheetPdf
+class Writer_Spreadsheet_Pdf
 {
     protected $creator;
     protected $author;
@@ -115,7 +113,7 @@ class Writer_SpreadsheetPdf
 
         $pdf->AddPage();
 
-        $writer = new Writer_SpreadsheetXhtml();
+        $writer = new Writer_Spreadsheet_Xhtml();
 
         $html =
             $this->htmlStart.

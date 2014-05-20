@@ -1,6 +1,6 @@
 <?php
 
-class Writer_SpreadsheetXhtml extends Writer_Spreadsheet
+class Writer_Spreadsheet_Xhtml extends Writer_Spreadsheet
 {
     private $classname = 'htmlBox';
 

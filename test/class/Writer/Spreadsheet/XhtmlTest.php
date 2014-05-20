@@ -3,7 +3,7 @@
  * @group Writer
  */
 
-class Writer_SpreadsheetHtmlTest extends PHPUnit_Framework_TestCase
+class Writer_Spreadsheet_HtmlTest extends PHPUnit_Framework_TestCase
 {
     function testUsage1()
     {
@@ -14,7 +14,7 @@ class Writer_SpreadsheetHtmlTest extends PHPUnit_Framework_TestCase
         $model->addRow(array(1, 200.57));
         $model->addRow(array(2, 319.11));
 
-        $writer = new Writer_SpreadsheetXhtml();
+        $writer = new Writer_Spreadsheet_Xhtml();
         $writer->setClassName('css_class');
 
         $this->assertEquals(
@@ -37,7 +37,7 @@ class Writer_SpreadsheetHtmlTest extends PHPUnit_Framework_TestCase
         $model->addRow(array(2, 'b', 319.11));
         $model->setFooter(array('SUMMARY', 'TOTAL'));
 
-        $writer = new Writer_SpreadsheetXhtml();
+        $writer = new Writer_Spreadsheet_Xhtml();
 
         $this->assertEquals(
             $writer->render($model),
