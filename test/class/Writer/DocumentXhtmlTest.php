@@ -12,7 +12,7 @@ class Writer_DocumentXhtmlTest extends PHPUnit_Framework_TestCase
         $writer = new Writer_DocumentXhtml();
         $writer->sendHttpHeaders();
 
-        $this->assertEquals(array('text/html; charset=utf-8'), xdebug_find_headers('Content-Type'));
+        $this->assertEquals(array('text/html; charset=utf-8'), XdebugExtras::findHeaders('Content-Type'));
     }
 
     function testUsageExample()

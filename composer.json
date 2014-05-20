@@ -1,6 +1,5 @@
 {
 	"require": {
-		"phpmd/phpmd" : "1.5.*",
 		"squizlabs/php_codesniffer": "2.0.x-dev"
 	}
 }

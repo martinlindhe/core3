@@ -11,7 +11,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $header = new Writer_HttpHeader();
         $header->sendContentType('text/custom');
 
-        $this->assertEquals(array('text/custom'), xdebug_find_headers('Content-Type'));
+        $this->assertEquals(array('text/custom'), XdebugExtras::findHeaders('Content-Type'));
     }
 
     function testFileAttachment()
@@ -21,7 +21,10 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $header = new Writer_HttpHeader();
         $header->sendAttachment($fileName);
 
-        $this->assertEquals(array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
+        $this->assertEquals(
+            array('attachment; filename="'.$fileName.'"'),
+            XdebugExtras::findHeaders('Content-Disposition')
+        );
     }
 
     function testFileInline()
@@ -31,7 +34,10 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $header = new Writer_HttpHeader();
         $header->sendInline($fileName);
 
-        $this->assertEquals(array('inline; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
+        $this->assertEquals(
+            array('inline; filename="'.$fileName.'"'),
+            XdebugExtras::findHeaders('Content-Disposition')
+        );
     }
 
     function testNoCache()
@@ -39,8 +45,15 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $header = new Writer_HttpHeader();
         $header->sendNoCacheHeaders();
 
-        $this->assertEquals(array('no-cache'), xdebug_find_headers('Pragma'));
-        $this->assertEquals(array('Sat, 26 Jul 1997 05:00:00 GMT'), xdebug_find_headers('Expires'));
+        $this->assertEquals(
+            array('no-cache'),
+            XdebugExtras::findHeaders('Pragma')
+        );
+
+        $this->assertEquals(
+            array('Sat, 26 Jul 1997 05:00:00 GMT'),
+            XdebugExtras::findHeaders('Expires')
+        );
     }
 
     function testContentSecurityPolicy()
@@ -48,7 +61,10 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $header = new Writer_HttpHeader();
         $header->sendContentSecurityPolicy("default-src 'self'");
 
-        $this->assertEquals(array("default-src 'self'"), xdebug_find_headers('Content-Security-Policy'));
+        $this->assertEquals(
+            array("default-src 'self'"),
+            XdebugExtras::findHeaders('Content-Security-Policy')
+        );
     }
 
     function testContentSecurityPolicyReportOnly()
@@ -56,7 +72,10 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $header = new Writer_HttpHeader();
         $header->sendContentSecurityPolicyReportOnly("default-src 'self'");
 
-        $this->assertEquals(array("default-src 'self'"), xdebug_find_headers('Content-Security-Policy-Report-Only'));
+        $this->assertEquals(
+            array("default-src 'self'"),
+            XdebugExtras::findHeaders('Content-Security-Policy-Report-Only')
+        );
     }
 
     function testFrameOptions()
@@ -64,7 +83,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $header = new Writer_HttpHeader();
         $header->sendFrameOptions('DENY');
 
-        $this->assertEquals(array('DENY'), xdebug_find_headers('X-Frame-Options'));
+        $this->assertEquals(array('DENY'), XdebugExtras::findHeaders('X-Frame-Options'));
     }
 
 }

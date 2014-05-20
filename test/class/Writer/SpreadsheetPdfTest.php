@@ -13,10 +13,25 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
         $fileName = 'file_'.mt_rand().'.pdf';
         $writer->sendHttpAttachmentHeaders($fileName);
 
-        $this->assertEquals(array('application/pdf'), xdebug_find_headers('Content-Type'));
-        $this->assertEquals(array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
-        $this->assertEquals(array('no-cache'), xdebug_find_headers('Pragma'));
-        $this->assertEquals(array('Sat, 26 Jul 1997 05:00:00 GMT'), xdebug_find_headers('Expires'));
+        $this->assertEquals(
+            array('application/pdf'),
+            XdebugExtras::findHeaders('Content-Type')
+        );
+
+        $this->assertEquals(
+            array('attachment; filename="'.$fileName.'"'),
+            XdebugExtras::findHeaders('Content-Disposition')
+        );
+
+        $this->assertEquals(
+            array('no-cache'),
+            XdebugExtras::findHeaders('Pragma')
+        );
+
+        $this->assertEquals(
+            array('Sat, 26 Jul 1997 05:00:00 GMT'),
+            XdebugExtras::findHeaders('Expires')
+        );
     }
 
     function testUsageExample()
