@@ -9,15 +9,11 @@
 
 # Linter: phpmd, "PHP Mess Detector"
 
-http://phpmd.org/download/index.html
+http://phpmd.org/
 
-REQUIRE: "ant" on cli;   macports:  $ sudo port install apache-ant
+Is configured in composer.json
 
-  git clone git://github.com/phpmd/phpmd.git
-  cd phpmd
-
-
-STATUS: ???
+STATUS: has troubles detecting static method usage (false positives) 
 
 
 
@@ -25,9 +21,11 @@ STATUS: ???
 
 http://pear.php.net/package/PHP_CodeSniffer/
 
+Is configured in composer.json (1.5.3)
+
   git clone https://github.com/squizlabs/PHP_CodeSniffer.git
 
-STATUS: ???
+STATUS: 2.0 alpha TODO not available as composer install?
 
 
 

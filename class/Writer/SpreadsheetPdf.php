@@ -10,17 +10,17 @@ class Writer_SpreadsheetPdf
 	protected $subject;
 	protected $keywords = array();
 
-	protected $html_start;
-	protected $html_end;
+	protected $htmlStart;
+	protected $htmlEnd;
 
 	public function setStartHtmlBlock($s)
 	{
-		$this->html_start = $s;
+		$this->htmlStart = $s;
 	}
 
 	public function setEndHtmlBlock($s)
 	{
-		$this->html_end = $s;
+		$this->htmlEnd = $s;
 	}
 
 	public function setCreator($s)
@@ -118,9 +118,9 @@ class Writer_SpreadsheetPdf
 		$writer = new Writer_SpreadsheetXhtml();
 
 		$html =
-			$this->html_start.
+			$this->htmlStart.
 			$writer->render($model).
-			$this->html_end;
+			$this->htmlEnd;
 
 		$pdf->writeHTML($html, true, false, true, false, '');
 

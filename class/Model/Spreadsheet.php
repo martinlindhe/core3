@@ -6,9 +6,20 @@ class Model_Spreadsheet
 	private $rows = array();
 	private $footer = array();
 
-	public function getColumns() { return $this->columns; }
-	public function getRows() { return $this->rows; }
-	public function getFooter() { return $this->footer; }
+	public function getColumns()
+	{
+		return $this->columns;
+	}
+
+	public function getRows()
+	{
+		return $this->rows;
+	}
+
+	public function getFooter()
+	{
+		return $this->footer;
+	}
 
 	/**
 	 * Defines column names using an 1D array of strings
@@ -28,7 +39,7 @@ class Model_Spreadsheet
 	public function addRow(array $row)
 	{
 		if (count($this->columns) != 0 && count($row) != count($this->columns))
-			throw new Exception ('column count mismatch');
+			throw new Exception('column count mismatch');
 
 		$this->rows[] = $row;
 	}

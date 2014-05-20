@@ -94,10 +94,11 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Looks in forbidden passwords file for useless rules, which are covered by the static validation checks
+	 * Looks in forbidden passwords file for useless rules, which are covered by the validation checks
 	 */
 	function testFindUselessForbiddenRules()
 	{
+		// TODO move this to a separate class & group it as Util (?=)
 		$password = new Core_Password();
 
 		$filename = $password->getForbiddenPasswordsFilename();
