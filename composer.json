@@ -1,5 +1,9 @@
 {
 	"require": {
+		"components/angular.js": "1.3.0-beta.7",
+		"tecnick.com/tcpdf": "dev-master#78b7610"
+	},
+	"require-dev": {
 		"squizlabs/php_codesniffer": "2.0.x-dev"
 	}
 }
