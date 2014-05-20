@@ -3,7 +3,7 @@
  * @group Core
  */
 
-class Core_PasswordTest extends PHPUnit_Framework_TestCase
+class Core_Password_BcryptTest extends PHPUnit_Framework_TestCase
 {
     /**
 	 * verify that repeated letter strings are disallowed

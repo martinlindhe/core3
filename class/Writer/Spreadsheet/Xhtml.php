@@ -50,7 +50,7 @@ class Writer_Spreadsheet_Xhtml extends Writer_Spreadsheet
             return '';
         }
 
-        $html = '<tr>';		
+        $html = '<tr>';
         $colspan = '';
 
         if (count($model->getColumns()) > count($footer)) {

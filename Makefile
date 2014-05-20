@@ -9,6 +9,9 @@ test-all:
 test-reader:
 	phpunit --stderr --configuration=test/phpunit.xml --group Reader
 
+benchmark:
+	phpunit --stderr --configuration=test/phpunit.xml --group Benchmark
+
 clean:
 	rm -rf coverage-report-html
 

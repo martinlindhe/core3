@@ -5,7 +5,6 @@
 
 class Core_PasswordBenchmarkTest extends PHPUnit_Framework_TestCase
 {
-
     /**
 	 * Calculates an appropriate cost parameter for the current system
 	 */
@@ -18,7 +17,7 @@ class Core_PasswordBenchmarkTest extends PHPUnit_Framework_TestCase
             $cost++;
             $start = microtime(true);
 
-            $password = new Core_Password($cost);
+            $password = new Core_Password_Bcrypt($cost);
 
             $password->hash("test");
             $end = microtime(true);

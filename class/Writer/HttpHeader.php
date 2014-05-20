@@ -53,7 +53,7 @@ class Writer_HttpHeader
     }
 
     /**
-	 * For debugging Conten Security Policy (CSP) issues
+	 * For debugging Content Security Policy (CSP) issues
 	 *
 	 * @param $param CSP configuration string
 	 */

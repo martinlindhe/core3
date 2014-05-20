@@ -32,8 +32,15 @@
   then: use composer version of tcpdf when bugs are resolved
 
 
+# TODO linter
+- php: complain about trailing whitespace
+- xml: add linter for test/*.xml
+
 
 
 # TODO setup
 - use composer version of phpunit in Makefile
 - try installing and running everything from win7
+- phpunit --group Benchmark:
+   PasswordBenchmarkTest.php
+
