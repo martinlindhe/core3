@@ -7,14 +7,23 @@ class Writer_HttpHeader
 		header('Content-Type: '.$type);
 	}
 
+	/**
+	 * Sends http headers that causes the document to popup a "save as" dialog
+	 * @param $fileName name of document
+	 */
 	public function sendAttachment($fileName)
 	{
-		header('Content-Disposition: attachment; filename="'.$fileName.'"');
+		header('Content-Disposition: attachment; filename="'.basename($fileName).'"');
 	}
 
+	/**
+	 * Sends http headers that causes the document to be inlined (default behavior),
+	 * but with a defined name should the user choose to "save as"
+	 * @param $fileName name of document
+	 */
 	public function sendInline($fileName)
 	{
-		header('Content-Disposition: inline; filename="'.$fileName.'"');
+		header('Content-Disposition: inline; filename="'.basename($fileName).'"');
 	}
 
 	/**
@@ -33,9 +42,10 @@ class Writer_HttpHeader
 	 * Content Security Policy (CSP) allows one to specify valid sources
 	 * for inclusion of resources such as javascript and images,
 	 * see https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy
-	 * WARNING: this will break all inline javascript
 	 * SUPPORT: Firefox 23, Chrome 25 (Content-Security-Policy)
 	 * SUPPORT SOON: IE10 (X-Content-Security-Policy), Safari (X-WebKit-CSP)
+	 *
+	 * @param $param CSP configuration string
 	 */
 	public function sendContentSecurityPolicy($param)
 	{
@@ -43,7 +53,9 @@ class Writer_HttpHeader
 	}
 
 	/**
-	 * For debugging CSP issues
+	 * For debugging Conten Security Policy (CSP) issues
+	 *
+	 * @param $param CSP configuration string
 	 */
 	public function sendContentSecurityPolicyReportOnly($param)
 	{
@@ -51,7 +63,7 @@ class Writer_HttpHeader
 	}
 
 	/**
-	 * XSS prevention, forbids this document to be embedded in a frame from an external source,
+	 * X-Frame-Options forbids this document to be embedded in a frame (XSS protection)
 	 * see https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options
 	 * SUPPORT: Chrome 4.1, IE8, Firefox 3.6, Safari 4.0
 	 *
