@@ -5,5 +5,5 @@
  */
 abstract class Writer_Spreadsheet
 {
-	abstract public function render(Model_Spreadsheet $model);
+    abstract public function render(Model_Spreadsheet $model);
 }

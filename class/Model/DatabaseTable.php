@@ -2,5 +2,5 @@
 
 abstract class Model_DatabaseTable
 {
-	public static $tableName;
+    public static $tableName;
 }

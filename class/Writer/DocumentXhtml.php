@@ -8,19 +8,19 @@
 
 class Writer_DocumentXhtml
 {
-	public function sendHttpHeaders()
-	{
-		$header = new Writer_HttpHeader();
-		$header->sendContentType('text/html; charset=utf-8');
-	}
+    public function sendHttpHeaders()
+    {
+        $header = new Writer_HttpHeader();
+        $header->sendContentType('text/html; charset=utf-8');
+    }
 
-	public function add(ObjectXhtml $o)
-	{
-		//throw new Exception("TODO");
-	}
+    public function add(ObjectXhtml $o)
+    {
+        //throw new Exception("TODO");
+    }
 
-	public function render()
-	{
-		//throw new Exception("TODO");
-	}
+    public function render()
+    {
+        //throw new Exception("TODO");
+    }
 }

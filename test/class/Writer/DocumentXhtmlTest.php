@@ -7,20 +7,20 @@
 
 class Writer_DocumentXhtmlTest extends PHPUnit_Framework_TestCase
 {
-	function testHttpHeaders()
-	{
-		$writer = new Writer_DocumentXhtml();
-		$writer->sendHttpHeaders();
+    function testHttpHeaders()
+    {
+        $writer = new Writer_DocumentXhtml();
+        $writer->sendHttpHeaders();
 
-		$this->assertEquals( array('text/html; charset=utf-8'), xdebug_find_headers('Content-Type'));
-	}
+        $this->assertEquals( array('text/html; charset=utf-8'), xdebug_find_headers('Content-Type'));
+    }
 
-	function testUsageExample()
-	{
-		$writer = new Writer_DocumentXhtml();
-		$data = $writer->render();
+    function testUsageExample()
+    {
+        $writer = new Writer_DocumentXhtml();
+        $data = $writer->render();
 
-		//$this->markTestIncomplete('TODO finish test');
-	}
+        //$this->markTestIncomplete('TODO finish test');
+    }
 
 }
