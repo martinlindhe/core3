@@ -66,8 +66,8 @@ class Reader_BinaryData_Image
             return false;
         }
 
-        if ($data[0] == 'G' && $data[1] == 'I' && $data[2] == 'F' && $data[3] == '8' &&
-            ($data[4] == '7' || $data[4] == '9')
+        if ($data[0] == 'G' && $data[1] == 'I' && $data[2] == 'F' &&
+            $data[3] == '8' && ($data[4] == '7' || $data[4] == '9')
         ) {
             return true;
         }

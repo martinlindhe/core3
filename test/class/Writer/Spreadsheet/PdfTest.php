@@ -51,7 +51,9 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan(1000, strlen($data), 'Some data was returned');
 
-        // TODO: verify generated document, requires PDF & PS Readers
+        $reader = new Reader_BinaryData_Document();
+        $this->assertEquals(true, $reader->isRecognized($data));
+        $this->assertEquals(true, $reader->isPdfData($data));
     }
 
     private function createJpeg($toFile)
@@ -89,6 +91,10 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
         $data = $writer->render($model);
 
         unlink($imgFile);
+
+        $reader = new Reader_BinaryData_Document();
+        $this->assertEquals(true, $reader->isRecognized($data));
+        $this->assertEquals(true, $reader->isPdfData($data));
     }
 
 }

@@ -20,5 +20,8 @@ class Writer_Barcode2D_QrcodeTest extends PHPUnit_Framework_TestCase
 
         $this->assertInternalType('string', $data);
         $this->assertGreaterThanOrEqual(100, strlen($data));
+
+        $reader = new Reader_BinaryData_Image();
+        $this->assertGreaterThanOrEqual(true, $reader->isPngData($data));
     }
 }
