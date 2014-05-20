@@ -10,7 +10,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 	 */
     function testIsAllowedRepeated()
     {
-        $password = new Core_Password();
+        $password = new Core_Password_Bcrypt();
         $this->assertEquals(false, $password->isAllowed('hhhhhh'));
         $this->assertEquals(false, $password->isAllowed('666666666666'));
 
@@ -24,7 +24,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 
     function testIsAllowedInBlocklist()
     {
-        $password = new Core_Password();
+        $password = new Core_Password_Bcrypt();
 
         // verify that a listed password is blocked, and that check is not case sensitive
         $this->assertEquals(false, $password->isAllowed('abc123'));
@@ -33,7 +33,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 
     function testIsAllowed()
     {
-        $password = new Core_Password();
+        $password = new Core_Password_Bcrypt();
 
         // verify that passwords containing parts of blocked passwords are still allowed
         $this->assertEquals(true, $password->isAllowed('abc123hej'));
@@ -45,7 +45,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 
     function testGenerate()
     {
-        $password = new Core_Password();
+        $password = new Core_Password_Bcrypt();
         $hash = $password->hash('test');
 
         $this->assertEquals(60, strlen($hash));
@@ -53,7 +53,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 
     function testVerify()
     {
-        $password = new Core_Password();
+        $password = new Core_Password_Bcrypt();
         $hashOne = $password->hash('test');
         $hashTwo = $password->hash('test');
 
@@ -66,7 +66,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
     function testNeedRehash()
     {
         // create a weak hash using cost 5
-        $password = new Core_Password(5);
+        $password = new Core_Password_Bcrypt(5);
         $hash = $password->hash('test');
 
         $this->assertEquals(true, $password->verify('test', $hash));
@@ -77,7 +77,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
     function testDontNeedRehash()
     {
         // create hash using default cost
-        $password = new Core_Password();
+        $password = new Core_Password_Bcrypt();
         $hash = $password->hash('test');
 
         $this->assertEquals(true, $password->verify('test', $hash));
@@ -87,7 +87,7 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 
     function testVerifyForbiddenFileExists()
     {
-        $password = new Core_Password();
+        $password = new Core_Password_Bcrypt();
         $filename = $password->getForbiddenPasswordsFilename();
 
         $this->assertEquals(true, file_exists($filename));
@@ -99,8 +99,8 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 	 */
     function testFindUselessForbiddenRules()
     {
-        // TODO move this to a separate class & group it as Util (?=)
-        $password = new Core_Password();
+        // TODO move this to a separate class & group it as Util (?)
+        $password = new Core_Password_Bcrypt();
 
         $filename = $password->getForbiddenPasswordsFilename();
 

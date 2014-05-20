@@ -17,21 +17,21 @@ Hello
 
 
 
-## TODO
 
-TODO: cli task runner for the project
+## Password hashing
 
-
-TODO:
-    cli tool that verifies all tables & columns exist. use reflection to find all classes extending from PdoTable, use their public variables as column names,
-    verify db structure!
+Uses the new php 5.5 function password_hash(), or password_compat in order to be
+compatible with PHP 5.3.7+
+The bcrypt algorithm is used
 
 
-TODO db:
-    Not passing the PDO::PARAM_INT parameter when binding integer variables can sometimes cause PDO to quote them. This can screw up certain MySQL queries. See this bug report.  https://bugs.php.net/bug.php?id=44639
 
 
-TODO get HttpUserAgent from core_dev
 
+## PDF support
 
-TODO: can we install phpunit with composer require-dev !?!?
+tcpdf 6.0.078 (released 2014-05-12) is shipped in lib/tcpdf
+Licence: GPL
+Source: http://sourceforge.net/projects/tcpdf/files/
+
+RATIONALE FOR TCPDF: tcpdf supports HTML to PDF, which is required; haru does not
