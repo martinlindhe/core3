@@ -10,12 +10,12 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 
 	public static function sendHttpAttachmentHeaders($fileName)
 	{
-		header('Content-Type: text/csv');
-		header('Content-Disposition: attachment; filename="'.$fileName.'"');
-		header('Pragma: no-cache');
-		header('Expires: 0');
+		$header = new Writer_HttpHeader();
+		$header->sendContentType('text/csv');
+		$header->sendAttachment($fileName);
+		$header->sendNoCacheHeaders();
 	}
-  
+
 	public function render(Model_Spreadsheet $model)
 	{
 		return
@@ -29,7 +29,7 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 			return '';
 		}
 
-		return 
+		return
 			implode(self::escapeRow($model->GetColumns()), $this->delimiter).
 			$this->lineEnding;
 	}

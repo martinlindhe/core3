@@ -60,10 +60,10 @@ class Writer_SpreadsheetPdf
 
 	public static function sendHttpAttachmentHeaders($fileName)
 	{
-		header('Content-Type: application/pdf');
-		header('Content-Disposition: attachment; filename="'.$fileName.'"');
-		header('Pragma: no-cache');
-		header('Expires: 0');
+		$header = new Writer_HttpHeader();
+		$header->sendContentType('application/pdf');
+		$header->sendAttachment($fileName);
+		$header->sendNoCacheHeaders();
 	}
 
 	private function initTcpdfObject()
@@ -117,7 +117,7 @@ class Writer_SpreadsheetPdf
 
 		$writer = new Writer_SpreadsheetXhtml();
 
-		$html = 
+		$html =
 			$this->html_start.
 			$writer->render($model).
 			$this->html_end;
