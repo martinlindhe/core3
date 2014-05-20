@@ -32,4 +32,21 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( array('no-cache'), xdebug_find_headers('Pragma'));
         $this->assertEquals( array('Sat, 26 Jul 1997 05:00:00 GMT'), xdebug_find_headers('Expires'));
     }
+
+    function testContentSecurityPolicy()
+    {
+        $header = new Writer_HttpHeader();
+        $header->sendContentSecurityPolicy("default-src 'self'");
+
+        $this->assertEquals( array("default-src 'self'"), xdebug_find_headers('Content-Security-Policy'));
+    }
+
+    function testFrameOptions()
+    {
+        $header = new Writer_HttpHeader();
+        $header->sendFrameOptions('DENY');
+
+        $this->assertEquals( array('DENY'), xdebug_find_headers('X-Frame-Options'));
+    }
+
 }
