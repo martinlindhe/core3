@@ -30,7 +30,8 @@ class Writer_HttpHeader
 	}
 
 	/**
-	 * XSS prevention, specifies valid sources for inclusion of javascript files,
+	 * Content Security Policy (CSP) allows one to specify valid sources
+	 * for inclusion of resources such as javascript and images,
 	 * see https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy
 	 * WARNING: this will break all inline javascript
 	 * SUPPORT: Firefox 23, Chrome 25 (Content-Security-Policy)
@@ -39,8 +40,14 @@ class Writer_HttpHeader
 	public function sendContentSecurityPolicy($param)
 	{
 		header('Content-Security-Policy: '.$param);
+	}
 
-		// TODO use Content-Security-Policy-Report-Only also
+	/**
+	 * For debugging CSP issues
+	 */
+	public function sendContentSecurityPolicyReportOnly($param)
+	{
+		header('Content-Security-Policy-Report-Only: '.$param);
 	}
 
 	/**
