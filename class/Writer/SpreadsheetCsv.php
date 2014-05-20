@@ -8,7 +8,7 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 	public function setDelimiter($delim) { $this->delimiter = $delim; }
 	public function setLineEnding($ending) { $this->lineEnding = $ending; }
 
-	public static function sendHttpAttachmentHeaders($fileName)
+	public function sendHttpAttachmentHeaders($fileName)
 	{
 		$header = new Writer_HttpHeader();
 		$header->sendContentType('text/csv');
@@ -30,7 +30,7 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 		}
 
 		return
-			implode(self::escapeRow($model->GetColumns()), $this->delimiter).
+			implode($this->escapeRow($model->GetColumns()), $this->delimiter).
 			$this->lineEnding;
 	}
 
@@ -58,7 +58,7 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 		return $fixed;
 	}
 
-	private static function isDoubleQuoted($s)
+	private function isDoubleQuoted($s)
 	{
 		if (strpos($s, '"') !== false) {
 			return true;
@@ -67,7 +67,7 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 		return false;
 	}
 
-	private static function containsSeparatorCharacter($s)
+	private function containsSeparatorCharacter($s)
 	{
 		if (strpos($s, ";")  !== false || strpos($s, ",") !== false || strpos($s, "\t") !== false) {
 			return true;
@@ -76,7 +76,7 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 		return false;
 	}
 
-	private static function containsPadding($s)
+	private function containsPadding($s)
 	{
 		if (substr($s, 0, 1) == ' ' || substr($s, -1) == ' ') {
 			return true;
@@ -85,7 +85,7 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 		return false;
 	}
 
-	private static function containsLineFeed($s)
+	private function containsLineFeed($s)
 	{
 		if (strpos($s, "\r") !== false || strpos($s, "\n") !== false) {
 			return true;
@@ -94,13 +94,13 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 		return false;
 	}
 
-	public static function escapeString($s)
+	public function escapeString($s)
 	{
-		if (self::IsDoubleQuoted($s)) {
+		if ($this->isDoubleQuoted($s)) {
 			return '"'.str_replace('"', '""', $s).'"';
 		}
 
-		if (self::containsSeparatorCharacter($s) || self::containsPadding($s) || self::containsLineFeed($s)) {
+		if ($this->containsSeparatorCharacter($s) || $this->containsPadding($s) || $this->containsLineFeed($s)) {
 			return '"'.$s.'"';
 		}
 

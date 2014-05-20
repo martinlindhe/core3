@@ -9,8 +9,9 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 	{
 		// NOTE: for header() testing to work, we must run phpunit with --stderr
 
+		$writer = new Writer_SpreadsheetPdf();
 		$fileName = 'file_'.mt_rand().'.pdf';
-		Writer_SpreadsheetPdf::sendHttpAttachmentHeaders($fileName);
+		$writer->sendHttpAttachmentHeaders($fileName);
 
 		$this->assertEquals( array('application/pdf'), xdebug_find_headers('Content-Type'));
 		$this->assertEquals( array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));

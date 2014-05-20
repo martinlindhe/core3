@@ -28,7 +28,7 @@ class Model_Spreadsheet
 	public function addRow(array $row)
 	{
 		if (count($this->columns) != 0 && count($row) != count($this->columns))
-			throw new \Exception ('column count mismatch');
+			throw new Exception ('column count mismatch');
 
 		$this->rows[] = $row;
 	}

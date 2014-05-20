@@ -58,7 +58,7 @@ class Writer_SpreadsheetPdf
 		}
 	}
 
-	public static function sendHttpAttachmentHeaders($fileName)
+	public function sendHttpAttachmentHeaders($fileName)
 	{
 		$header = new Writer_HttpHeader();
 		$header->sendContentType('application/pdf');

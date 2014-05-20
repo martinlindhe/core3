@@ -3,14 +3,16 @@
  * @group Writer
  */
 
-class CsvSpreadsheetWriterTests extends PHPUnit_Framework_TestCase
+class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 {
 	function testHttpHeaders()
 	{
 		// NOTE: for header() testing to work, we must run phpunit with --stderr
 
 		$fileName = 'file_'.mt_rand().'.csv';
-		Writer_SpreadsheetCsv::sendHttpAttachmentHeaders($fileName);
+
+		$writer = new Writer_SpreadsheetCsv();
+		$writer->sendHttpAttachmentHeaders($fileName);
 
 		$this->assertEquals( array('text/csv'), xdebug_find_headers('Content-Type'));
 		$this->assertEquals( array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
@@ -80,41 +82,46 @@ class CsvSpreadsheetWriterTests extends PHPUnit_Framework_TestCase
 
 	function testEscapedString1()
 	{
+		$writer = new Writer_SpreadsheetCsv();
 		$this->assertEquals(
 			'"test""str"',
-			Writer_SpreadsheetCsv::escapeString('test"str')
+			$writer->escapeString('test"str')
 		);
 	}
 
 	function testEscapedString2()
 	{
+		$writer = new Writer_SpreadsheetCsv();
 		$this->assertEquals(
 			'"test,str"',
-			Writer_SpreadsheetCsv::escapeString('test,str')
+			$writer->escapeString('test,str')
 		);
 	}
 
 	function testEscapedString3()
 	{
+		$writer = new Writer_SpreadsheetCsv();
 		$this->assertEquals(
 			'"test;str"',
-			Writer_SpreadsheetCsv::escapeString('test;str')
+			$writer->escapeString('test;str')
 		);
 	}
 
 	function testEscapedStringContainsPadding()
 	{
+		$writer = new Writer_SpreadsheetCsv();
 		$this->assertEquals(
 			'" test "',
-			Writer_SpreadsheetCsv::escapeString(' test ')
+			$writer->escapeString(' test ')
 		);
 	}
 
-		function testEscapedStringContainsLineFeed()
+	function testEscapedStringContainsLineFeed()
 	{
+		$writer = new Writer_SpreadsheetCsv();
 		$this->assertEquals(
 			"\"line1\nline2\"",
-			Writer_SpreadsheetCsv::escapeString("line1\nline2")
+			$writer->escapeString("line1\nline2")
 		);
 	}
 }

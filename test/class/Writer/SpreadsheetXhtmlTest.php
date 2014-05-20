@@ -3,7 +3,7 @@
  * @group Writer
  */
 
-class HtmlSpreadsheetWriterTests extends PHPUnit_Framework_TestCase
+class Writer_SpreadsheetHtmlTest extends PHPUnit_Framework_TestCase
 {
 	function testUsage1()
 	{

@@ -15,5 +15,8 @@ ${php_files}:
 lint: ${php_files}
 	@echo Lint finished
 
-phpmd:
-	./vendor/bin/phpmd test html cleancode > phpmd-report.html
+phpmd-html:
+	./vendor/bin/phpmd class html cleancode > phpmd-report.html
+
+phpmd-text:
+	./vendor/bin/phpmd class text cleancode
