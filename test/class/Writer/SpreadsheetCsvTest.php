@@ -14,10 +14,10 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
         $writer = new Writer_SpreadsheetCsv();
         $writer->sendHttpAttachmentHeaders($fileName);
 
-        $this->assertEquals( array('text/csv'), xdebug_find_headers('Content-Type'));
-        $this->assertEquals( array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
-        $this->assertEquals( array('no-cache'), xdebug_find_headers('Pragma'));
-        $this->assertEquals( array('Sat, 26 Jul 1997 05:00:00 GMT'), xdebug_find_headers('Expires'));
+        $this->assertEquals(array('text/csv'), xdebug_find_headers('Content-Type'));
+        $this->assertEquals(array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
+        $this->assertEquals(array('no-cache'), xdebug_find_headers('Pragma'));
+        $this->assertEquals(array('Sat, 26 Jul 1997 05:00:00 GMT'), xdebug_find_headers('Expires'));
     }
 
     function testUsage1()
@@ -25,9 +25,9 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
         // NOTE shows basic usage
 
         $model = new Model_Spreadsheet();
-        $model->defineColumns( array('id', 'col 2', 'date_stamp') );
-        $model->addRow( array(37, 'hej', '2000-05-05') );
-        $model->addRow( array(38, 'nej', '2000-05-06') );
+        $model->defineColumns(array('id', 'col 2', 'date_stamp'));
+        $model->addRow(array(37, 'hej', '2000-05-05'));
+        $model->addRow(array(38, 'nej', '2000-05-06'));
 
         $writer = new Writer_SpreadsheetCsv();
 
@@ -50,7 +50,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
             );
 
         $model = new Model_Spreadsheet();
-        $model->addRows( $data );
+        $model->addRows($data);
 
         $writer = new Writer_SpreadsheetCsv();
 
@@ -67,8 +67,8 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
         // NOTE verifies that columns with special characters are escaped properly
 
         $model = new Model_Spreadsheet();
-        $model->defineColumns( array('ti,tel', 'namn', 'datum', 'antal') );
-        $model->addRow( array('a 1', 'böp,på', 'cdwd', 'devef'));
+        $model->defineColumns(array('ti,tel', 'namn', 'datum', 'antal'));
+        $model->addRow(array('a 1', 'böp,på', 'cdwd', 'devef'));
 
         $writer = new Writer_SpreadsheetCsv();
         $writer->setLineEnding("\n");

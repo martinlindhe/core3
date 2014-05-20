@@ -3,8 +3,8 @@
 /**
  * @return array with all header lines matching $headerKey 
  */
- function xdebug_find_headers($headerKey)
- {
+function xdebug_find_headers($headerKey)
+{
     $findKey = $headerKey.': ';
     $len = strlen($findKey);
     $res = array();

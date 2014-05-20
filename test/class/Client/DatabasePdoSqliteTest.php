@@ -6,13 +6,13 @@
 class Client_DatabasePdoSqliteTest extends PHPUnit_Framework_TestCase
 {
     protected $db;
-    protected $db_file;
+    protected $dbFile;
 
     function setUp()
     {
-        $this->db_file = tempnam("/tmp", "sqlite");
+        $this->dbFile = tempnam("/tmp", "sqlite");
 
-        $this->db = new Client_DatabasePdo('sqlite:'.$this->db_file);
+        $this->db = new Client_DatabasePdo('sqlite:'.$this->dbFile);
 
         $this->db->query(
             'CREATE TABLE CoreUser ('.
@@ -25,27 +25,33 @@ class Client_DatabasePdoSqliteTest extends PHPUnit_Framework_TestCase
 
     function tearDown()
     {
-        unlink($this->db_file);
+        unlink($this->dbFile);
     }
 
     function testSqlite()
     {
-        $this->assertEquals(true, $this->db->isConnected() );
+        $this->assertEquals(true, $this->db->isConnected());
 
-        $id = $this->db->insert('INSERT INTO CoreUser (username, password) VALUES (:user, :pass)', array(':user' => 'kalle', ':pass' => 'pwd'));
+        $id = $this->db->insert(
+            'INSERT INTO CoreUser (username, password) VALUES (:user, :pass)',
+            array(':user' => 'kalle', ':pass' => 'pwd')
+        );
         $this->assertEquals(1, $id);
 
-        $id = $this->db->insert('INSERT INTO CoreUser (username, password) VALUES (:user, :pass)', array(':user' => 'nisse', ':pass' => 'pwd2'));
+        $id = $this->db->insert(
+            'INSERT INTO CoreUser (username, password) VALUES (:user, :pass)',
+            array(':user' => 'nisse', ':pass' => 'pwd2')
+        );
         $this->assertEquals(2, $id);
 
 
         $res = $this->db->select('SELECT * FROM CoreUser');
         $this->assertInternalType('array', $res);
-        $this->assertEquals(2, count($res) );
+        $this->assertEquals(2, count($res));
 
 
         $res = $this->db->selectRow('SELECT * FROM CoreUser WHERE id = :id', array(':id' => 1));
-        $this->assertEquals( array('id'=>1,'username'=>'kalle','password'=>'pwd'), $res);
+        $this->assertEquals(array('id'=>1,'username'=>'kalle','password'=>'pwd'), $res);
     }
 
 }

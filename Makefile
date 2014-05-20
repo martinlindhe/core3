@@ -25,4 +25,4 @@ phpmd-text:
 	./vendor/bin/phpmd class text cleancode
 
 phpcs:
-	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class
+	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test

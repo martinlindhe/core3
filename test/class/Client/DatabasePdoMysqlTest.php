@@ -133,7 +133,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
         $res = $db->selectToObjects('test2Table', 'SELECT * FROM testToObject');
 
-        $this->assertEquals(3, count($res) );
+        $this->assertEquals(3, count($res));
 
         $this->assertInternalType('array', $res);
         $this->assertInstanceOf('test2Table', $res[0]);
@@ -167,15 +167,15 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
         );
 
         $res = $db->select('SELECT * FROM testSelectRow');
-        $this->assertSame( array(), $res);
+        $this->assertSame(array(), $res);
 
         $db->insert('INSERT INTO testSelectRow SET name = :name', array(':name' => 'Lotta'));
 
         $res = $db->select('SELECT * FROM testSelectRow');
-        $this->assertSame( array( array('id'=>'1','name'=>'Lotta') ), $res);
+        $this->assertSame(array( array('id'=>'1','name'=>'Lotta') ), $res);
 
         $res = $db->selectRow('SELECT * FROM testSelectRow WHERE id = :id', array(':id' => 1));
-        $this->assertSame( array('id'=>'1','name'=>'Lotta'), $res);
+        $this->assertSame(array('id'=>'1','name'=>'Lotta'), $res);
 
         $db->query('DROP TABLE testSelectRow');
     }
@@ -284,7 +284,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
         $res = $db->select1d('SELECT name FROM testSelect1d');
 
-        $this->assertEquals( array('hej', 'svejs', 'tralla', 'lalla', 'lopp'), $res);
+        $this->assertEquals(array('hej', 'svejs', 'tralla', 'lalla', 'lopp'), $res);
 
         $db->query('DROP TABLE testSelect1d');
     }
@@ -324,7 +324,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 
         $res = $db->selectMapped('SELECT id, name FROM testSelectMapped');
 
-        $this->assertEquals( array( 2 => 'boll', 4 => 'sten', 19 => 'burk'), $res);
+        $this->assertEquals(array( 2 => 'boll', 4 => 'sten', 19 => 'burk'), $res);
 
         $db->query('DROP TABLE testSelectMapped');
     }
@@ -381,7 +381,7 @@ class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
         );
 
         // check that result is "tjena_two"
-        $this->assertEquals( array( array('CONCAT(input,"_two")' => 'tjena_two')), $res);
+        $this->assertEquals(array( array('CONCAT(input,"_two")' => 'tjena_two')), $res);
     }
 
 }
