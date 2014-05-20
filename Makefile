@@ -5,6 +5,9 @@ php_files := $(shell find . -name \*.php)
 test:
 	phpunit --stderr --configuration=test/phpunit.xml --exclude-group Benchmark,Client
 
+test-all:
+	phpunit --stderr --configuration=test/phpunit.xml
+
 clean:
 	rm -rf coverage-report-html
 	rm -f phpmd-report.html
@@ -20,3 +23,6 @@ phpmd-html:
 
 phpmd-text:
 	./vendor/bin/phpmd class text cleancode
+
+phpcs:
+	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class
