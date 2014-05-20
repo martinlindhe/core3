@@ -1,7 +1,8 @@
 {
 	"require": {
 		"components/angular.js": "1.3.0-beta.7",
-		"tecnick.com/tcpdf": "dev-master#78b7610"
+		"ircmaxell/password-compat": "dev-master",
+		"tecnick.com/tcpdf": "dev-master"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "2.0.x-dev"

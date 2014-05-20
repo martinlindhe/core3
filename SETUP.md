@@ -14,6 +14,10 @@ Let composer install project depencencies:
 
   php composer.phar install --dev
 
+After changes to composer.json, update depenencies:
+
+  php composer.phar update --dev
+
 
 TODO drop lib/tcpdf when bugs are resolved, 2014-05-20
 
