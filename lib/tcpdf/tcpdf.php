@@ -22079,8 +22079,10 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 					// end of HTML tag
 					$intag = false;
 					// check for style tag
-					if (empty(array_diff(array_slice($txtarr, -6, 5), array(115, 116, 121, 108, 101)))) { // = 'style'
-						if (empty(array_diff(array_slice($txtarr, -7, 1), array(47)))) { // '/' = 47
+					$diff = array_diff(array_slice($txtarr, -6, 5), array(115, 116, 121, 108, 101));
+					if (empty($diff)) { // = 'style'
+						$diff = array_diff(array_slice($txtarr, -7, 1), array(47));
+						if (empty($diff)) { // '/' = 47
 							// closing style tag
 							$skip = false;
 						} else {
