@@ -32,3 +32,7 @@ TODO db:
 
 
 TODO get HttpUserAgent from core_dev
+
+
+TODO image data recognizers:
+    ship simple recognizers that can recognize PNG, JPEG, GIF

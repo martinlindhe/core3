@@ -25,6 +25,7 @@
 	<filter>
 		<blacklist>
 			<directory>../lib</directory>
+			<directory>../vendor</directory>
 			<directory>.</directory>
 		</blacklist>
 	</filter>
