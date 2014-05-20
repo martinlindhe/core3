@@ -20,3 +20,6 @@ spl_autoload_register('my_autoloader');
 ini_set('memory_limit', '256M');
 
 date_default_timezone_set('UTC');
+
+error_reporting( E_ALL | E_STRICT | E_DEPRECATED );
+ini_set('display_errors', 1);
