@@ -17,7 +17,7 @@ class test2Table extends Model_DatabaseTable
  */
 class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
 {
-	function getConnection()
+	private function getConnection()
 	{
 		$db = new Client_DatabasePdo('mysql');
 		$db->setServer('127.0.0.1');

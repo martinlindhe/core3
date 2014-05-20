@@ -10,75 +10,85 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 	 */
 	function testIsAllowedRepeated()
 	{
-		$this->assertEquals(false, Core_Password::isAllowed('hhhhhh') );
-		$this->assertEquals(false, Core_Password::isAllowed('666666666666') );
+		$password = new Core_Password();
+		$this->assertEquals(false, $password->isAllowed('hhhhhh') );
+		$this->assertEquals(false, $password->isAllowed('666666666666') );
 
-		$this->assertEquals(false, Core_Password::isAllowed('hahaha') );
-		$this->assertEquals(false, Core_Password::isAllowed('6969') );
-		$this->assertEquals(false, Core_Password::isAllowed('232323') );
+		$this->assertEquals(false, $password->isAllowed('hahaha') );
+		$this->assertEquals(false, $password->isAllowed('6969') );
+		$this->assertEquals(false, $password->isAllowed('232323') );
 
-		$this->assertEquals(false, Core_Password::isAllowed('lollol') );
-		$this->assertEquals(false, Core_Password::isAllowed('sexsex') );
+		$this->assertEquals(false, $password->isAllowed('lollol') );
+		$this->assertEquals(false, $password->isAllowed('sexsex') );
 	}
 
 	function testIsAllowedInBlocklist()
 	{
+		$password = new Core_Password();
+
 		// verify that a listed password is blocked, and that check is not case sensitive
-		$this->assertEquals(false, Core_Password::isAllowed('abc123') );
-		$this->assertEquals(false, Core_Password::isAllowed('ABC123') );
+		$this->assertEquals(false, $password->isAllowed('abc123') );
+		$this->assertEquals(false, $password->isAllowed('ABC123') );
 	}
 
 	function testIsAllowed()
 	{
+		$password = new Core_Password();
+
 		// verify that passwords containing parts of blocked passwords are still allowed
-		$this->assertEquals(true, Core_Password::isAllowed('abc123hej') );
-		$this->assertEquals(true, Core_Password::isAllowed('hejabc123') );
+		$this->assertEquals(true, $password->isAllowed('abc123hej') );
+		$this->assertEquals(true, $password->isAllowed('hejabc123') );
 
 		// verify that an unlisted password is allowed
-		$this->assertEquals(true,  Core_Password::isAllowed('h4rdpassw0rd') );
+		$this->assertEquals(true, $password->isAllowed('h4rdpassw0rd') );
 	}
 
 	function testGenerate()
 	{
-		$hash = Core_Password::hash('test');
+		$password = new Core_Password();
+		$hash = $password->hash('test');
 
 		$this->assertEquals(60, strlen($hash));
 	}
 
 	function testVerify()
 	{
-		$hash1 = Core_Password::hash('test');
-		$hash2 = Core_Password::hash('test');
+		$password = new Core_Password();
+		$hash1 = $password->hash('test');
+		$hash2 = $password->hash('test');
 
 		$this->assertNotEquals($hash1, $hash2, 'verify that each hash are unique');
 
-		$this->assertEquals( true, Core_Password::verify('test', $hash1));
-		$this->assertEquals( true, Core_Password::verify('test', $hash2));
+		$this->assertEquals( true, $password->verify('test', $hash1));
+		$this->assertEquals( true, $password->verify('test', $hash2));
 	}
 
 	function testNeedRehash()
 	{
 		// create a weak hash using cost 5
-		$hash = Core_Password::hash('test', 5);
+		$password = new Core_Password(5);
+		$hash = $password->hash('test');
 
-		$this->assertEquals( true, Core_Password::verify('test', $hash));
+		$this->assertEquals( true, $password->verify('test', $hash));
 
-		$this->assertEquals( true, Core_Password::needsRehash($hash, 10) );
+		$this->assertEquals( true, $password->needsRehash($hash, 10) );
 	}
 
 	function testDontNeedRehash()
 	{
 		// create hash using default cost
-		$hash = Core_Password::hash('test');
+		$password = new Core_Password();
+		$hash = $password->hash('test');
 
-		$this->assertEquals( true, Core_Password::verify('test', $hash));
+		$this->assertEquals( true, $password->verify('test', $hash));
 
-		$this->assertEquals( false, Core_Password::needsRehash($hash) );
+		$this->assertEquals( false, $password->needsRehash($hash, $password->getCost()) );
 	}
 
 	function testVerifyForbiddenFileExists()
 	{
-		$filename = Core_Password::getForbiddenPasswordsFilename();
+		$password = new Core_Password();
+		$filename = $password->getForbiddenPasswordsFilename();
 
 		$this->assertEquals( true, file_exists($filename) );
 	}
@@ -88,37 +98,17 @@ class Core_PasswordTest extends PHPUnit_Framework_TestCase
 	 */
 	function testFindUselessForbiddenRules()
 	{
-		$filename = Core_Password::getForbiddenPasswordsFilename();
+		$password = new Core_Password();
+
+		$filename = $password->getForbiddenPasswordsFilename();
 
 		$rows = explode("\n", trim(file_get_contents($filename)));
 
 		$this->assertGreaterThanOrEqual( 488, count($rows) );
 
 		foreach ($rows as $row) {
-			$this->assertEquals( false, Core_Password::isRepeatingString($row), 'Asserting that string '.$row.' is not repeated' );
+			$this->assertEquals( false, $password->isRepeatingString($row), 'Asserting that string '.$row.' is not repeated' );
 		}
 	}
 
-	/**
-	 * Calculates an appropriate cost parameter for the current system
-	 */
-/*
-	function testFindAppropriateCost()
-	{
-		// TODO how to exclude this one except if we run specifically "benchmark" tests ?'
-		//$this->markTestSkipped('skipped test');
-
-		$timeTarget = 0.2;
-
-		$cost = 9;
-		do {
-			$cost++;
-			$start = microtime(true);
-			Core_Password::hash("test", $cost);
-			$end = microtime(true);
-		} while (($end - $start) < $timeTarget);
-
-		echo "Appropriate Cost Found: " . $cost . "\n";
-	}
-*/
 }

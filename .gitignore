@@ -1,2 +1,6 @@
 coverage-report-html
-testdox.html
+phpmd-report.html
+composer.phar
+composer.lock
+vendor
+.DS_Store

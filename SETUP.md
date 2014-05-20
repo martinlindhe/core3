@@ -4,6 +4,17 @@ PHP 5.3.7 is minimum requirement, due to password_compat requirements
 
 
 
+# Install requirements using composer
+
+In the document root, install composer in your project:
+
+  curl -s https://getcomposer.org/installer | php
+
+Let composer install project depencencies:
+
+  php composer.phar install
+
+
 # PHP version matrix, 2014
 
 OSX Mavericks shipped: PHP 5.4.24 (cli) (built: Jan 19 2014 21:32:15)

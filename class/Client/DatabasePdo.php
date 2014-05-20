@@ -70,7 +70,7 @@ class Client_DatabasePdo
 
 		try {
 			$pdo = new PDO($dsn, $this->username, $this->password);
-			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$pdo->setAttribute($pdo->ATTR_ERRMODE, $pdo->ERRMODE_EXCEPTION);
 
 		} catch (PDOException $e) {
 			throw new ConnectionFailedException();
@@ -156,7 +156,7 @@ class Client_DatabasePdo
 	public function select()
 	{
 		$stmt = $this->execute( func_get_args() );
-		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$res = $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
 
 		return $res;
 	}
@@ -184,7 +184,7 @@ class Client_DatabasePdo
 
 		$stmt = $this->execute( $args );
 
-		return $stmt->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $classname);
+		return $stmt->fetchAll($this->db_handle->FETCH_CLASS|$this->db_handle->FETCH_PROPS_LATE, $classname);
 	}
 
 	/**
@@ -194,14 +194,14 @@ class Client_DatabasePdo
 	{
 		$stmt = $this->execute( func_get_args() );
 
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
 	}
 
 	public function selectRow()
 	{
 		$stmt = $this->execute( func_get_args() );
 
-		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$res = $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
 
 		if (count($res) > 1) {
 			throw new InvalidResultException ('returned '.count($res).' rows');
@@ -222,7 +222,7 @@ class Client_DatabasePdo
 			throw new InvalidResultException ('expected 1 column, got '.$stmt->columnCount().' columns');
 		}
 
-		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$res = $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
 
 		if (count($res) != 1 || count($res[0]) != 1) {
 			throw new InvalidResultException ();
@@ -244,7 +244,7 @@ class Client_DatabasePdo
 			throw new InvalidResultException ('not 1d');
 		}
 
-		$res = $stmt->fetchAll(PDO::FETCH_COLUMN);
+		$res = $stmt->fetchAll($this->db_handle->FETCH_COLUMN);
 
 		return $res;
 	}
@@ -262,7 +262,7 @@ class Client_DatabasePdo
 			throw new InvalidResultException ('not mapped');
 		}
 
-		$fetched = $stmt->fetchAll(PDO::FETCH_NUM);
+		$fetched = $stmt->fetchAll($this->db_handle->FETCH_NUM);
 
 		$res = array();
 		foreach ( $fetched as $row) {
