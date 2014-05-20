@@ -1,4 +1,4 @@
-.PHONY: test test-all clean phpcs
+.PHONY: test test-all clean lint
 
 test:
 	phpunit --stderr --configuration=test/phpunit.xml --exclude-group Benchmark,Client
@@ -12,5 +12,5 @@ test-reader:
 clean:
 	rm -rf coverage-report-html
 
-phpcs:
+lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test

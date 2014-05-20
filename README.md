@@ -17,7 +17,7 @@ Hello
 
 
 
-##### TODO
+## TODO
 
 TODO: cli task runner for the project
 
@@ -34,5 +34,4 @@ TODO db:
 TODO get HttpUserAgent from core_dev
 
 
-TODO image data recognizers:
-    ship simple recognizers that can recognize PNG, JPEG, GIF
+TODO: can we install phpunit with composer require-dev !?!?

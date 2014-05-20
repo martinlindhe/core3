@@ -77,6 +77,22 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    function testSetDelimiter()
+    {
+        $model = new Model_Spreadsheet();
+        $model->defineColumns(array('id', 'name'));
+        $model->addRow(array(37, 'hej'));
+
+        $writer = new Writer_Spreadsheet_Csv();
+        $writer->setDelimiter(',');
+
+        $this->assertEquals(
+            $writer->render($model),
+            'id,name'."\r\n".
+            '37,hej'."\r\n"
+        );
+    }
+
     function testRequiredEscaping()
     {
         // NOTE verifies that columns with special characters are escaped properly
