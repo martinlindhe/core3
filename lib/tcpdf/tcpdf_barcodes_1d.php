@@ -171,17 +171,6 @@ class TCPDFBarcode {
  	 * @public
 	 */
 	public function getBarcodePNG($w=2, $h=30, $color=array(0,0,0)) {
-		$data = $this->getBarcodePNGdata($w, $h, $color);
-		// send headers
-		header('Content-Type: image/png');
-		header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
-		header('Pragma: public');
-		header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
-		header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-		echo $data;
-	}
-
-	public function getBarcodePNGData($w=2, $h=30, $color=array(0,0,0)) {
 		// calculate image size
 		$width = ($this->barcode_array['maxw'] * $w);
 		$height = $h;
@@ -219,16 +208,18 @@ class TCPDFBarcode {
 			}
 			$x += $bw;
 		}
-
+		// send headers
+		header('Content-Type: image/png');
+		header('Cache-Control: public, must-revalidate, max-age=0'); // HTTP/1.1
+		header('Pragma: public');
+		header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 		if ($imagick) {
 			$png->drawimage($bar);
-			return $png;
+			echo $png;
 		} else {
-			ob_start();
 			imagepng($png);
-			$imagedata = ob_get_clean();
 			imagedestroy($png);
-			return $imagedata;
 		}
 	}
 
