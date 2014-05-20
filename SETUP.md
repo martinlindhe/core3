@@ -121,6 +121,8 @@ Install on OSX and Debian:
 
 http://phpmd.org/download/index.html
 
+REQUIRE: "ant" on cli;   macports:  $ sudo port install apache-ant
+
   git clone git://github.com/phpmd/phpmd.git
 
 STATUS: ???
