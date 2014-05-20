@@ -7,12 +7,13 @@ Hello
 
 
     class/          Class files
-    class/Model/    models
-    class/Client/   network clients
-    class/Writer/   data writers
+    class/Model/    Models
+    class/Client/   Network clients
+    class/Writer/   Data writers
 
-    tests/          PHPUnit tests
-
+    data/           Data files
+    test/           PHPUnit tests
+    vendor/         Composer dependencies
 
 
 
@@ -20,9 +21,8 @@ Hello
 
 TODO: cli task runner for the project
 
-TODO: use composer for php dependencies?!??!!?
 
-
+TODO:
     cli tool that verifies all tables & columns exist. use reflection to find all classes extending from PdoTable, use their public variables as column names,
     verify db structure!
 
