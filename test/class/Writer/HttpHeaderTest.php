@@ -14,7 +14,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( array('text/custom'), xdebug_find_headers('Content-Type'));
 	}
 
-	function testAttachment()
+	function testFileAttachment()
 	{
 		$fileName = 'file_'.mt_rand().'.ext';
 
@@ -22,6 +22,16 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
 		$header->sendAttachment($fileName);
 
 		$this->assertEquals( array('attachment; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
+	}
+
+	function testFileInline()
+	{
+		$fileName = 'file_'.mt_rand().'.ext';
+
+		$header = new Writer_HttpHeader();
+		$header->sendInline($fileName);
+
+		$this->assertEquals( array('inline; filename="'.$fileName.'"'), xdebug_find_headers('Content-Disposition'));
 	}
 
 	function testNoCache()
