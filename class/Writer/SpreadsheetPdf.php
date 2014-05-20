@@ -87,7 +87,7 @@ class Writer_SpreadsheetPdf
 		}
 
 		if (!empty($this->keywords)) {
-			$tcpdf->SetKeywords( implode(', ', $this->keywords) );
+			$tcpdf->SetKeywords(implode(', ', $this->keywords));
 		}
 
 		// set default header data

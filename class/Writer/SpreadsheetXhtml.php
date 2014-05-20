@@ -4,7 +4,10 @@ class Writer_SpreadsheetXhtml extends Writer_Spreadsheet
 {
 	private $classname = 'htmlBox';
 
-	public function setClassName($s) { $this->classname = $s; }
+	public function setClassName($s)
+	{
+		$this->classname = $s;
+	}
 
 	public function render(Model_Spreadsheet $model)
 	{
@@ -29,8 +32,7 @@ class Writer_SpreadsheetXhtml extends Writer_Spreadsheet
 	private function renderBody(Model_Spreadsheet $model)
 	{
 		$html = '';
-		foreach ($model->getRows() as $row) 
-		{
+		foreach ($model->getRows() as $row) {
 			$html .= '<tr>';
 			foreach ($row as $col) {
 				$html .= '<td>'.$col.'</td>';

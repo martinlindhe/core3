@@ -5,8 +5,15 @@ class Writer_SpreadsheetCsv extends Writer_Spreadsheet
 	private $delimiter = ';';
 	private $lineEnding = "\r\n";
 
-	public function setDelimiter($delim) { $this->delimiter = $delim; }
-	public function setLineEnding($ending) { $this->lineEnding = $ending; }
+	public function setDelimiter($delim)
+	{
+		$this->delimiter = $delim;
+	}
+
+	public function setLineEnding($ending)
+	{
+		$this->lineEnding = $ending;
+	}
 
 	public function sendHttpAttachmentHeaders($fileName)
 	{

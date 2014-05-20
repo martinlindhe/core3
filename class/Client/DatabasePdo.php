@@ -3,15 +3,26 @@
  * MySQL driver using the PDO extension
  */
 
-class AlreadyConnectedException extends Exception { }
-class ConnectionFailedException extends Exception { }
-class InvalidQueryException extends Exception { }
-class InvalidResultException extends Exception { }
+class AlreadyConnectedException extends Exception
+{
+}
+
+class ConnectionFailedException extends Exception
+{
+}
+
+class InvalidQueryException extends Exception
+{
+}
+
+class InvalidResultException extends Exception
+{
+}
 
 class Client_DatabasePdo
 {
 	protected $driver;
-	protected $db_handle = null;
+	protected $dbHandle = null;
 	protected $server;
 	protected $port;
 	protected $username;
@@ -56,7 +67,7 @@ class Client_DatabasePdo
 
 	public function isConnected()
 	{
-		return $this->db_handle !== null;
+		return $this->dbHandle !== null;
 	}
 
 	private function getPdoConnection($config)
@@ -70,7 +81,7 @@ class Client_DatabasePdo
 
 		try {
 			$pdo = new PDO($dsn, $this->username, $this->password);
-			$pdo->setAttribute($pdo->ATTR_ERRMODE, $pdo->ERRMODE_EXCEPTION);
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		} catch (PDOException $e) {
 			throw new ConnectionFailedException();
@@ -81,7 +92,7 @@ class Client_DatabasePdo
 
 	public function connect()
 	{
-		if ($this->db_handle !== null) {
+		if ($this->dbHandle !== null) {
 			throw new AlreadyConnectedException();
 		}
 
@@ -113,13 +124,13 @@ class Client_DatabasePdo
 			$config[] = 'charset='.$this->charset;
 		}
 
-		$this->db_handle = $this->getPdoConnection($config);
+		$this->dbHandle = $this->getPdoConnection($config);
 	}
 
 	public function disconnect()
 	{
-		if ($this->db_handle !== null) {
-			$this->db_handle = null;
+		if ($this->dbHandle !== null) {
+			$this->dbHandle = null;
 		}
 	}
 
@@ -131,14 +142,14 @@ class Client_DatabasePdo
 	private function execute($args)
 	{
 		if (!$args[0]) {
-			throw new InvalidArgumentException ();
+			throw new InvalidArgumentException();
 		}
 
-		if ($this->db_handle === null) {
+		if ($this->dbHandle === null) {
 			$this->connect();
 		}
 
-		$stmt = $this->db_handle->prepare($args[0]);
+		$stmt = $this->dbHandle->prepare($args[0]);
 
 		if (!isset($args[1])) {
 			$args[1] = array();
@@ -155,15 +166,15 @@ class Client_DatabasePdo
 
 	public function select()
 	{
-		$stmt = $this->execute( func_get_args() );
-		$res = $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
+		$stmt = $this->execute(func_get_args());
+		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		return $res;
 	}
 
 	public function selectToObject()
 	{
-		$res = $this->selectToObjects( func_get_args() );
+		$res = $this->selectToObjects(func_get_args());
 
 		return $res[0];
 	}
@@ -182,9 +193,9 @@ class Client_DatabasePdo
 
 		$classname = array_shift($args);
 
-		$stmt = $this->execute( $args );
+		$stmt = $this->execute($args);
 
-		return $stmt->fetchAll($this->db_handle->FETCH_CLASS|$this->db_handle->FETCH_PROPS_LATE, $classname);
+		return $stmt->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $classname);
 	}
 
 	/**
@@ -192,19 +203,19 @@ class Client_DatabasePdo
 	 */
 	public function storedProc()
 	{
-		$stmt = $this->execute( func_get_args() );
+		$stmt = $this->execute(func_get_args());
 
-		return $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public function selectRow()
 	{
-		$stmt = $this->execute( func_get_args() );
+		$stmt = $this->execute(func_get_args());
 
-		$res = $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
+		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		if (count($res) > 1) {
-			throw new InvalidResultException ('returned '.count($res).' rows');
+			throw new InvalidResultException('returned '.count($res).' rows');
 		}
 
 		if (!$res) {
@@ -216,16 +227,16 @@ class Client_DatabasePdo
 
 	public function selectItem()
 	{
-		$stmt = $this->execute( func_get_args() );
+		$stmt = $this->execute(func_get_args());
 
 		if ($stmt->columnCount() != 1) {
-			throw new InvalidResultException ('expected 1 column, got '.$stmt->columnCount().' columns');
+			throw new InvalidResultException('expected 1 column, got '.$stmt->columnCount().' columns');
 		}
 
-		$res = $stmt->fetchAll($this->db_handle->FETCH_ASSOC);
+		$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		if (count($res) != 1 || count($res[0]) != 1) {
-			throw new InvalidResultException ();
+			throw new InvalidResultException();
 		}
 
 		return array_shift($res[0]);
@@ -236,15 +247,15 @@ class Client_DatabasePdo
 	 */
 	public function select1d()
 	{
-		$stmt = $this->execute( func_get_args() );
+		$stmt = $this->execute(func_get_args());
 
 		$data = array();
 
 		if ($stmt->columnCount() != 1) {
-			throw new InvalidResultException ('not 1d');
+			throw new InvalidResultException('not 1d');
 		}
 
-		$res = $stmt->fetchAll($this->db_handle->FETCH_COLUMN);
+		$res = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 		return $res;
 	}
@@ -254,15 +265,15 @@ class Client_DatabasePdo
 	 */
 	public function selectMapped()
 	{
-		$stmt = $this->execute( func_get_args() );
+		$stmt = $this->execute(func_get_args());
 
 		$data = array();
 
 		if ($stmt->columnCount() != 2) {
-			throw new InvalidResultException ('not mapped');
+			throw new InvalidResultException('not mapped');
 		}
 
-		$fetched = $stmt->fetchAll($this->db_handle->FETCH_NUM);
+		$fetched = $stmt->fetchAll(PDO::FETCH_NUM);
 
 		$res = array();
 		foreach ( $fetched as $row) {
@@ -277,8 +288,8 @@ class Client_DatabasePdo
 	 */
 	public function insert()
 	{
-		$stmt = $this->execute( func_get_args() );
-		return $this->db_handle->lastInsertId();
+		$stmt = $this->execute(func_get_args());
+		return $this->dbHandle->lastInsertId();
 	}
 
 	/** 
@@ -286,7 +297,7 @@ class Client_DatabasePdo
 	 */
 	public function delete()
 	{
-		$stmt = $this->execute( func_get_args() );
+		$stmt = $this->execute(func_get_args());
 		return $stmt->rowCount();
 	}
 
@@ -295,7 +306,7 @@ class Client_DatabasePdo
 	 */
 	public function update()
 	{
-		$stmt = $this->execute( func_get_args() );
+		$stmt = $this->execute(func_get_args());
 		return $stmt->rowCount();
 	}
 
@@ -304,9 +315,9 @@ class Client_DatabasePdo
 	 */
 	public function query($q)
 	{
-		if ($this->db_handle === null) {
+		if ($this->dbHandle === null) {
 			$this->connect();
 		}
-		$this->db_handle->query($q);
+		$this->dbHandle->query($q);
 	}
 }

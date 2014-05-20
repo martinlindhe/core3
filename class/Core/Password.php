@@ -34,10 +34,10 @@ class Core_Password
 	 * @param $new_cost new cost
 	 * @return bool
 	 */
-	public function needsRehash($hash, $new_cost)
+	public function needsRehash($hash, $newCost)
 	{
 		$options = array(
-		'cost' => $new_cost,
+		'cost' => $newCost,
 		);
 
 		return password_needs_rehash($hash, PASSWORD_BCRYPT, $options);
@@ -89,9 +89,9 @@ class Core_Password
 			return false;
 		}
 
-		$chk_file = $this->getForbiddenPasswordsFilename();
+		$fileName = $this->getForbiddenPasswordsFilename();
 
-		$data = file_get_contents($chk_file);
+		$data = file_get_contents($fileName);
 
 		return strpos($data, strtolower($password)) === false;
 	}
