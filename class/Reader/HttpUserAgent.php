@@ -35,17 +35,113 @@ class Reader_HttpUserAgent
 
     public static function isMacOSX($s)
     {
-        throw new Exception("TODO");
+        if (strpos($s, 'Intel Mac OS X') !== false) {
+            return true;
+        }
+        return false;
     }
 
     public static function isWindows($s)
     {
-        throw new Exception("TODO");
+        if (strpos($s, 'Windows') !== false) {
+            return true;
+        }
+        return false;
     }
 
     public static function isLinux($s)
     {
-        throw new Exception("TODO");
+        if (strpos($s, 'Linux') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return true if browser is X86-64
+     */    
+    public static function isX86_64($s)
+    {
+        if (strpos($s, 'x86_64') !== false ||
+            strpos($s, 'x64') !== false ||
+            strpos($s, 'Win64') !== false ||
+            strpos($s, 'WOW64') !== false
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isMSIE($s)
+    {
+        if (strpos($s, 'MSIE') !== false ||
+            strpos($s, 'Trident/') !== false
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isFirefox($s)
+    {
+        if (strpos($s, 'Firefox') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isChrome($s)
+    {
+        if (strpos($s, 'Chrome') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isSafari($s)
+    {
+        if (strpos($s, 'Safari') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isOpera($s)
+    {
+        if (strpos($s, 'Opera') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return WebBrowser object
+     */
+    public static function getBrowser($s)
+    {
+        if (self::isFirefox($s)) {
+            return self::parseFirefoxUA($s);
+        }
+
+        if (self::isChrome($s)) {
+            return self::parseChromeUA($s);
+        }
+
+        if (self::isSafari($s)) {
+            return self::parseSafariUA($s);
+        }
+
+        if (self::isOpera($s)) {
+            return self::parseOperaUA($s);
+        }
+
+        if (self::isMSIE($s)) {
+            return self::parseInternetExplorerUA($s);
+        }
+
+        $o = new WebBrowser();
+        $o->name = 'Unknown';
+        return $o;
     }
 
     private static function parseFirefoxUA($s)
@@ -231,72 +327,5 @@ class Reader_HttpUserAgent
         }
 
         throw new Exception('TODO what to return');
-    }
-
-    public static function isMSIE($s)
-    {
-        if (strpos($s, 'MSIE') !== false ||
-            strpos($s, 'Trident/') !== false
-        ) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function isFirefox($s)
-    {
-        if (strpos($s, 'Firefox') !== false) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function isChrome($s)
-    {
-        if (strpos($s, 'Chrome') !== false) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function isSafari($s)
-    {
-        if (strpos($s, 'Safari') !== false) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function isOpera($s)
-    {
-        if (strpos($s, 'Opera') !== false) {
-            return true;
-        }
-        return false;
-    }
-
-    public static function getBrowser($s)
-    {
-        if (self::isFirefox($s)) {
-            return self::parseFirefoxUA($s);
-        }
-
-        if (self::isChrome($s)) {
-            return self::parseChromeUA($s);
-        }
-
-        if (self::isSafari($s)) {
-            return self::parseSafariUA($s);
-        }
-
-        if (self::isOpera($s)) {
-            return self::parseOperaUA($s);
-        }
-
-        if (self::isMSIE($s)) {
-            return self::parseInternetExplorerUA($s);
-        }
-
-        throw new Exception('TODO return generic WebBrowser object');
     }
 }
