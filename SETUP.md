@@ -11,7 +11,7 @@ In order to simplify setup, requirement must be installed using composer
 
 In the document root, install composer in your project:
 
-  curl -s https://getcomposer.org/installer | php
+  make install-composer
 
 Next, let composer install project depencencies + required dev tools (phpunit, hp_codesniffer):
 

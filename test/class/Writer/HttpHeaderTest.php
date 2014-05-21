@@ -27,6 +27,20 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    function testFileAttachmentBasename()
+    {
+        // verifies that path is stripped from filename in Content-Disposition header
+        $fileName = '/path/to/file_'.mt_rand().'.ext';
+
+        $header = new Writer_HttpHeader();
+        $header->sendAttachment($fileName);
+
+        $this->assertEquals(
+            array('attachment; filename="'.basename($fileName).'"'),
+            XdebugExtras::findHeaders('Content-Disposition')
+        );
+    }
+
     function testFileInline()
     {
         $fileName = 'file_'.mt_rand().'.ext';

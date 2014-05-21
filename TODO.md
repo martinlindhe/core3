@@ -41,6 +41,3 @@
 # TODO setup
 - use composer version of phpunit in Makefile
 - try installing and running everything from win7
-- phpunit --group Benchmark:
-   PasswordBenchmarkTest.php
-

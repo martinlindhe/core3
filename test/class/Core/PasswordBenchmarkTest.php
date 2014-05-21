@@ -26,4 +26,27 @@ class Core_PasswordBenchmarkTest extends PHPUnit_Framework_TestCase
         echo "\nAppropriate password_hash() cost found: " . $cost . "\n";
     }
 
+    /**
+     * Looks in forbidden passwords file for useless rules,
+     * which are covered by the validation checks
+     */
+    function testFindUselessForbiddenRules()
+    {
+        // TODO move this to a separate class & group it as Util (?)
+        $password = new Core_Password_Bcrypt();
+
+        $filename = $password->getForbiddenPasswordsFilename();
+
+        $rows = explode("\n", trim(file_get_contents($filename)));
+
+        $this->assertGreaterThanOrEqual(488, count($rows));
+
+        foreach ($rows as $row) {
+            $this->assertEquals(
+                false,
+                $password->isRepeatingString($row),
+                'Asserting that string '.$row.' is not repeated'
+            );
+        }
+    }
 }

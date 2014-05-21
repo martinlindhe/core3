@@ -57,26 +57,33 @@ class HttpUserAgent
         $o->vendor = 'Mozilla';
         $o->name   = 'Firefox';
 
-        $tok1 = 'Mozilla/5.0 (';
-        $p1 = strpos($s, $tok1);
-        if ($p1 !== false) {
-            $s1 = substr($s, $p1 + strlen($tok1) );
+        $token = 'Mozilla/5.0 (';
+        $pos = strpos($s, $token);
+        if ($pos !== false) {
+            $str = substr($s, $pos + strlen($token));
 
-            $p2 = strpos($s1, ')');
-            $s2 = substr($s1, 0, $p2);
+            $subPos = strpos($str, ')');
+            $subStr = substr($str, 0, $subPos);
 
             // (X11; Linux x86_64; rv:6.0)
             // (Windows NT 6.1; WOW64; rv:9.0.1)
             // (X11; Ubuntu; Linux x86_64; rv:10.0)
             // (Macintosh; Intel Mac OS X 10.7; rv:10.0)
-            foreach (explode(';', $s2) as $tok) {
+            foreach (explode(';', $subStr) as $tok) {
                 $tok = trim($tok);
-                if (stripos($tok, 'X11') !== false || stripos($tok, 'Windows') !== false || stripos($tok, 'Macintosh') !== false) {
+                if (stripos($tok, 'X11') !== false ||
+                    stripos($tok, 'Windows') !== false ||
+                    stripos($tok, 'Macintosh') !== false
+                ) {
                     $o->os = $tok;
-                } else if (stripos($tok, 'WOW64') !== false || stripos($tok, 'x86') !== false || stripos($tok, 'Mac OS') !== false) {
+                } else if (
+                    stripos($tok, 'WOW64') !== false ||
+                    stripos($tok, 'x86') !== false ||
+                    stripos($tok, 'Mac OS') !== false
+                ) {
                     $o->arch = $tok;
                 } else {
-                    // echo "unknown tok: ".$tok."\n";
+                    throw new Exception('unknown tok: '.$tok);
                 }
             }
         }
@@ -86,7 +93,6 @@ class HttpUserAgent
         $y = explode(' ', $x[1]);
 
         $o->version = $y[0];
-
         return $o;
     }
 
@@ -96,15 +102,15 @@ class HttpUserAgent
         $o->vendor = 'Google';
         $o->name   = 'Chrome';
 
-        $tok1 = 'Mozilla/5.0 (';
-        $p1 = strpos($s, $tok1);
-        if ($p1 !== false) {
-            $s1 = substr($s, $p1 + strlen($tok1) );
+        $token = 'Mozilla/5.0 (';
+        $pos = strpos($s, $token);
+        if ($pos !== false) {
+            $str = substr($s, $pos + strlen($token));
 
-            $p2 = strpos($s1, ')');
-            $s2 = substr($s1, 0, $p2);
+            $subPos = strpos($str, ')');
+            $subStr = substr($str, 0, $subPos);
 
-            $x = explode('; ', $s2);
+            $x = explode('; ', $subStr);
 
             // (Windows NT 6.1; WOW64)
             // (X11; Linux x86_64)
@@ -128,31 +134,25 @@ class HttpUserAgent
         $o->name   = 'Safari';
 
         // Beginning from version 3.0, the version number is part of the UA string as "Version/xxx"
-        if (instr($s, 'Version/'))
-        {
+        if (instr($s, 'Version/')) {
             $x = explode('Version/', $s, 2);
             $y = explode(' ', $x[1]);
             $o->version = $y[0];
-        }
-        else
-        {
+        } else {
             // XXX FIXME use a regexp
             $x = explode('Safari/', $s, 2);
             $y = explode(' ', $x[1]);
 
-            switch ($y[0]) {
-            case '419.3':  $o->version = '2.0.4'; break;
-            default: $o->version = 'build '.$y[0].' (unknown version)';
-            }
+            $o->version = 'build '.$y[0];
         }
 
-        $tok1 = 'Mozilla/5.0 (';
-        $p1 = strpos($s, $tok1);
-        if ($p1 !== false) {
-            $s1 = substr($s, $p1 + strlen($tok1) );
+        $token = 'Mozilla/5.0 (';
+        $pos = strpos($s, $token);
+        if ($pos !== false) {
+            $str = substr($s, $pos + strlen($token));
 
-            $p2 = strpos($s1, ')');
-            $s2 = substr($s1, 0, $p2);
+            $subPos = strpos($str, ')');
+            $subStr = substr($str, 0, $subPos);
 
             // (iPhone; U; CPU OS 3_2 like Mac OS X; en-us)
             // (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)
@@ -160,14 +160,17 @@ class HttpUserAgent
             // (Macintosh; U; Intel Mac OS X; en)
             // (Windows; U; Windows NT 6.1; en-US)
             // (Macintosh; Intel Mac OS X 10_7_3)
-            foreach (explode(';', $s2) as $tok) {
+            foreach (explode(';', $subStr) as $tok) {
                 $tok = trim($tok);
-                if ($tok == 'Windows' || $tok == 'Macintosh' || $tok == 'iPhone' || $tok == 'iPad' || $tok == 'iPod') {
+                if (in_array($tok, array('Windows', 'Macintosh', 'iPhone', 'iPad', 'iPod')) {
                     $o->os = $tok;
-                } else if (stripos($tok, 'Windows NT') !== false || stripos($tok, 'Mac OS') !== false) {
+                } else if (
+                    stripos($tok, 'Windows NT') !== false ||
+                    stripos($tok, 'Mac OS') !== false
+                ) {
                     $o->arch = $tok;
                 } else {
-                    // echo "unknown tok: ".$tok."\n";
+                    throw new Exception('unknown tok: '.$tok);
                 }
             }
         }
@@ -185,8 +188,7 @@ class HttpUserAgent
             $x = explode('Version/', $s, 2);
             $y = explode(' ', $x[1]);
             $o->version = $y[0];
-        }
-        else {
+        } else {
             // XXX FIXME use a regexp
             $x = explode('Opera/', $s, 2);
             $y = explode(' ', $x[1]);
@@ -195,24 +197,30 @@ class HttpUserAgent
 
         $x = explode(' (', $s, 2);
 
-        $sub_s = $x[1];
+        $subToken = $x[1];
 
-        $p1 = strpos($sub_s, ')');
-        $s2 = substr($sub_s, 0, $p1);
+        $pos = strpos($subToken, ')');
+        $subStr = substr($subToken, 0, $pos);
 
         // (Windows NT 5.1; U; en)
         // (Macintosh; Intel Mac OS X; U; en)
         // (X11; Linux x86_64; U; en)
         // (Windows NT 6.0; U; en)
         // (Windows NT 6.1; U; en)
-        foreach (explode(';', $s2) as $tok) {
+        foreach (explode(';', $subStr) as $tok) {
             $tok = trim($tok);
-            if (stripos($tok, 'X11') !== false || stripos($tok, 'Windows') !== false || stripos($tok, 'Macintosh') !== false) {
+            if (stripos($tok, 'X11') !== false ||
+                stripos($tok, 'Windows') !== false ||
+                stripos($tok, 'Macintosh') !== false
+            ) {
                 $o->os = $tok;
-            } else if (stripos($tok, 'x86') !== false || stripos($tok, 'Mac OS') !== false) {
+            } else if (
+                stripos($tok, 'x86') !== false ||
+                stripos($tok, 'Mac OS') !== false
+            ) {
                 $o->arch = $tok;
             } else {
-                // echo "unknown tok: ".$tok."\n";
+                throw new Exception('unknown tok: '.$tok);
             }
         }
         return $o;
@@ -224,10 +232,31 @@ class HttpUserAgent
         $o->vendor = 'Microsoft';
         $o->name   = 'Internet Explorer';
 
-        $x = explode('MSIE ', $s, 2);
-        $y = explode(';', $x[1]);
-        $o->version = $y[0];
-        return $o;
+        if (instr($s, 'MSIE')) {
+            // this format was used up to & including IE 10
+            $x = explode('MSIE ', $s, 2);
+            $y = explode(';', $x[1]);
+            $o->version = $y[0];
+            return $o;
+        } 
+
+        if (instr($s, 'Trident/')) {
+            // this format is used in IE 11 and forward
+            $x = explode('rv:', $s, 2);
+            $y = explode(')', $x[1]);
+            $o->version = $y[0];
+            return $o;
+        }
+
+        throw new Exception('TODO what to return');
+    }
+
+    function isMSIE($s)
+    {
+        if (instr($s, 'MSIE') || instr($s, 'Trident/')) {
+            return true;
+        }
+        return false;
     }
 
     public function getBrowser($s)
@@ -248,10 +277,10 @@ class HttpUserAgent
             return $this->parseOperaUA($s);
         }
 
-        if (instr($s, 'MSIE')) {
+        if (isMSIE($s)) {
             return $this->parseInternetExplorerUA($s);
         }
 
-        throw new Exception ("TODO return generic WebBrowser object");
+        throw new Exception('TODO return generic WebBrowser object');
     }
 }
