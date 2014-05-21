@@ -318,14 +318,10 @@ class Reader_HttpUserAgent
             return $o;
         } 
 
-        if (strpos($s, 'Trident/') !== false) {
-            // this format is used in IE 11 and forward
-            $x = explode('rv:', $s, 2);
-            $y = explode(')', $x[1]);
-            $o->version = $y[0];
-            return $o;
-        }
-
-        throw new Exception('TODO what to return');
+        // this format is used in IE 11 and forward
+        $x = explode('rv:', $s, 2);
+        $y = explode(')', $x[1]);
+        $o->version = $y[0];
+        return $o;
     }
 }
