@@ -7,9 +7,10 @@
  * @author Martin Lindhe, 2011-2014 <martin@ubique.se>
  */
 
+// TODO add Chromium UA 
+
 class WebBrowser
 {
-    var $vendor;    ///< string "Microsoft", "Google", "Mozilla"
     var $name;      ///< string "Chrome", "Firefox", "Internet Explorer"
     var $version;   ///< string "13.0.782.112", "6.0"
     var $os;        ///< string "Linux", "Windows", "Macintosh", "iPhone", "iPad", "iPod"
@@ -32,17 +33,17 @@ class Reader_HttpUserAgent
         return false;
     }
 
-    public function isMacOSX($s)
+    public static function isMacOSX($s)
     {
         throw new Exception("TODO");
     }
 
-    public function isWindows($s)
+    public static function isWindows($s)
     {
         throw new Exception("TODO");
     }
 
-    public function isLinux($s)
+    public static function isLinux($s)
     {
         throw new Exception("TODO");
     }
@@ -50,7 +51,6 @@ class Reader_HttpUserAgent
     private static function parseFirefoxUA($s)
     {
         $o = new WebBrowser();
-        $o->vendor = 'Mozilla';
         $o->name   = 'Firefox';
 
         $token = 'Mozilla/5.0 (';
@@ -78,13 +78,10 @@ class Reader_HttpUserAgent
                     stripos($tok, 'Mac OS') !== false
                 ) {
                     $o->arch = $tok;
-                } else {
-                    throw new Exception('unknown tok: '.$tok);
                 }
             }
         }
 
-        // XXX FIXME use a regexp
         $x = explode('Firefox/', $s, 2);
         $y = explode(' ', $x[1]);
 
@@ -95,7 +92,6 @@ class Reader_HttpUserAgent
     private static function parseChromeUA($s)
     {
         $o = new WebBrowser();
-        $o->vendor = 'Google';
         $o->name   = 'Chrome';
 
         $token = 'Mozilla/5.0 (';
@@ -115,7 +111,6 @@ class Reader_HttpUserAgent
                 $o->arch = trim($x[1]);
         }
 
-        // XXX FIXME use a regexp
         $x = explode('Chrome/', $s, 2);
         $y = explode(' ', $x[1]);
 
@@ -126,7 +121,6 @@ class Reader_HttpUserAgent
     private static function parseSafariUA($s)
     {
         $o = new WebBrowser();
-        $o->vendor = 'Apple';
         $o->name   = 'Safari';
 
         // Beginning from version 3.0, the version number is part of the UA string as "Version/xxx"
@@ -135,10 +129,8 @@ class Reader_HttpUserAgent
             $y = explode(' ', $x[1]);
             $o->version = $y[0];
         } else {
-            // XXX FIXME use a regexp
             $x = explode('Safari/', $s, 2);
             $y = explode(' ', $x[1]);
-
             $o->version = 'build '.$y[0];
         }
 
@@ -165,8 +157,6 @@ class Reader_HttpUserAgent
                     stripos($tok, 'Mac OS') !== false
                 ) {
                     $o->arch = $tok;
-                } else {
-                    throw new Exception('unknown tok: '.$tok);
                 }
             }
         }
@@ -176,7 +166,6 @@ class Reader_HttpUserAgent
     private static function parseOperaUA($s)
     {
         $o = new WebBrowser();
-        $o->vendor = 'Opera Software';
         $o->name   = 'Opera';
 
         // Beginning from version 10.00, the version number is part of the UA string as "Version/xxx"
@@ -185,7 +174,6 @@ class Reader_HttpUserAgent
             $y = explode(' ', $x[1]);
             $o->version = $y[0];
         } else {
-            // XXX FIXME use a regexp
             $x = explode('Opera/', $s, 2);
             $y = explode(' ', $x[1]);
             $o->version = $y[0];
@@ -215,8 +203,6 @@ class Reader_HttpUserAgent
                 stripos($tok, 'Mac OS') !== false
             ) {
                 $o->arch = $tok;
-            } else {
-                throw new Exception('unknown tok: '.$tok);
             }
         }
         return $o;
@@ -226,7 +212,6 @@ class Reader_HttpUserAgent
     {
         //TODO: parse os & arch for IE
         $o = new WebBrowser();
-        $o->vendor = 'Microsoft';
         $o->name   = 'Internet Explorer';
 
         if (strpos($s, 'MSIE') !== false) {
