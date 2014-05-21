@@ -7,10 +7,6 @@
  * @author Martin Lindhe, 2011-2014 <martin@ubique.se>
  */
 
-//STATUS: wip
-
-//TODO: parse os & arch for IE,   - TODO TODO IE parser was updated in core_dev?!?!
-
 class WebBrowser
 {
     var $vendor;    ///< string "Microsoft", "Google", "Mozilla"
@@ -21,14 +17,14 @@ class WebBrowser
     var $arch;      ///< string "x86_64", "CPU OS 3_2 like Mac OS X"
 }
 
-class HttpUserAgent
+class Reader_HttpUserAgent
 {
     /**
      * @return true if user agent is a iOS device
      */
-    public function isIOS($s)
+    public static function isIOS($s)
     {
-        $b = $this->getBrowser($s);
+        $b = self::getBrowser($s);
         if (in_array($b->os, array('iPhone', 'iPad', 'iPod'))) {
             return true;
         }
@@ -51,7 +47,7 @@ class HttpUserAgent
         throw new Exception("TODO");
     }
 
-    private function parseFirefoxUA($s)
+    private static function parseFirefoxUA($s)
     {
         $o = new WebBrowser();
         $o->vendor = 'Mozilla';
@@ -96,7 +92,7 @@ class HttpUserAgent
         return $o;
     }
 
-    private function parseChromeUA($s)
+    private static function parseChromeUA($s)
     {
         $o = new WebBrowser();
         $o->vendor = 'Google';
@@ -127,14 +123,14 @@ class HttpUserAgent
         return $o;
     }
 
-    private function parseSafariUA($s)
+    private static function parseSafariUA($s)
     {
         $o = new WebBrowser();
         $o->vendor = 'Apple';
         $o->name   = 'Safari';
 
         // Beginning from version 3.0, the version number is part of the UA string as "Version/xxx"
-        if (instr($s, 'Version/')) {
+        if (strpos($s, 'Version/') !== false) {
             $x = explode('Version/', $s, 2);
             $y = explode(' ', $x[1]);
             $o->version = $y[0];
@@ -162,7 +158,7 @@ class HttpUserAgent
             // (Macintosh; Intel Mac OS X 10_7_3)
             foreach (explode(';', $subStr) as $tok) {
                 $tok = trim($tok);
-                if (in_array($tok, array('Windows', 'Macintosh', 'iPhone', 'iPad', 'iPod')) {
+                if (in_array($tok, array('Windows', 'Macintosh', 'iPhone', 'iPad', 'iPod'))) {
                     $o->os = $tok;
                 } else if (
                     stripos($tok, 'Windows NT') !== false ||
@@ -177,14 +173,14 @@ class HttpUserAgent
         return $o;
     }
 
-    private function parseOperaUA($s)
+    private static function parseOperaUA($s)
     {
         $o = new WebBrowser();
         $o->vendor = 'Opera Software';
         $o->name   = 'Opera';
 
         // Beginning from version 10.00, the version number is part of the UA string as "Version/xxx"
-        if (instr($s, 'Version/')) {
+        if (strpos($s, 'Version/') !== false) {
             $x = explode('Version/', $s, 2);
             $y = explode(' ', $x[1]);
             $o->version = $y[0];
@@ -226,13 +222,14 @@ class HttpUserAgent
         return $o;
     }
 
-    public function parseInternetExplorerUA($s)
+    private static function parseInternetExplorerUA($s)
     {
+        //TODO: parse os & arch for IE
         $o = new WebBrowser();
         $o->vendor = 'Microsoft';
         $o->name   = 'Internet Explorer';
 
-        if (instr($s, 'MSIE')) {
+        if (strpos($s, 'MSIE') !== false) {
             // this format was used up to & including IE 10
             $x = explode('MSIE ', $s, 2);
             $y = explode(';', $x[1]);
@@ -240,7 +237,7 @@ class HttpUserAgent
             return $o;
         } 
 
-        if (instr($s, 'Trident/')) {
+        if (strpos($s, 'Trident/') !== false) {
             // this format is used in IE 11 and forward
             $x = explode('rv:', $s, 2);
             $y = explode(')', $x[1]);
@@ -251,34 +248,68 @@ class HttpUserAgent
         throw new Exception('TODO what to return');
     }
 
-    function isMSIE($s)
+    public static function isMSIE($s)
     {
-        if (instr($s, 'MSIE') || instr($s, 'Trident/')) {
+        if (strpos($s, 'MSIE') !== false ||
+            strpos($s, 'Trident/') !== false
+        ) {
             return true;
         }
         return false;
     }
 
-    public function getBrowser($s)
+    public static function isFirefox($s)
     {
-        if (instr($s, 'Firefox')) {
-            return $this->parseFirefoxUA($s);
+        if (strpos($s, 'Firefox') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isChrome($s)
+    {
+        if (strpos($s, 'Chrome') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isSafari($s)
+    {
+        if (strpos($s, 'Safari') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isOpera($s)
+    {
+        if (strpos($s, 'Opera') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function getBrowser($s)
+    {
+        if (self::isFirefox($s)) {
+            return self::parseFirefoxUA($s);
         }
 
-        if (instr($s, 'Chrome')) {
-            return $this->parseChromeUA($s);
+        if (self::isChrome($s)) {
+            return self::parseChromeUA($s);
         }
 
-        if (instr($s, 'Safari')) {
-            return $this->parseSafariUA($s);
+        if (self::isSafari($s)) {
+            return self::parseSafariUA($s);
         }
 
-        if (instr($s, 'Opera')) {
-            return $this->parseOperaUA($s);
+        if (self::isOpera($s)) {
+            return self::parseOperaUA($s);
         }
 
-        if (isMSIE($s)) {
-            return $this->parseInternetExplorerUA($s);
+        if (self::isMSIE($s)) {
+            return self::parseInternetExplorerUA($s);
         }
 
         throw new Exception('TODO return generic WebBrowser object');
