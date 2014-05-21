@@ -2,7 +2,6 @@
 /**
  * @group Reader
  */
-
 class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
 {
     public function testUnknownBrowser()
@@ -18,16 +17,27 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $b = Reader_HttpUserAgent::getBrowser($s);
         $this->assertEquals('Firefox', $b->name);
         $this->assertEquals('2.0.0.11', $b->version);
+
+        // browsers
         $this->assertEquals(true, Reader_HttpUserAgent::isFirefox($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isMSIE($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isChrome($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isSafari($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isOpera($s));
-        $this->assertEquals(false, Reader_HttpUserAgent::isIOS($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isAndroidWebkitBrowser($s)); 
+
+        // desktop OS
         $this->assertEquals(false, Reader_HttpUserAgent::isMacOsx($s));
         $this->assertEquals(true, Reader_HttpUserAgent::isWindows($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isLinux($s));
+
+        // mobile OS
+        $this->assertEquals(false, Reader_HttpUserAgent::isAndroid($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isIOS($s));
+
+        // architecture
         $this->assertEquals(false, Reader_HttpUserAgent::isX86_64($s));
+        
     }
 
     public function testFirefox2()
@@ -126,6 +136,21 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Windows NT 6.1', $b->os);
     }
 
+    public function testChrome2b()
+    {
+        $s =
+            'Mozilla/5.0 (Macintosh; PPC Mac OS X 10_6_7) '.
+            'AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.790.0 Safari/535.1';
+        $b = Reader_HttpUserAgent::getBrowser($s);
+        $this->assertEquals('Chrome', $b->name);
+        $this->assertEquals('14.0.790.0', $b->version);
+        $this->assertEquals('Macintosh', $b->os);
+        $this->assertEquals('PPC Mac OS X 10_6_7', $b->arch);
+        $this->assertEquals(true, Reader_HttpUserAgent::isChrome($s));
+        $this->assertEquals(true, Reader_HttpUserAgent::isMacOsx($s));
+        $this->assertEquals(true, Reader_HttpUserAgent::isPowerPC($s));
+    }
+
     public function testChrome3()
     {
         $s =
@@ -211,13 +236,14 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
     public function testSafari4()
     {
         $s =
-            'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) '.
-            'AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27';
+            'Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_4_11; fr) '.
+            'AppleWebKit/533.16 (KHTML, like Gecko) Version/5.0 Safari/533.16';
         $b = Reader_HttpUserAgent::getBrowser($s);
         $this->assertEquals('Safari', $b->name);
-        $this->assertEquals('5.0.4', $b->version);
-        $this->assertEquals('Windows', $b->os);
-        $this->assertEquals('Windows NT 6.1', $b->arch);
+        $this->assertEquals('5.0', $b->version);
+        $this->assertEquals('Macintosh', $b->os);
+        $this->assertEquals('PPC Mac OS X 10_4_11', $b->arch);
+        $this->assertEquals(true, Reader_HttpUserAgent::isPowerPC($s));
     }
 
     public function testSafari5()
@@ -326,6 +352,7 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $b = Reader_HttpUserAgent::getBrowser($s);
         $this->assertEquals('Internet Explorer', $b->name);
         $this->assertEquals('5.23', $b->version);
+        $this->assertEquals(true, Reader_HttpUserAgent::isPowerPC($s));
     }
 
     public function testIe3()
@@ -421,5 +448,48 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Opera', $b->name);
         $this->assertEquals('11.61', $b->version);
         $this->assertEquals('Windows NT 6.1', $b->os);
+    }
+
+    public function testAndroid1()
+    {
+        // NOTE: Webkit based browser for the Android Mobile Platform
+        $s =
+        'Mozilla/5.0 (Linux; U; Android 2.3.4; fr-fr; HTC Desire Build/GRJ22) '.
+        'AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1';
+
+        $b = Reader_HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, Reader_HttpUserAgent::isAndroid($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isLinux($s)); // NOTE Android is counted as it's own OS, not as Linux
+        $this->assertEquals(true, Reader_HttpUserAgent::isAndroidWebkitBrowser($s)); 
+    }
+
+    public function testWindowsMobile1()
+    {
+        $s = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)';
+        $b = Reader_HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, Reader_HttpUserAgent::isWindowsPhone($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isWindows($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isMSIE($s)); 
+    }
+
+    public function testBlackberry1()
+    {
+        // NOTE: Browser for the BlackBerry smartphone
+        $s =
+        'Mozilla/5.0 (BlackBerry; U; BlackBerry 9700; pt) '.
+        'AppleWebKit/534.8+ (KHTML, like Gecko) Version/6.0.0.546 Mobile Safari/534.8+';
+        $b = Reader_HttpUserAgent::getBrowser($s);
+        $this->assertEquals(false, Reader_HttpUserAgent::isAndroidWebkitBrowser($s));
+        $this->assertEquals(true, Reader_HttpUserAgent::isBlackberry($s));
+    }
+
+    public function testSymbian1()
+    {
+        $s =
+        'Mozilla/5.0 (SymbianOS/9.4; Series60/5.0 NokiaC6-00/20.0.042; '.
+        'Profile/MIDP-2.1 Configuration/CLDC-1.1; zh-hk) '.
+        'AppleWebKit/525 (KHTML, like Gecko) BrowserNG/7.2.6.9 3gpp-gba';
+        $b = Reader_HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, Reader_HttpUserAgent::isSymbian($s));
     }
 }

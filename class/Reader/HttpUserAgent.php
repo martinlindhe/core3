@@ -7,15 +7,12 @@
  * @author Martin Lindhe, 2011-2014 <martin@ubique.se>
  */
 
-// TODO add Chromium UA 
-
 class WebBrowser
 {
-    var $name;      ///< string "Chrome", "Firefox", "Internet Explorer"
-    var $version;   ///< string "13.0.782.112", "6.0"
-    var $os;        ///< string "Linux", "Windows", "Macintosh", "iPhone", "iPad", "iPod"
-//    var $os_version; // string
-    var $arch;      ///< string "x86_64", "CPU OS 3_2 like Mac OS X"
+    var $name;
+    var $version;
+    var $os;
+    var $arch;
 }
 
 class Reader_HttpUserAgent
@@ -35,7 +32,7 @@ class Reader_HttpUserAgent
 
     public static function isMacOsx($s)
     {
-        if (strpos($s, 'Intel Mac OS X') !== false) {
+        if (strpos($s, 'Mac OS X') !== false) {
             return true;
         }
         return false;
@@ -43,7 +40,27 @@ class Reader_HttpUserAgent
 
     public static function isWindows($s)
     {
-        if (strpos($s, 'Windows') !== false) {
+        if (strpos($s, 'Windows') !== false &&
+            strpos($s, 'Windows Phone') === false
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isWindowsPhone($s)
+    {
+        if (strpos($s, 'Windows Phone') !== false
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isBlackberry($s)
+    {
+        if (strpos($s, 'BlackBerry') !== false
+        ) {
             return true;
         }
         return false;
@@ -51,7 +68,25 @@ class Reader_HttpUserAgent
 
     public static function isLinux($s)
     {
-        if (strpos($s, 'Linux') !== false) {
+        if (strpos($s, 'Linux') !== false &&
+            strpos($s, 'Android') === false
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isAndroid($s)
+    {
+        if (strpos($s, 'Android') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isSymbian($s)
+    {
+        if (strpos($s, 'SymbianOS') !== false) {
             return true;
         }
         return false;
@@ -72,10 +107,21 @@ class Reader_HttpUserAgent
         return false;
     }
 
+   public static function isPowerPC($s)
+    {
+        if (strpos($s, 'PowerPC') !== false ||
+            strpos($s, 'PPC Mac OS X') !== false
+        ) {
+            return true;
+        }
+        return false;
+    }
+
     public static function isMSIE($s)
     {
-        if (strpos($s, 'MSIE') !== false ||
-            strpos($s, 'Trident/') !== false
+        if ((strpos($s, 'MSIE') !== false ||
+            strpos($s, 'Trident/') !== false) &&
+            strpos($s, 'IEMobile') === false
         ) {
             return true;
         }
@@ -100,11 +146,27 @@ class Reader_HttpUserAgent
 
     public static function isSafari($s)
     {
-        if (strpos($s, 'Safari') !== false) {
+        if (strpos($s, 'Safari') !== false && 
+            strpos($s, 'Mobile Safari') === false
+        ) {
             return true;
         }
         return false;
     }
+
+    /**
+     * Default browser on Android
+     */
+    public static function isAndroidWebkitBrowser($s)
+    {
+        if (strpos($s, 'Mobile Safari') !== false &&
+            strpos($s, 'BlackBerry') === false
+        ) {
+            return true;
+        }
+        return false;
+    }
+
 
     public static function isOpera($s)
     {
