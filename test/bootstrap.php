@@ -1,9 +1,5 @@
 <?php
-
-// TODO BUG waiting for resolve: https://sourceforge.net/p/tcpdf/bugs/921/
-// TODO feature waiting for merge: https://sourceforge.net/p/tcpdf/patches/70/
-//$tcpdfRoot = realpath(__DIR__.'/../vendor/tecnick.com/tcpdf'); // XXX TODO, tcpdf-trunk is broken 2014-05-20
-$tcpdfRoot = realpath(__DIR__.'/../lib').'/tcpdf';
+$tcpdfRoot = realpath(__DIR__.'/../vendor/tecnick.com/tcpdf');
 
 require_once $tcpdfRoot.'/tcpdf.php';
 require_once $tcpdfRoot.'/tcpdf_barcodes_1d.php';

@@ -27,10 +27,7 @@
 
 
 # TODO pdf support
-- OPEN PATCH: https://sourceforge.net/p/tcpdf/patches/70/
-  first: drop lib/tcpdf when bugs are resolved, 2014-05-20
-  then: use composer version of tcpdf when bugs are resolved
-
+- 
 
 # TODO linter
 - php: complain about trailing whitespace
@@ -39,5 +36,4 @@
 
 
 # TODO setup
-- use composer version of phpunit in Makefile
 - try installing and running everything from win7

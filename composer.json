@@ -2,10 +2,10 @@
 	"require": {
 		"components/angular.js": "1.3.0-beta.7",
 		"ircmaxell/password-compat": "dev-master",
-		"tecnick.com/tcpdf": "dev-master"
+		"tecnick.com/tcpdf": "6.0.080"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "2.0.x-dev",
-		"phpunit/phpunit": "4.2.*@dev"
+		"phpunit/phpunit": "4.1.*@dev"
 	}
 }

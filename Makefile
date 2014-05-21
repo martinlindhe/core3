@@ -16,16 +16,19 @@ update-production-deps:
 	php composer.phar update
 
 test:
-	phpunit --stderr --configuration=test/phpunit.xml --exclude-group Benchmark,Client
+	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --exclude-group Benchmark,Client
 
 test-all:
-	phpunit --stderr --configuration=test/phpunit.xml
+	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml
 
 test-reader:
-	phpunit --stderr --configuration=test/phpunit.xml --group Reader
+	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --group Reader
+
+test-writer:
+	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --group Writer
 
 benchmark:
-	phpunit --stderr --configuration=test/phpunit.xml --group Benchmark
+	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --group Benchmark
 
 lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test
