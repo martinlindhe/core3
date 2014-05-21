@@ -33,7 +33,7 @@ class Reader_HttpUserAgent
         return false;
     }
 
-    public static function isMacOSX($s)
+    public static function isMacOsx($s)
     {
         if (strpos($s, 'Intel Mac OS X') !== false) {
             return true;

@@ -24,7 +24,7 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, Reader_HttpUserAgent::isSafari($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isOpera($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isIOS($s));
-        $this->assertEquals(false, Reader_HttpUserAgent::isMacOSX($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isMacOsx($s));
         $this->assertEquals(true, Reader_HttpUserAgent::isWindows($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isLinux($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isX86_64($s));
@@ -79,7 +79,7 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('10.0', $b->version);
         $this->assertEquals('Macintosh', $b->os);
         $this->assertEquals('Intel Mac OS X 10.7', $b->arch);
-        $this->assertEquals(true, Reader_HttpUserAgent::isMacOSX($s));
+        $this->assertEquals(true, Reader_HttpUserAgent::isMacOsx($s));
     }
 
     public function testFirefox7()
