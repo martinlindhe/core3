@@ -176,6 +176,32 @@ class Reader_HttpUserAgent
         return false;
     }
 
+    public static function isMobileOS($s)
+    {
+        if (self::isAndroid($s) ||
+            self::isIOS($s) ||
+            self::isWindowsPhone($s) ||
+            self::isBlackberry($s) ||
+            self::isSymbian($s)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function isDesktopOS($s)
+    {
+        if (self::isMacOsx($s) ||
+            self::isWindows($s) ||
+            self::isLinux($s)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @return WebBrowser object
      */
@@ -219,10 +245,6 @@ class Reader_HttpUserAgent
             $subPos = strpos($str, ')');
             $subStr = substr($str, 0, $subPos);
 
-            // (X11; Linux x86_64; rv:6.0)
-            // (Windows NT 6.1; WOW64; rv:9.0.1)
-            // (X11; Ubuntu; Linux x86_64; rv:10.0)
-            // (Macintosh; Intel Mac OS X 10.7; rv:10.0)
             foreach (explode(';', $subStr) as $tok) {
                 $tok = trim($tok);
                 if (stripos($tok, 'X11') !== false ||
@@ -300,12 +322,6 @@ class Reader_HttpUserAgent
             $subPos = strpos($str, ')');
             $subStr = substr($str, 0, $subPos);
 
-            // (iPhone; U; CPU OS 3_2 like Mac OS X; en-us)
-            // (iPhone; CPU iPhone OS 5_0_1 like Mac OS X)
-            // (iPad;U;CPU OS 3_2_2 like Mac OS X; en-us)
-            // (Macintosh; U; Intel Mac OS X; en)
-            // (Windows; U; Windows NT 6.1; en-US)
-            // (Macintosh; Intel Mac OS X 10_7_3)
             foreach (explode(';', $subStr) as $tok) {
                 $tok = trim($tok);
                 if (in_array($tok, array('Windows', 'Macintosh', 'iPhone', 'iPad', 'iPod'))) {
@@ -344,11 +360,6 @@ class Reader_HttpUserAgent
         $pos = strpos($subToken, ')');
         $subStr = substr($subToken, 0, $pos);
 
-        // (Windows NT 5.1; U; en)
-        // (Macintosh; Intel Mac OS X; U; en)
-        // (X11; Linux x86_64; U; en)
-        // (Windows NT 6.0; U; en)
-        // (Windows NT 6.1; U; en)
         foreach (explode(';', $subStr) as $tok) {
             $tok = trim($tok);
             if (stripos($tok, 'X11') !== false ||

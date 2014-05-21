@@ -34,10 +34,17 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         // mobile OS
         $this->assertEquals(false, Reader_HttpUserAgent::isAndroid($s));
         $this->assertEquals(false, Reader_HttpUserAgent::isIOS($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isWindowsPhone($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isBlackberry($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isSymbian($s));
 
         // architecture
         $this->assertEquals(false, Reader_HttpUserAgent::isX86_64($s));
-        
+        $this->assertEquals(false, Reader_HttpUserAgent::isPowerPC($s));
+
+        // simple checks
+        $this->assertEquals(false, Reader_HttpUserAgent::isMobileOS($s));
+        $this->assertEquals(true, Reader_HttpUserAgent::isDesktopOS($s));
     }
 
     public function testFirefox2()
@@ -481,6 +488,8 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $b = Reader_HttpUserAgent::getBrowser($s);
         $this->assertEquals(false, Reader_HttpUserAgent::isAndroidWebkitBrowser($s));
         $this->assertEquals(true, Reader_HttpUserAgent::isBlackberry($s));
+        $this->assertEquals(true, Reader_HttpUserAgent::isMobileOS($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isDesktopOS($s));
     }
 
     public function testSymbian1()
@@ -491,5 +500,8 @@ class Reader_HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         'AppleWebKit/525 (KHTML, like Gecko) BrowserNG/7.2.6.9 3gpp-gba';
         $b = Reader_HttpUserAgent::getBrowser($s);
         $this->assertEquals(true, Reader_HttpUserAgent::isSymbian($s));
+
+        $this->assertEquals(true, Reader_HttpUserAgent::isMobileOS($s));
+        $this->assertEquals(false, Reader_HttpUserAgent::isDesktopOS($s));
     }
 }
