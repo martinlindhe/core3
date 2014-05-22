@@ -1,9 +1,10 @@
 <?php
+namespace Writer\Spreadsheet;
+
 /**
  * @group Writer
  */
-
-class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
+class CsvTest extends \PHPUnit_Framework_TestCase
 {
     function testHttpHeaders()
     {
@@ -11,7 +12,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
         $fileName = 'file_'.mt_rand().'.csv';
 
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $writer->sendHttpAttachmentHeaders($fileName);
 
         $this->assertEquals(
@@ -39,12 +40,12 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
     {
         // NOTE shows basic usage
 
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->defineColumns(array('id', 'col 2', 'date_stamp'));
         $model->addRow(array(37, 'hej', '2000-05-05'));
         $model->addRow(array(38, 'nej', '2000-05-06'));
 
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
 
         $this->assertEquals(
             $writer->render($model),
@@ -64,10 +65,10 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
                 array(3, "lisa")
             );
 
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->addRows($data);
 
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
 
         $this->assertEquals(
             $writer->render($model),
@@ -79,11 +80,11 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testSetDelimiter()
     {
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->defineColumns(array('id', 'name'));
         $model->addRow(array(37, 'hej'));
 
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $writer->setDelimiter(',');
 
         $this->assertEquals(
@@ -97,11 +98,11 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
     {
         // NOTE verifies that columns with special characters are escaped properly
 
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->defineColumns(array('ti,tel', 'namn', 'datum', 'antal'));
         $model->addRow(array('a 1', 'böp,på', 'cdwd', 'devef'));
 
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $writer->setLineEnding("\n");
 
         $this->assertEquals(
@@ -113,7 +114,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedString1()
     {
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $this->assertEquals(
             '"test""str"',
             $writer->escapeString('test"str')
@@ -122,7 +123,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedString2()
     {
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $this->assertEquals(
             '"test,str"',
             $writer->escapeString('test,str')
@@ -131,7 +132,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedString3()
     {
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $this->assertEquals(
             '"test;str"',
             $writer->escapeString('test;str')
@@ -140,7 +141,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedStringContainsPadding()
     {
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $this->assertEquals(
             '" test "',
             $writer->escapeString(' test ')
@@ -149,7 +150,7 @@ class Writer_SpreadsheetCsvTest extends PHPUnit_Framework_TestCase
 
     function testEscapedStringContainsLineFeed()
     {
-        $writer = new Writer_Spreadsheet_Csv();
+        $writer = new Csv();
         $this->assertEquals(
             "\"line1\nline2\"",
             $writer->escapeString("line1\nline2")

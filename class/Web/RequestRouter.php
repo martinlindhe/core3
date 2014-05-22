@@ -1,7 +1,7 @@
 <?php
-// TODO tests
+namespace Web;
 
-class Web_RequestRouter
+class RequestRouter
 {
     protected $applicationDirectoryRoot;
     protected $applicationWebRoot;
@@ -11,6 +11,7 @@ class Web_RequestRouter
         if (!is_dir($path)) {
             throw new Exception('invalid path');
         }
+
         $this->applicationDirectoryRoot = realpath($path);
     }
 
@@ -41,7 +42,7 @@ class Web_RequestRouter
             $viewName = 'index';
         }
 
-        if (strlen($viewName) > 20) {
+        if (!$this->isValidViewName($viewName)) {
             $viewName = '404notfound';
         }
 
@@ -50,26 +51,20 @@ class Web_RequestRouter
             throw new Exception('TODO params');
         }
 
-        if (!$this->isValidViewName($viewName)) {
-            $viewName = '404notfound';
-            throw new Exception("MOO");
-        }
-
         $fileName = $this->getViewFilename($viewName);
-        if (!$fileName) {
-            $fileName = $this->getViewFilename('404notfound');
-        }
 
         $data = file_get_contents($fileName);
         echo $data;
     }
 
     /**
-     * @return true if $viewName is valid (only lowercase a-z)
+     * @return true if $viewName is valid (lowercase a-z and max 20 letters)
      */
     public function isValidViewName($viewName)
     {
-        if (preg_match('/^[a-z]+$/', $viewName) == 1) {
+        if (strlen($viewName) > 20 ||
+            preg_match('/^[a-z]+$/', $viewName) == 1
+        ) {
             return true;
         }
         return false;
@@ -86,7 +81,7 @@ class Web_RequestRouter
         // system template
         $fileName = realpath(__DIR__.'/../..').'/view/'.$viewName.'.html';
         if (!file_exists($fileName)) {
-            return false;
+             return $this->getViewFilename('404notfound');
         }
 
         return $fileName;

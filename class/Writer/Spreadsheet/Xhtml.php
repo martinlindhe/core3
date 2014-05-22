@@ -1,6 +1,7 @@
 <?php
+namespace Writer\Spreadsheet;
 
-class Writer_Spreadsheet_Xhtml extends Writer_Spreadsheet
+class Xhtml extends \Writer\Spreadsheet
 {
     private $classname = 'htmlBox';
 
@@ -9,7 +10,7 @@ class Writer_Spreadsheet_Xhtml extends Writer_Spreadsheet
         $this->classname = $s;
     }
 
-    public function render(Model_Spreadsheet $model)
+    public function render(\Model\Spreadsheet $model)
     {
         return
             '<table class="'.$this->classname.'">'.
@@ -19,7 +20,7 @@ class Writer_Spreadsheet_Xhtml extends Writer_Spreadsheet
             '</table>';
     }
 
-    private function renderHeader(Model_Spreadsheet $model)
+    private function renderHeader(\Model\Spreadsheet $model)
     {
         $html = '<tr>';
         foreach ($model->getColumns() as $col) {
@@ -29,7 +30,7 @@ class Writer_Spreadsheet_Xhtml extends Writer_Spreadsheet
         return $html;
     }
 
-    private function renderBody(Model_Spreadsheet $model)
+    private function renderBody(\Model\Spreadsheet $model)
     {
         $html = '';
         foreach ($model->getRows() as $row) {
@@ -42,7 +43,7 @@ class Writer_Spreadsheet_Xhtml extends Writer_Spreadsheet
         return $html;
     }
 
-    private function renderFooter(Model_Spreadsheet $model)
+    private function renderFooter(\Model\Spreadsheet $model)
     {
         $footer = $model->getFooter();
 

@@ -1,12 +1,14 @@
 <?php
-
-// TODO use PHPUnit_Extensions_Database_TestCase, see http://phpunit.de/manual/current/en/database.html
-
 /**
  * @group Client
  * NOTE: each class must be marked with group annotation (phpunit)
  */
-class test2Table extends Model_DatabaseTable
+namespace Client;
+
+// TODO use PHPUnit_Extensions_Database_TestCase, see http://phpunit.de/manual/current/en/database.html
+
+
+class test2Table extends \Model\DatabaseTable
 {
     var $id;
     var $name;
@@ -15,7 +17,7 @@ class test2Table extends Model_DatabaseTable
 /**
  * @group Client
  */
-class Client_DatabasePdoMysqlTest extends PHPUnit_Framework_TestCase
+class DatabasePdoMysqlTest extends \PHPUnit_Framework_TestCase
 {
     private function getConnection()
     {

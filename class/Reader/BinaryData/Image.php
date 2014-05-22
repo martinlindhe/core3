@@ -1,9 +1,7 @@
 <?php
-/**
- * File validation helper, for validating image data
- */
+namespace Reader\BinaryData;
 
-class Reader_BinaryData_Image
+class Image
 {
     /**
      * Attempts to recognize binary data as a image based on signature

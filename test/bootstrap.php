@@ -1,4 +1,6 @@
 <?php
+namespace Core;
+
 $tcpdfRoot = realpath(__DIR__.'/../vendor/tecnick.com/tcpdf');
 
 require_once $tcpdfRoot.'/tcpdf.php';
@@ -13,6 +15,6 @@ require_once __DIR__.'/XdebugExtras.php';
 
 require_once realpath(__DIR__.'/../class/Core').'/Bootstrapper.php';
 
-spl_autoload_register('Core_Bootstrapper::autoload');
+spl_autoload_register('Core\Bootstrapper::autoload');
 
-Core_Bootstrapper::initTestingSettings();
+Bootstrapper::initTestingSettings();

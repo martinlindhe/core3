@@ -1,6 +1,7 @@
 <?php
+namespace Model;
 
-abstract class Model_DatabaseTable
+abstract class DatabaseTable
 {
     public static $tableName;
 }

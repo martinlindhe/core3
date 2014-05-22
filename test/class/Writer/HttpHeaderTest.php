@@ -1,14 +1,15 @@
 <?php
+namespace Writer;
 // NOTE: for header() testing to work, we must run phpunit with --stderr
 
 /**
  * @group Writer
  */
-class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
+class HttpHeaderTest extends \PHPUnit_Framework_TestCase
 {
     function testContentType()
     {
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendContentType('text/custom');
 
         $this->assertEquals(array('text/custom'), XdebugExtras::findHeaders('Content-Type'));
@@ -18,7 +19,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
     {
         $fileName = 'file_'.mt_rand().'.ext';
 
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendAttachment($fileName);
 
         $this->assertEquals(
@@ -32,7 +33,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
         // verifies that path is stripped from filename in Content-Disposition header
         $fileName = '/path/to/file_'.mt_rand().'.ext';
 
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendAttachment($fileName);
 
         $this->assertEquals(
@@ -45,7 +46,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
     {
         $fileName = 'file_'.mt_rand().'.ext';
 
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendInline($fileName);
 
         $this->assertEquals(
@@ -56,7 +57,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
 
     function testNoCache()
     {
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendNoCacheHeaders();
 
         $this->assertEquals(
@@ -72,7 +73,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
 
     function testContentSecurityPolicy()
     {
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendContentSecurityPolicy("default-src 'self'");
 
         $this->assertEquals(
@@ -83,7 +84,7 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
 
     function testContentSecurityPolicyReportOnly()
     {
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendContentSecurityPolicyReportOnly("default-src 'self'");
 
         $this->assertEquals(
@@ -94,10 +95,9 @@ class Writer_HttpHeaderTest extends PHPUnit_Framework_TestCase
 
     function testFrameOptions()
     {
-        $header = new Writer_HttpHeader();
+        $header = new HttpHeader();
         $header->sendFrameOptions('DENY');
 
         $this->assertEquals(array('DENY'), XdebugExtras::findHeaders('X-Frame-Options'));
     }
-
 }

@@ -1,6 +1,7 @@
 <?php
+namespace Writer\Spreadsheet;
 
-class Writer_Spreadsheet_Pdf
+class Pdf extends \Writer\Spreadsheet
 {
     protected $creator;
     protected $author;
@@ -58,7 +59,7 @@ class Writer_Spreadsheet_Pdf
 
     public function sendHttpAttachmentHeaders($fileName)
     {
-        $header = new Writer_HttpHeader();
+        $header = new \Writer\HttpHeader();
         $header->sendContentType('application/pdf');
         $header->sendAttachment($fileName);
         $header->sendNoCacheHeaders();
@@ -66,7 +67,7 @@ class Writer_Spreadsheet_Pdf
 
     private function initTcpdfObject()
     {
-        $tcpdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $tcpdf = new \tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         if ($this->creator) {
             $tcpdf->SetCreator($this->creator);
@@ -107,13 +108,13 @@ class Writer_Spreadsheet_Pdf
     /**
 	 * @return binary PDF document
 	 */
-    public function render(Model_Spreadsheet $model)
+    public function render(\Model\Spreadsheet $model)
     {
         $pdf = $this->initTcpdfObject();
 
         $pdf->AddPage();
 
-        $writer = new Writer_Spreadsheet_Xhtml();
+        $writer = new \Writer\Spreadsheet\Xhtml();
 
         $html =
             $this->htmlStart.

@@ -1,9 +1,7 @@
 <?php
-/**
- * File validation helper, for validating document data
- */
+namespace Reader\BinaryData;
 
-class Reader_BinaryData_Document
+class Document
 {
     /**
      * Attempts to recognize binary data as a document based on signature

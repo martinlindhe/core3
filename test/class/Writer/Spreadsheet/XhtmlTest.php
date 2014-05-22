@@ -1,20 +1,21 @@
 <?php
+namespace Writer\Spreadsheet;
+
 /**
  * @group Writer
  */
-
-class Writer_Spreadsheet_HtmlTest extends PHPUnit_Framework_TestCase
+class HtmlTest extends \PHPUnit_Framework_TestCase
 {
     function testUsage1()
     {
         // NOTE shows basic usage
 
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->defineColumns(array('id', 'result'));
         $model->addRow(array(1, 200.57));
         $model->addRow(array(2, 319.11));
 
-        $writer = new Writer_Spreadsheet_Xhtml();
+        $writer = new \Writer\Spreadsheet\Xhtml();
         $writer->setClassName('css_class');
 
         $this->assertEquals(
@@ -31,13 +32,13 @@ class Writer_Spreadsheet_HtmlTest extends PHPUnit_Framework_TestCase
     {
         // NOTE tests that footer column colspan is calculated correctly
 
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->defineColumns(array('id', 'name', 'result'));
         $model->addRow(array(1, 'a', 200.57));
         $model->addRow(array(2, 'b', 319.11));
         $model->setFooter(array('SUMMARY', 'TOTAL'));
 
-        $writer = new Writer_Spreadsheet_Xhtml();
+        $writer = new \Writer\Spreadsheet\Xhtml();
 
         $this->assertEquals(
             $writer->render($model),

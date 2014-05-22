@@ -1,6 +1,7 @@
 <?php
+namespace Writer\Barcode2D;
 
-class Writer_Barcode2D_Qrcode extends Writer_Barcode2D
+class Qrcode extends \Writer\Barcode2D
 {
     public function renderAsHtml($code)
     {

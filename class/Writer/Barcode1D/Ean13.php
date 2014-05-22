@@ -1,6 +1,7 @@
 <?php
+namespace Writer\Barcode1D;
 
-class Writer_Barcode1D_Ean13 extends Writer_Barcode1D
+class Ean13 extends \Writer\Barcode1D
 {
     public function renderAsHtml($code)
     {

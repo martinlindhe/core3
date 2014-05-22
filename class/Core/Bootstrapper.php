@@ -1,13 +1,20 @@
 <?php
+namespace Core;
 
-class Core_Bootstrapper
+class Bootstrapper
 {
-    public static function autoload($className)
+    public static function autoload($class)
     {
-        $fileName = realpath(__DIR__ . '/../') .'/'. str_replace('_', '/', $className) . '.php';
+        $class = strtr($class, "\\", DIRECTORY_SEPARATOR);
+
+        $fileName = realpath(__DIR__.'/../').'/'.$class.'.php';
+        echo "loading ".$fileName;
 
         if (file_exists($fileName)) {
-            require_once $fileName;
+            echo " - YES!\n";
+            include $fileName;
+        } else {
+            echo " - no\n";
         }
     }
 

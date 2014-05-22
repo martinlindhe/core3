@@ -1,16 +1,17 @@
 <?php
+namespace Writer;
+
 /**
  * Helper class to generate XHTML documents
  *
  * TODO: allow for attach of a generic head block with META tags and keywords
  * TODO extend and render HTML5 directives
  */
-
-class Writer_DocumentXhtml
+class DocumentXhtml
 {
     public function sendHttpHeaders()
     {
-        $header = new Writer_HttpHeader();
+        $header = new \Writer\HttpHeader();
         $header->sendContentType('text/html; charset=utf-8');
     }
 

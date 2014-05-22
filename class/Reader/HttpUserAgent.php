@@ -1,13 +1,7 @@
 <?php
-/**
- * Parses the common browser user agent strings
- *
- * See http://www.useragentstring.com/
- *
- * @author Martin Lindhe, 2011-2014 <martin@ubique.se>
- */
+namespace Reader;
 
-class WebBrowser
+class WebBrowser // TODO move properties to HttpUserAgent class and use that?
 {
     var $name;
     var $version;
@@ -15,7 +9,7 @@ class WebBrowser
     var $arch;
 }
 
-class Reader_HttpUserAgent
+class HttpUserAgent
 {
     /**
      * @return true if user agent is a iOS device

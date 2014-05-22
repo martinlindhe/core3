@@ -1,15 +1,16 @@
 <?php
+namespace Writer\Spreadsheet;
 /**
  * @group Writer
  */
 
-class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
+class PdfTest extends \PHPUnit_Framework_TestCase
 {
     function testHttpHeaders()
     {
         // NOTE: for header() testing to work, we must run phpunit with --stderr
 
-        $writer = new Writer_Spreadsheet_Pdf();
+        $writer = new Pdf();
         $fileName = 'file_'.mt_rand().'.pdf';
         $writer->sendHttpAttachmentHeaders($fileName);
 
@@ -36,12 +37,12 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 
     function testUsageExample()
     {
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->defineColumns(array('id', 'name'));
         $model->addRow(array('1', 'kalle'));
         $model->addRow(array('2', 'olle'));
 
-        $writer = new Writer_Spreadsheet_Pdf();
+        $writer = new Pdf();
         $writer->setCreator('custom framework 1.0');
         $writer->setAuthor('Mr Cool');
         $writer->setTitle('Document title');
@@ -51,7 +52,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan(1000, strlen($data), 'Some data was returned');
 
-        $reader = new Reader_BinaryData_Document();
+        $reader = new \Reader\BinaryData\Document();
         $this->assertEquals(true, $reader->isRecognized($data));
         $this->assertEquals(true, $reader->isPdfData($data));
     }
@@ -75,7 +76,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
     {
         // NOTE: to embed images, use <img src=""> tag but specify a path to an existing file
 
-        $model = new Model_Spreadsheet();
+        $model = new \Model\Spreadsheet();
         $model->defineColumns(array('id', 'name'));
         $model->addRow(array('1', 'kalle'));
         $model->addRow(array('2', 'olle'));
@@ -84,7 +85,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 
         $this->createJpeg($imgFile);
 
-        $writer = new Writer_Spreadsheet_Pdf();
+        $writer = new Pdf();
         $writer->setStartHtmlBlock('<img src="'.$imgFile.'"/><br/>');
         $writer->setEndHtmlBlock('<h2>GOODBYE</h2>');
 
@@ -92,7 +93,7 @@ class Writer_SpreadsheetPdfTest extends PHPUnit_Framework_TestCase
 
         unlink($imgFile);
 
-        $reader = new Reader_BinaryData_Document();
+        $reader = new \Reader\BinaryData\Document();
         $this->assertEquals(true, $reader->isRecognized($data));
         $this->assertEquals(true, $reader->isPdfData($data));
     }

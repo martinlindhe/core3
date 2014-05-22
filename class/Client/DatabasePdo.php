@@ -1,7 +1,5 @@
 <?php
-/**
- * MySQL driver using the PDO extension
- */
+namespace Client;
 
 class AlreadyConnectedException extends Exception
 {
@@ -19,7 +17,10 @@ class InvalidResultException extends Exception
 {
 }
 
-class Client_DatabasePdo
+/**
+ * MySQL driver using the PDO extension
+ */
+class DatabasePdo
 {
     protected $driver;
     protected $dbHandle = null;

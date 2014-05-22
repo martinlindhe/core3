@@ -1,9 +1,9 @@
 <?php
+namespace Reader\BinaryData;
 /**
  * @group Reader
  */
-
-class Reader_BinaryData_ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
     function testRecognizeGif()
     {
@@ -16,7 +16,7 @@ class Reader_BinaryData_ImageTest extends PHPUnit_Framework_TestCase
         $data = file_get_contents($imageFile);
         unlink($imageFile);
 
-        $reader = new Reader_BinaryData_Image();
+        $reader = new \Reader\BinaryData\Image();
 
         $this->assertEquals(true, $reader->isRecognized($data));
         $this->assertEquals(true, $reader->isGifData($data));
@@ -35,7 +35,7 @@ class Reader_BinaryData_ImageTest extends PHPUnit_Framework_TestCase
         $data = file_get_contents($imageFile);
         unlink($imageFile);
 
-        $reader = new Reader_BinaryData_Image();
+        $reader = new \Reader\BinaryData\Image();
 
         $this->assertEquals(true, $reader->isRecognized($data));
         $this->assertEquals(true, $reader->isJpegData($data));
@@ -54,7 +54,7 @@ class Reader_BinaryData_ImageTest extends PHPUnit_Framework_TestCase
         $data = file_get_contents($imageFile);
         unlink($imageFile);
 
-        $reader = new Reader_BinaryData_Image();
+        $reader = new \Reader\BinaryData\Image();
 
         $this->assertEquals(true, $reader->isRecognized($data));
         $this->assertEquals(true, $reader->isPngData($data));
@@ -66,7 +66,7 @@ class Reader_BinaryData_ImageTest extends PHPUnit_Framework_TestCase
     {
         $data = str_repeat(chr(0x12).chr(0x13).chr(0xFF).chr(0x20), 500);
 
-        $reader = new Reader_BinaryData_Image();
+        $reader = new \Reader\BinaryData\Image();
 
         $this->assertEquals(false, $reader->isRecognized($data));
         $this->assertEquals(false, $reader->isPngData($data));
@@ -78,12 +78,11 @@ class Reader_BinaryData_ImageTest extends PHPUnit_Framework_TestCase
     {
         $data = chr(0x12).chr(0x13).chr(0xFF).chr(0x20);
 
-        $reader = new Reader_BinaryData_Image();
+        $reader = new \Reader\BinaryData\Image();
 
         $this->assertEquals(false, $reader->isRecognized($data));
         $this->assertEquals(false, $reader->isPngData($data));
         $this->assertEquals(false, $reader->isJpegData($data));
         $this->assertEquals(false, $reader->isGifData($data));
     }
-
 }

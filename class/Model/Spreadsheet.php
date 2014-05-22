@@ -1,6 +1,7 @@
 <?php
+namespace Model;
 
-class Model_Spreadsheet
+class Spreadsheet
 {
     private $columns = array();
     private $rows = array();

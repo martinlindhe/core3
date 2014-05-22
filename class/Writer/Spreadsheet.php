@@ -1,9 +1,7 @@
 <?php
+namespace Writer;
 
-/**
- * Base for spreadsheet writer classes
- */
-abstract class Writer_Spreadsheet
+abstract class Spreadsheet
 {
-    abstract public function render(Model_Spreadsheet $model);
+    abstract public function render(\Model\Spreadsheet $model);
 }

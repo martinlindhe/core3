@@ -1,6 +1,7 @@
 <?php
+namespace Writer;
 
-class Writer_HttpHeader
+class HttpHeader
 {
     public function sendContentType($type)
     {

@@ -1,6 +1,7 @@
 <?php
+namespace Core;
 
-class Core_User extends Model_DatabaseTable
+class User extends \Model\DatabaseTable
 {
     public static $tableName = 'CoreUser';
 

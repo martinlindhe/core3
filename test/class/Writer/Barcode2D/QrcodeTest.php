@@ -1,12 +1,14 @@
 <?php
+namespace Writer\Barcode2D;
+
 /**
  * @group Writer
  */
-class Writer_Barcode2D_QrcodeTest extends PHPUnit_Framework_TestCase
+class QrcodeTest extends \PHPUnit_Framework_TestCase
 {
     function testUsageHtml()
     {
-        $writer = new Writer_Barcode2D_Qrcode();
+        $writer = new Qrcode();
         $data = $writer->renderAsHtml('hello world :-)');
 
         $this->assertInternalType('string', $data);
@@ -15,13 +17,13 @@ class Writer_Barcode2D_QrcodeTest extends PHPUnit_Framework_TestCase
 
     function testUsagePng()
     {
-        $writer = new Writer_Barcode2D_Qrcode();
+        $writer = new Qrcode();
         $data = $writer->renderAsPng('hello world :-)');
 
         $this->assertInternalType('string', $data);
         $this->assertGreaterThanOrEqual(100, strlen($data));
 
-        $reader = new Reader_BinaryData_Image();
+        $reader = new \Reader\BinaryData\Image();
         $this->assertGreaterThanOrEqual(true, $reader->isPngData($data));
     }
 }

@@ -1,7 +1,9 @@
 <?php
+namespace Core\Password;
+
 // TODO: REQUIRES php 5.3.7  how to add such @tag ?!?
 
-class Core_Password_Bcrypt extends Core_Password
+class Bcrypt extends \Core\Password
 {
     protected $cost;
 

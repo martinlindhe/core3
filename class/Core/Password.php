@@ -1,6 +1,7 @@
 <?php
+namespace Core;
 
-abstract class Core_Password
+abstract class Password
 {
     public function getForbiddenPasswordsFilename()
     {

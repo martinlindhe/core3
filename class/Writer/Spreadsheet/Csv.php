@@ -1,6 +1,7 @@
 <?php
+namespace Writer\Spreadsheet;
 
-class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
+class Csv extends \Writer\Spreadsheet
 {
     private $delimiter = ';';
     private $lineEnding = "\r\n";
@@ -17,20 +18,20 @@ class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
 
     public function sendHttpAttachmentHeaders($fileName)
     {
-        $header = new Writer_HttpHeader();
+        $header = new \Writer\HttpHeader();
         $header->sendContentType('text/csv');
         $header->sendAttachment($fileName);
         $header->sendNoCacheHeaders();
     }
 
-    public function render(Model_Spreadsheet $model)
+    public function render(\Model\Spreadsheet $model)
     {
         return
         $this->renderHeader($model).
         $this->renderBody($model);
     }
 
-    private function renderHeader(Model_Spreadsheet $model)
+    private function renderHeader(\Model\Spreadsheet $model)
     {
         if (!$model->getColumns()) {
             return '';
@@ -41,7 +42,7 @@ class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
             $this->lineEnding;
     }
 
-    private function renderBody(Model_Spreadsheet $model)
+    private function renderBody(\Model\Spreadsheet $model)
     {
         $res = '';
 
@@ -76,7 +77,10 @@ class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
 
     private function containsSeparatorCharacter($s)
     {
-        if (strpos($s, ";")  !== false || strpos($s, ",") !== false || strpos($s, "\t") !== false) {
+        if (strpos($s, ";")  !== false ||
+            strpos($s, ",") !== false ||
+            strpos($s, "\t") !== false
+        ) {
             return true;
         }
 
@@ -85,7 +89,9 @@ class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
 
     private function containsPadding($s)
     {
-        if (substr($s, 0, 1) == ' ' || substr($s, -1) == ' ') {
+        if (substr($s, 0, 1) == ' ' ||
+            substr($s, -1) == ' '
+        ) {
             return true;
         }
 
@@ -94,7 +100,9 @@ class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
 
     private function containsLineFeed($s)
     {
-        if (strpos($s, "\r") !== false || strpos($s, "\n") !== false) {
+        if (strpos($s, "\r") !== false ||
+            strpos($s, "\n") !== false
+        ) {
             return true;
         }
 
@@ -107,7 +115,10 @@ class Writer_Spreadsheet_Csv extends Writer_Spreadsheet
             return '"'.str_replace('"', '""', $s).'"';
         }
 
-        if ($this->containsSeparatorCharacter($s) || $this->containsPadding($s) || $this->containsLineFeed($s)) {
+        if ($this->containsSeparatorCharacter($s) ||
+            $this->containsPadding($s) ||
+            $this->containsLineFeed($s)
+        ) {
             return '"'.$s.'"';
         }
 
