@@ -1,6 +1,5 @@
 {
 	"require": {
-		"components/angular.js": "1.3.0-beta.7",
 		"ircmaxell/password-compat": "dev-master",
 		"tecnick.com/tcpdf": "6.0.080"
 	},
