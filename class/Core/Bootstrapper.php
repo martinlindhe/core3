@@ -1,17 +1,19 @@
 <?php
 
-class Bootstrapper
+class Core_Bootstrapper
 {
     public static function autoload($className)
     {
-        $fileName = realpath(__DIR__ . '/../class') .'/'. str_replace('_', '/', $className) . '.php';
+        $fileName = realpath(__DIR__ . '/../') .'/'. str_replace('_', '/', $className) . '.php';
+
         if (file_exists($fileName)) {
             require_once $fileName;
         }
     }
 
     /**
-     * php config required for tests
+     * unit test helper
+     * @codeCoverageIgnore
      */
     public static function initTestingSettings()
     {
