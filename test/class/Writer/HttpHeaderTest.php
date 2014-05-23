@@ -12,7 +12,10 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
         $header = new HttpHeader();
         $header->sendContentType('text/custom');
 
-        $this->assertEquals(array('text/custom'), XdebugExtras::findHeaders('Content-Type'));
+        $this->assertEquals(
+            array('text/custom'),
+            \Debug\XdebugExtras::findHeaders('Content-Type')
+        );
     }
 
     function testFileAttachment()
@@ -24,7 +27,7 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('attachment; filename="'.$fileName.'"'),
-            XdebugExtras::findHeaders('Content-Disposition')
+            \Debug\XdebugExtras::findHeaders('Content-Disposition')
         );
     }
 
@@ -38,7 +41,7 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('attachment; filename="'.basename($fileName).'"'),
-            XdebugExtras::findHeaders('Content-Disposition')
+            \Debug\XdebugExtras::findHeaders('Content-Disposition')
         );
     }
 
@@ -51,7 +54,7 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('inline; filename="'.$fileName.'"'),
-            XdebugExtras::findHeaders('Content-Disposition')
+            \Debug\XdebugExtras::findHeaders('Content-Disposition')
         );
     }
 
@@ -62,12 +65,12 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('no-cache'),
-            XdebugExtras::findHeaders('Pragma')
+            \Debug\XdebugExtras::findHeaders('Pragma')
         );
 
         $this->assertEquals(
             array('Sat, 26 Jul 1997 05:00:00 GMT'),
-            XdebugExtras::findHeaders('Expires')
+            \Debug\XdebugExtras::findHeaders('Expires')
         );
     }
 
@@ -78,7 +81,7 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array("default-src 'self'"),
-            XdebugExtras::findHeaders('Content-Security-Policy')
+            \Debug\XdebugExtras::findHeaders('Content-Security-Policy')
         );
     }
 
@@ -89,7 +92,7 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array("default-src 'self'"),
-            XdebugExtras::findHeaders('Content-Security-Policy-Report-Only')
+            \Debug\XdebugExtras::findHeaders('Content-Security-Policy-Report-Only')
         );
     }
 
@@ -98,6 +101,9 @@ class HttpHeaderTest extends \PHPUnit_Framework_TestCase
         $header = new HttpHeader();
         $header->sendFrameOptions('DENY');
 
-        $this->assertEquals(array('DENY'), XdebugExtras::findHeaders('X-Frame-Options'));
+        $this->assertEquals(
+            array('DENY'),
+            \Debug\XdebugExtras::findHeaders('X-Frame-Options')
+        );
     }
 }

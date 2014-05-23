@@ -1,5 +1,10 @@
 <?php
+namespace Debug;
 
+/**
+ * unit test helper
+ * @codeCoverageIgnore
+ */
 class XdebugExtras
 {
     /**

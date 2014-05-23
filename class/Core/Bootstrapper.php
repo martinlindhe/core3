@@ -8,14 +8,27 @@ class Bootstrapper
         $class = strtr($class, "\\", DIRECTORY_SEPARATOR);
 
         $fileName = realpath(__DIR__.'/../').'/'.$class.'.php';
-        echo "loading ".$fileName;
 
         if (file_exists($fileName)) {
-            echo " - YES!\n";
             include $fileName;
-        } else {
-            echo " - no\n";
         }
+    }
+
+    /**
+     * Bootstraps the application
+     */
+    public static function bootstrap()
+    {
+        $vendorRoot = realpath(__DIR__.'/../../vendor');
+        $tcpdfRoot = $vendorRoot.'/tecnick.com/tcpdf';
+
+        require_once $tcpdfRoot.'/tcpdf.php';
+        require_once $tcpdfRoot.'/tcpdf_barcodes_1d.php';
+        require_once $tcpdfRoot.'/tcpdf_barcodes_2d.php';
+
+        require_once $vendorRoot.'/ircmaxell/password-compat/lib/password.php';
+
+        spl_autoload_register('Core\Bootstrapper::autoload');
     }
 
     /**

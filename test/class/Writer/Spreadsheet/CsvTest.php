@@ -17,22 +17,22 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('text/csv'),
-            XdebugExtras::findHeaders('Content-Type')
+            \Debug\XdebugExtras::findHeaders('Content-Type')
         );
 
         $this->assertEquals(
             array('attachment; filename="'.$fileName.'"'),
-            XdebugExtras::findHeaders('Content-Disposition')
+            \Debug\XdebugExtras::findHeaders('Content-Disposition')
         );
 
         $this->assertEquals(
             array('no-cache'),
-            XdebugExtras::findHeaders('Pragma')
+            \Debug\XdebugExtras::findHeaders('Pragma')
         );
 
         $this->assertEquals(
             array('Sat, 26 Jul 1997 05:00:00 GMT'),
-            XdebugExtras::findHeaders('Expires')
+            \Debug\XdebugExtras::findHeaders('Expires')
         );
     }
 
