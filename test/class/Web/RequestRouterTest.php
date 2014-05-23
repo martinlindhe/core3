@@ -1,21 +1,17 @@
 <?php
 namespace Web;
 
-
-// TODO use  http://php.net/manual/pt_BR/features.commandline.webserver.php to test this?
-
 /**
  * @group Web
  */
-class RequestRouter extends \PHPUnit_Framework_TestCase
+class RequestRouterTest extends \PHPUnit_Framework_TestCase
 {
     function test1()
-    {/*
-        $router = new \Web\RequestRouter();  // XXXX SOEMTHING HAS THE SAME NAME?!?!?!?!  
-var_dump($router);
+    {
+        $router = new \Web\RequestRouter();
         $router->route('/');  // root request
-// TODO FINSJSIISH
-        //var_dump($u);
- */
+
+        // TODO: verify output, for example request page not found and check that we get a 404 return. load start page and check that we get a 200 OK
+
     }
 }

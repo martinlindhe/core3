@@ -25,6 +25,9 @@
 # TODO pdf support
 
 
+# TODO tests
+- maybe use php 5.5's cli webserver to test stuff?
+  http://se2.php.net/manual/en/features.commandline.webserver.php
 
 # TODO linter
 - php: complain about trailing whitespace
