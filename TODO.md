@@ -1,8 +1,4 @@
 # TODO
-- get HttpUserAgent from core_dev?
-- PHP 5.3 requirement means that namespace CAN be used
-
-
 
 
 
@@ -27,11 +23,12 @@
 
 
 # TODO pdf support
-- 
+
+
 
 # TODO linter
 - php: complain about trailing whitespace
-- xml: add linter for test/*.xml
+- xml: add linter for test/*.xml, view/*.html
 
 
 
