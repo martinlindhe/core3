@@ -3,7 +3,7 @@
  * @group Benchmark
  */
 
-class Core_PasswordBenchmarkTest extends PHPUnit_Framework_TestCase
+class PasswordBenchmarkTest extends PHPUnit_Framework_TestCase
 {
     /**
 	 * Calculates an appropriate cost parameter for the current system
@@ -17,7 +17,7 @@ class Core_PasswordBenchmarkTest extends PHPUnit_Framework_TestCase
             $cost++;
             $start = microtime(true);
 
-            $password = new Core_Password_Bcrypt($cost);
+            $password = new Core\Password\Bcrypt($cost);
 
             $password->hash("test");
             $end = microtime(true);
@@ -33,7 +33,7 @@ class Core_PasswordBenchmarkTest extends PHPUnit_Framework_TestCase
     function testFindUselessForbiddenRules()
     {
         // TODO move this to a separate class & group it as Util (?)
-        $password = new Core_Password_Bcrypt();
+        $password = new Core\Password\Bcrypt();
 
         $filename = $password->getForbiddenPasswordsFilename();
 

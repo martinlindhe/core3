@@ -1,22 +1,6 @@
 <?php
 namespace Client;
 
-class AlreadyConnectedException extends Exception
-{
-}
-
-class ConnectionFailedException extends Exception
-{
-}
-
-class InvalidQueryException extends Exception
-{
-}
-
-class InvalidResultException extends Exception
-{
-}
-
 /**
  * MySQL driver using the PDO extension
  */
@@ -81,11 +65,11 @@ class DatabasePdo
         $dsn = $this->driver.$param;
 
         try {
-            $pdo = new PDO($dsn, $this->username, $this->password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo = new \PDO($dsn, $this->username, $this->password);
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-        } catch (PDOException $e) {
-            throw new ConnectionFailedException();
+        } catch (\PDOException $e) {
+            throw new \ConnectionFailedException();
         }
 
         return $pdo;
@@ -94,7 +78,7 @@ class DatabasePdo
     public function connect()
     {
         if ($this->dbHandle !== null) {
-            throw new AlreadyConnectedException();
+            throw new \AlreadyConnectedException();
         }
 
         $config = array();
@@ -143,7 +127,7 @@ class DatabasePdo
     private function execute($args)
     {
         if (!$args[0]) {
-            throw new InvalidArgumentException();
+            throw new \InvalidArgumentException();
         }
 
         if ($this->dbHandle === null) {
@@ -158,8 +142,8 @@ class DatabasePdo
 
         try {
             $res = $stmt->execute($args[1]);
-        } catch (PDOException $e) {
-            throw new InvalidQueryException();
+        } catch (\PDOException $e) {
+            throw new \InvalidQueryException();
         }
 
         return $stmt;
@@ -168,7 +152,7 @@ class DatabasePdo
     public function select()
     {
         $stmt = $this->execute(func_get_args());
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         return $res;
     }
@@ -196,7 +180,7 @@ class DatabasePdo
 
         $stmt = $this->execute($args);
 
-        return $stmt->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $classname);
+        return $stmt->fetchAll(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $classname);
     }
 
     /**
@@ -206,21 +190,21 @@ class DatabasePdo
     {
         $stmt = $this->execute(func_get_args());
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function selectRow()
     {
         $stmt = $this->execute(func_get_args());
 
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         if (count($res) > 1) {
-            throw new InvalidResultException('returned '.count($res).' rows');
+            throw new \InvalidResultException('returned '.count($res).' rows');
         }
 
         if (!$res) {
-            throw new InvalidResultException();
+            throw new \InvalidResultException();
         }
 
         return $res[0];
@@ -231,13 +215,13 @@ class DatabasePdo
         $stmt = $this->execute(func_get_args());
 
         if ($stmt->columnCount() != 1) {
-            throw new InvalidResultException('expected 1 column, got '.$stmt->columnCount().' columns');
+            throw new \InvalidResultException('expected 1 column, got '.$stmt->columnCount().' columns');
         }
 
-        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         if (count($res) != 1 || count($res[0]) != 1) {
-            throw new InvalidResultException();
+            throw new \InvalidResultException();
         }
 
         return array_shift($res[0]);
@@ -253,10 +237,10 @@ class DatabasePdo
         $data = array();
 
         if ($stmt->columnCount() != 1) {
-            throw new InvalidResultException('not 1d');
+            throw new \InvalidResultException('not 1d');
         }
 
-        $res = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        $res = $stmt->fetchAll(\PDO::FETCH_COLUMN);
 
         return $res;
     }
@@ -271,10 +255,10 @@ class DatabasePdo
         $data = array();
 
         if ($stmt->columnCount() != 2) {
-            throw new InvalidResultException('not mapped');
+            throw new \InvalidResultException('not mapped');
         }
 
-        $fetched = $stmt->fetchAll(PDO::FETCH_NUM);
+        $fetched = $stmt->fetchAll(\PDO::FETCH_NUM);
 
         $res = array();
         foreach ( $fetched as $row) {

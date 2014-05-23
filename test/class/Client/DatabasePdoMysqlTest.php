@@ -3,7 +3,6 @@
  * @group Client
  * NOTE: each class must be marked with group annotation (phpunit)
  */
-namespace Client;
 
 // TODO use PHPUnit_Extensions_Database_TestCase, see http://phpunit.de/manual/current/en/database.html
 
@@ -21,7 +20,7 @@ class DatabasePdoMysqlTest extends \PHPUnit_Framework_TestCase
 {
     private function getConnection()
     {
-        $db = new Client_DatabasePdo('mysql');
+        $db = new \Client\DatabasePdo('mysql');
         $db->setServer('127.0.0.1');
         $db->setDatabase('test');
         $db->setUsername('root');

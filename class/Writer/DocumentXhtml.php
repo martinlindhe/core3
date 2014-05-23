@@ -17,6 +17,6 @@ class DocumentXhtml
 
     public function render()
     {
-        //throw new Exception("TODO");
+        //throw new \Exception("TODO");
     }
 }

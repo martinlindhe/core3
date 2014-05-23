@@ -9,7 +9,7 @@ class RequestRouter
     public function setApplicationDirectoryRoot($path)
     {
         if (!is_dir($path)) {
-            throw new Exception('invalid path');
+            throw new \Exception('invalid path');
         }
 
         $this->applicationDirectoryRoot = realpath($path);
@@ -25,7 +25,7 @@ class RequestRouter
         if ($this->applicationWebRoot) {
             $len = strlen($this->applicationWebRoot);
             if (substr($request, 0, $len) != $this->applicationWebRoot) {
-                throw new Exception('broken input one !');
+                throw new \Exception('broken input one !');
             }
             $request = substr($request, $len);
         }
@@ -33,7 +33,7 @@ class RequestRouter
         $parts = explode('/', $request);
 
         if (count($parts) < 2 || $parts[0] != '') {
-            throw new Exception("broken input two !");
+            throw new \Exception("broken input two !");
         }
 
         $viewName = $parts[1];
@@ -48,7 +48,7 @@ class RequestRouter
 
         if (count($parts) > 2) {
             var_dump($parts);
-            throw new Exception('TODO params');
+            throw new \Exception('TODO params');
         }
 
         $fileName = $this->getViewFilename($viewName);

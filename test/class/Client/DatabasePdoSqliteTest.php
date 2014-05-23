@@ -3,7 +3,7 @@
  * @group Client
  */
 
-class Client_DatabasePdoSqliteTest extends PHPUnit_Framework_TestCase
+class DatabasePdoSqliteTest extends \PHPUnit_Framework_TestCase
 {
     protected $db;
     protected $dbFile;
@@ -12,7 +12,7 @@ class Client_DatabasePdoSqliteTest extends PHPUnit_Framework_TestCase
     {
         $this->dbFile = tempnam("/tmp", "sqlite");
 
-        $this->db = new Client_DatabasePdo('sqlite:'.$this->dbFile);
+        $this->db = new Client\DatabasePdo('sqlite:'.$this->dbFile);
 
         $this->db->query(
             'CREATE TABLE CoreUser ('.

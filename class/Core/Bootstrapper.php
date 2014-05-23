@@ -1,6 +1,8 @@
 <?php
 namespace Core;
 
+require_once 'Exceptions.php';
+
 class Bootstrapper
 {
     public static function autoload($class)
@@ -16,6 +18,7 @@ class Bootstrapper
 
     /**
      * Bootstraps the application
+     * @codeCoverageIgnore
      */
     public static function bootstrap()
     {

@@ -101,7 +101,7 @@ class HttpUserAgent
         return false;
     }
 
-   public static function isPowerPC($s)
+    public static function isPowerPC($s)
     {
         if (strpos($s, 'PowerPC') !== false ||
             strpos($s, 'PPC Mac OS X') !== false
