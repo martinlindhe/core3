@@ -14,7 +14,8 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         //$router->setApplicationWebRoot('/app1');
         $router->route('/');
 
-        // TODO: verify output, for example request page not found and check that we get a 404 return. load start page and check that we get a 200 OK
+        // TODO: verify output, for example request page not found and check that we get a 404 return.
+        //       load start page and check that we get a 200 OK
     }
 
     function testAppInHostSubdirectory()

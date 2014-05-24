@@ -16,7 +16,7 @@ update-production-deps:
 	php composer.phar update
 
 test:
-	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --exclude-group Benchmark,Client
+	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --exclude-group Benchmark,Database
 
 test-all:
 	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml

@@ -1,9 +1,9 @@
 <?php
-/**
- * @group Client
- */
 
-class DatabasePdoSqliteTest extends \PHPUnit_Framework_TestCase
+/**
+ * @group Database
+ */
+class PdoDriverSqliteTest extends \PHPUnit_Framework_TestCase
 {
     protected $db;
     protected $dbFile;
@@ -12,7 +12,7 @@ class DatabasePdoSqliteTest extends \PHPUnit_Framework_TestCase
     {
         $this->dbFile = tempnam("/tmp", "sqlite");
 
-        $this->db = new Client\DatabasePdo('sqlite:'.$this->dbFile);
+        $this->db = new Database\PdoDriver('sqlite:'.$this->dbFile);
 
         $this->db->query(
             'CREATE TABLE CoreUser ('.
@@ -53,5 +53,4 @@ class DatabasePdoSqliteTest extends \PHPUnit_Framework_TestCase
         $res = $this->db->selectRow('SELECT * FROM CoreUser WHERE id = :id', array(':id' => 1));
         $this->assertEquals(array('id'=>1,'username'=>'kalle','password'=>'pwd'), $res);
     }
-
 }

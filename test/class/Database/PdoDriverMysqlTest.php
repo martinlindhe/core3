@@ -1,12 +1,9 @@
 <?php
-/**
- * @group Client
- * NOTE: each class must be marked with group annotation (phpunit)
- */
-
 // TODO use PHPUnit_Extensions_Database_TestCase, see http://phpunit.de/manual/current/en/database.html
 
-
+/**
+ * @group Database
+ */
 class test2Table extends \Model\DatabaseTable
 {
     var $id;
@@ -14,13 +11,13 @@ class test2Table extends \Model\DatabaseTable
 }
 
 /**
- * @group Client
+ * @group Database
  */
-class DatabasePdoMysqlTest extends \PHPUnit_Framework_TestCase
+class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 {
     private function getConnection()
     {
-        $db = new \Client\DatabasePdo('mysql');
+        $db = new \Database\PdoDriver('mysql');
         $db->setServer('127.0.0.1');
         $db->setDatabase('test');
         $db->setUsername('root');
@@ -384,5 +381,4 @@ class DatabasePdoMysqlTest extends \PHPUnit_Framework_TestCase
         // check that result is "tjena_two"
         $this->assertEquals(array( array('CONCAT(input,"_two")' => 'tjena_two')), $res);
     }
-
 }

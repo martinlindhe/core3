@@ -1,10 +1,10 @@
 <?php
-namespace Client;
+namespace Database;
 
 /**
  * MySQL driver using the PDO extension
  */
-class DatabasePdo
+class PdoDriver
 {
     protected $driver;
     protected $dbHandle = null;
