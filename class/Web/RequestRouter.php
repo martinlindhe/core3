@@ -9,7 +9,7 @@ class RequestRouter
     public function setApplicationDirectoryRoot($path)
     {
         if (!is_dir($path)) {
-            throw new \Exception('invalid path');
+            throw new \InvalidDirectoryRexception();
         }
 
         $this->applicationDirectoryRoot = realpath($path);
@@ -62,7 +62,7 @@ class RequestRouter
      */
     public function isValidViewName($viewName)
     {
-        if (strlen($viewName) > 20 ||
+        if (strlen($viewName) <= 20 &&
             preg_match('/^[a-z]+$/', $viewName) == 1
         ) {
             return true;

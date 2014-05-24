@@ -18,3 +18,7 @@ class InvalidQueryException extends \Exception
 class InvalidResultException extends \Exception
 {
 }
+
+class InvalidDirectoryRexception extends \Exception
+{
+}
