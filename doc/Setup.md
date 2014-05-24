@@ -64,4 +64,13 @@ pdo_sqlite is available out of the box
 # Apache setup
 
 
+XXX
+
+
+
+
+# Sendmail setup
+
+Uses the system sendmail mail transfer agent
+
 

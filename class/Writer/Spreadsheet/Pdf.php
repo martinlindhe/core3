@@ -1,6 +1,9 @@
 <?php
 namespace Writer\Spreadsheet;
 
+$tcpdfRoot = realpath(__DIR__.'/../../../vendor/tecnick.com/tcpdf');
+require_once $tcpdfRoot.'/tcpdf.php';
+
 class Pdf extends \Writer\Spreadsheet
 {
     protected $creator;

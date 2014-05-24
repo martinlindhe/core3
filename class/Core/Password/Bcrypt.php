@@ -3,6 +3,8 @@ namespace Core\Password;
 
 // TODO: REQUIRES php 5.3.7  how to add such @tag ?!?
 
+require_once realpath(__DIR__.'/../../../vendor/ircmaxell/password-compat/lib').'/password.php';
+
 class Bcrypt extends \Core\Password
 {
     protected $cost;
