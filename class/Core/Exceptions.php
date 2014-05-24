@@ -22,3 +22,7 @@ class InvalidResultException extends \Exception
 class InvalidDirectoryRexception extends \Exception
 {
 }
+
+class FileNotFoundException extends \Exception
+{
+}

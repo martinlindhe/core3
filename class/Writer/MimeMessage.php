@@ -20,9 +20,21 @@ class MimeMessage
     protected $mailCc = array();
     protected $mailBcc = array();
     protected $userAgent;
-    protected $subject;
     protected $contentType;
+    protected $subject;
+    protected $message;
+    protected $boundary;
     protected $attachments = array();
+
+    public function __construct()
+    {
+        $this->boundary = $this->createBoundary();
+    }
+
+    public function getBoundary()
+    {
+        return $this->boundary;
+    }
 
     public function getRecipients()
     {
@@ -84,27 +96,36 @@ class MimeMessage
         $this->subject = $s;
     }
 
-    public function embedData($data, $fileName, $mimeType = '', $contentId = '')
+    public function setMessage($s)
+    {
+        $this->message = $s;
+    }
+
+    /**
+     * $param $contentId used to refer to embedded graphics from html document, <img src="cid:contentId_value"/>
+     */
+    public function attachData($data, $fileName, $mimeType, $contentId = '')
     {
         $a = new MimeAttachment();
         $a->data      = $data;
         $a->fileName  = basename($fileName);
-        $a->mimeType  = $mimeType;   // XXXX file_get_mime_by_suffix($filename)
-        $a->contentId = $contentId;  // <img src="cid:content_id_tag">
+        $a->mimeType  = $mimeType;
+        $a->contentId = $contentId;
         $this->attachments[] = $a;
     }
 
-    public function embedFile($fileName, $contentId = '')
+    public function attachFile($fileName, $contentId = '')
     {
         if (!file_exists($fileName)) {
-            throw new \Exception ('File '.$fileName.' not found'); // XXX correct exception
+            throw new \FileNotFoundException($fileName);
         }
 
         $data = file_get_contents($fileName);
 
-        $this->embedData($data, $fileName, $mimeType, $contentId);
-    }
+        $mimeType = 'application/octet-stream'; // generic binary data
 
+        $this->attachData($data, $fileName, $mimeType, $contentId);
+    }
 
     public function isValidMail($email)
     {
@@ -144,47 +165,55 @@ class MimeMessage
 
     public function render()
     {
-        $res = $this->renderHeaders();
+        $res = $this->renderHeaders()."\r\n";
 
         if (count($this->attachments)) {
-            $boundary = $this->createBoundary();
-
             $res .=
-            "Content-Type: multipart/mixed;\r\n".
-            " boundary=\"".$boundary."\"\r\n".
-            "\r\n".
-            "This is a multi-part message in MIME format.\r\n".
-            "\r\n".
-            "--".$boundary."\r\n";
+                'Content-Type: multipart/mixed; boundary="'.$this->boundary.'"'."\r\n".
+                "\r\n".
+                'This is a multi-part message in MIME format.'."\r\n".
+                "\r\n".
+                '--'.$this->boundary."\r\n";
         }
 
         $res .=
+            $this->renderMainDocument()."\r\n".
+            $this->renderAttachments();
+
+        return $res;
+    }
+
+    protected function renderMainDocument()
+    {
+        return
             'Content-Type: '.$this->contentType.'; charset=utf-8'."\r\n".
             'Content-Transfer-Encoding: 7bit'."\r\n".
-            "\r\n";
+            "\r\n".
+            $this->message;
+    }
 
+    protected function renderAttachments()
+    {
+        $res = '';
 
-        $attachment_data = '';
         foreach ($this->attachments as $a)
         {
-            $attachment_data .=
+            $res .=
             "\r\n".
-            '--'.$boundary."\r\n".
-            'Content-Type: '.$a->mimeType.';'."\r\n".
-            " name=\"".mb_encode_mimeheader($a->fileName, 'UTF-8')."\"\r\n".
+            '--'.$this->boundary."\r\n".
+            'Content-Type: '.$a->mimeType."\r\n".
             'Content-Transfer-Encoding: base64'."\r\n".
-            ($a->content_id ? 'Content-ID: <'.$a->content_id.'>'."\r\n" : "").
-            'Content-Disposition: '.($a->content_id ? 'inline' : 'attachment').';'."\r\n".
-            " filename=\"".mb_encode_mimeheader($a->filename, 'UTF-8')."\"\r\n".
+            'Content-Disposition: '.($a->contentId ? 'inline' : 'attachment').'; filename="'.mb_encode_mimeheader($a->fileName, 'UTF-8').'"'."\r\n".
+            ($a->contentId ? 'Content-ID: <'.$a->contentId.'>'."\r\n" : "").
             "\r\n".
             chunk_split(base64_encode($a->data));
         }
 
-        if (count(self::$attachments))
-            $attachment_data .= "--".$boundary."--";
+        if ($res) {
+            $res .= '--'.$this->boundary.'--';
+        }
 
         return $res;
-        // XXX in end: $header.$msg."\r\n".$attachment_data
     }
 
     protected function createBoundary()

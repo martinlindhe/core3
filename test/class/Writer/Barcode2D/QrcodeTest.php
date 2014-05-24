@@ -1,5 +1,4 @@
 <?php
-namespace Writer\Barcode2D;
 
 /**
  * @group Writer
@@ -8,7 +7,7 @@ class QrcodeTest extends \PHPUnit_Framework_TestCase
 {
     function testUsageHtml()
     {
-        $writer = new Qrcode();
+        $writer = new \Writer\Barcode2D\Qrcode();
         $data = $writer->renderAsHtml('hello world :-)');
 
         $this->assertInternalType('string', $data);
@@ -17,7 +16,7 @@ class QrcodeTest extends \PHPUnit_Framework_TestCase
 
     function testUsagePng()
     {
-        $writer = new Qrcode();
+        $writer = new \Writer\Barcode2D\Qrcode();
         $data = $writer->renderAsPng('hello world :-)');
 
         $this->assertInternalType('string', $data);
