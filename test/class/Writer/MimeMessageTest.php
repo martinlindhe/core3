@@ -40,11 +40,6 @@ class MimeMessageTest extends \PHPUnit_Framework_TestCase
         $mime = new \Writer\MimeMessage();
         $mime->setContentType('text/plan');
         $mime->addRecipient('martin@test.com');
-        $mime->addCc('other@test.com');
-        $mime->addBcc('one@test.com');
-        $mime->setFrom('sender@test.com');
-        $mime->setReplyTo('noreply@test.com');
-        $mime->setUserAgent('Branded Mailer 1.0');
         $mime->setSubject('åäö utf8 subject');
 
         $html =
@@ -63,4 +58,24 @@ class MimeMessageTest extends \PHPUnit_Framework_TestCase
         // TODO verify resulting mime message
     }
 
+    function testAttachFile()
+    {
+        // NOTE this shows how to embed attached image in html mail
+        $mime = new \Writer\MimeMessage();
+        $mime->setContentType('text/html');
+        $mime->addRecipient('martin@test.com');
+        $mime->setSubject('åäö utf8 subject');
+        $mime->setMessage('<b>hello</b> world åäö');
+
+        $qr = new \Writer\Barcode2D\Qrcode();
+        $data = $qr->renderAsPng('hello world :-)');
+        file_put_contents('/tmp/barcode-tmp.png', $data);
+        $mime->attachFile('/tmp/barcode-tmp.png');
+
+        $this->assertGreaterThanOrEqual(20, strlen($mime->getBoundary()));
+
+        echo $mime->render();
+
+        // TODO verify resulting mime message
+    }
 }

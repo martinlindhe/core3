@@ -10,28 +10,10 @@
 	[
 		{
 			"follow_symlinks": true,
-			"name": "System classes",
-			"path": "class"
-		},
-		{
-			"follow_symlinks": true,
-			"name": "System views",
-			"path": "view"
-		},
-		{
-			"follow_symlinks": true,
-			"name": "PHPUnit tests",
-			"path": "test"
-		},
-		{
-			"follow_symlinks": true,
-			"name": "Data files",
-			"path": "data"
-		},
-		{
-			"follow_symlinks": true,
-			"name": "Documentation",
-			"path": "doc"
+			"name": "core3",
+			"path": ".",
+			"folder_exclude_patterns": ["coverage-report-html", "vendor"],
+			"file_exclude_patterns": [".tags", "composer.phar", "composer.lock"]
 		}
 	],
 	"settings":
@@ -40,6 +22,7 @@
 		"rulers": [120],
 		"ensure_newline_at_eof_on_save": true,
 		"trim_trailing_white_space_on_save": true,
-		"translate_tabs_to_spaces": true
+		"translate_tabs_to_spaces": true,
+		"show_panel_on_build": true
 	}
 }

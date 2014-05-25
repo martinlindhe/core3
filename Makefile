@@ -16,22 +16,22 @@ update-production-deps:
 	php composer.phar update
 
 test:
-	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --exclude-group Benchmark,Database
+	./vendor/bin/phpunit --stderr --exclude-group Benchmark,Database
 
 test-all:
-	./vendor/bin/phpunit --stderr --configuration=phpunit.xml
+	./vendor/bin/phpunit --stderr
 
 test-reader:
-	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --group Reader
+	./vendor/bin/phpunit --stderr --group Reader
 
 test-writer:
-	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --group Writer
+	./vendor/bin/phpunit --stderr --group Writer
 
 benchmark:
-	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --group Benchmark
+	./vendor/bin/phpunit --stderr --group Benchmark
 
 lint:
-	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test
+	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test view
 
 ctags:
 	ctags --languages=PHP --exclude=vendor --exclude=.git --exclude=composer.phar -R -f .tags
