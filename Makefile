@@ -33,5 +33,8 @@ benchmark:
 lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test
 
+ctags:
+	ctags --languages=PHP --exclude=vendor --exclude=.git --exclude=composer.phar -R -f .tags
+
 clean:
 	rm -rf coverage-report-html

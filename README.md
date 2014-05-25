@@ -35,8 +35,4 @@ In order to get a suggested cost parameter to use with bcrypt, run
 
 ## PDF support
 
-tcpdf 6.0.078 (released 2014-05-12) is shipped in lib/tcpdf
-Licence: GPL
-Source: http://sourceforge.net/projects/tcpdf/files/
-
-RATIONALE FOR TCPDF: tcpdf supports HTML to PDF, which is required; haru does not
+Uses TCPDF 6.0.080 via composer
