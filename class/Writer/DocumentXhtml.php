@@ -9,14 +9,9 @@ namespace Writer;
  */
 class DocumentXhtml
 {
-    public function sendHttpHeaders()
+    public static function sendHttpHeaders()
     {
         $header = new \Writer\HttpHeader();
         $header->sendContentType('text/html; charset=utf-8');
-    }
-
-    public function render()
-    {
-        //throw new \Exception("TODO");
     }
 }

@@ -29,7 +29,7 @@ class MimeMessageTest extends \PHPUnit_Framework_TestCase
         $mime->setSubject('åäö utf8 subject');
         $mime->setMessage('<b>hello</b> world åäö!');
 
-   //     var_dump($mime->render());
+        // echo $mime->render();
 
         // TODO verify resulting mime message
     }
@@ -53,7 +53,7 @@ class MimeMessageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertGreaterThanOrEqual(20, strlen($mime->getBoundary()));
 
-        echo $mime->render();
+        // echo $mime->render();
 
         // TODO verify resulting mime message
     }
@@ -74,7 +74,7 @@ class MimeMessageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertGreaterThanOrEqual(20, strlen($mime->getBoundary()));
 
-        echo $mime->render();
+        // echo $mime->render();
 
         // TODO verify resulting mime message
     }

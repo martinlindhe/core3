@@ -51,10 +51,11 @@ class RequestRouter
             throw new \Exception('TODO params');
         }
 
+        \Writer\DocumentXhtml::sendHttpHeaders();
+
         $fileName = $this->getViewFilename($viewName);
 
-        $data = file_get_contents($fileName);
-        echo $data;
+        include $fileName;
     }
 
     /**
@@ -73,13 +74,13 @@ class RequestRouter
     public function getViewFilename($viewName)
     {
         // application template
-        $fileName = $this->applicationDirectoryRoot.'/view/'.$viewName.'.html';
+        $fileName = $this->applicationDirectoryRoot.'/view/'.$viewName.'.php';
         if (file_exists($fileName)) {
             return $fileName;
         }
 
         // system template
-        $fileName = realpath(__DIR__.'/../..').'/view/'.$viewName.'.html';
+        $fileName = realpath(__DIR__.'/../..').'/view/'.$viewName.'.php';
         if (!file_exists($fileName)) {
              return $this->getViewFilename('404notfound');
         }
