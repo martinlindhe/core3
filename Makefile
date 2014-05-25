@@ -16,19 +16,19 @@ update-production-deps:
 	php composer.phar update
 
 test:
-	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --exclude-group Benchmark,Database
+	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --exclude-group Benchmark,Database
 
 test-all:
-	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml
+	./vendor/bin/phpunit --stderr --configuration=phpunit.xml
 
 test-reader:
-	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --group Reader
+	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --group Reader
 
 test-writer:
-	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --group Writer
+	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --group Writer
 
 benchmark:
-	./vendor/bin/phpunit --stderr --configuration=test/phpunit.xml --group Benchmark
+	./vendor/bin/phpunit --stderr --configuration=phpunit.xml --group Benchmark
 
 lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test

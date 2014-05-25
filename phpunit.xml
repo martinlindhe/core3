@@ -7,24 +7,24 @@
 	convertWarningsToExceptions="true"
 	strict="false"
 	verbose="false"
-	bootstrap="bootstrap.php"
+	bootstrap="test/bootstrap.php"
 >
 
 	<testsuites>
 		<testsuite name="AllTests">
-			<directory>.</directory>
+			<directory>test</directory>
 		</testsuite>
 	</testsuites>
 
 	<filter>
 		<blacklist>
-			<directory>.</directory>
-			<directory>../vendor</directory>
+			<directory>test</directory>
+			<directory>vendor</directory>
 		</blacklist>
 	</filter>
 
 	<logging>
-		<log type="coverage-html" target="../coverage-report-html"/>
+		<log type="coverage-html" target="coverage-report-html"/>
 	</logging>
 
 </phpunit>
