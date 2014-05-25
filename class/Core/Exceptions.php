@@ -19,7 +19,7 @@ class InvalidResultException extends \Exception
 {
 }
 
-class InvalidDirectoryRexception extends \Exception
+class DirectoryNotFoundRexception extends \Exception
 {
 }
 

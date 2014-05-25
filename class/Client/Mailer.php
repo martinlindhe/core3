@@ -8,7 +8,7 @@ class Mailer extends \Writer\MimeMessage
         $this->setContentType('text/html');
 
         mail(
-            implode($this->getRecipients(), ', '),  // FIXME can we skip the $to param since we added it in headers?
+            implode($this->getRecipients(), ', '),
             $this->subject,
             $msg,
             $this->renderHeaders($msg)

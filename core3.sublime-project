@@ -1,0 +1,42 @@
+{
+	"build_systems":
+	[
+		{
+			"name": "List",
+			"shell_cmd": "ls -l"
+		}
+	],
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"name": "System classes",
+			"path": "class"
+		},
+		{
+			"follow_symlinks": true,
+			"name": "System views",
+			"path": "view"
+		},
+		{
+			"follow_symlinks": true,
+			"name": "PHPUnit tests",
+			"path": "test"
+		},
+		{
+			"follow_symlinks": true,
+			"name": "Data files",
+			"path": "data"
+		},
+		{
+			"follow_symlinks": true,
+			"name": "Documentation",
+			"path": "doc"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 4,
+		"ensure_newline_at_eof_on_save": true
+	}
+}

@@ -1,8 +1,6 @@
 <?php
 namespace Writer;
 
-// TODO finish attachment support & embedded files (html image)
-
 class MimeAttachment
 {
     var $data;
@@ -196,15 +194,15 @@ class MimeMessage
     {
         $res = '';
 
-        foreach ($this->attachments as $a)
-        {
+        foreach ($this->attachments as $a) {
             $res .=
             "\r\n".
             '--'.$this->boundary."\r\n".
             'Content-Type: '.$a->mimeType."\r\n".
             'Content-Transfer-Encoding: base64'."\r\n".
-            'Content-Disposition: '.($a->contentId ? 'inline' : 'attachment').'; filename="'.mb_encode_mimeheader($a->fileName, 'UTF-8').'"'."\r\n".
-            ($a->contentId ? 'Content-ID: <'.$a->contentId.'>'."\r\n" : "").
+            'Content-Disposition: '.($a->contentId ? 'inline' : 'attachment').
+                '; filename="'.mb_encode_mimeheader($a->fileName, 'UTF-8').'"'."\r\n".
+            ($a->contentId ? 'Content-ID: <'.$a->contentId.'>'."\r\n" : '').
             "\r\n".
             chunk_split(base64_encode($a->data));
         }

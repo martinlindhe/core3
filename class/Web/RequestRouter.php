@@ -9,7 +9,7 @@ class RequestRouter
     public function setApplicationDirectoryRoot($path)
     {
         if (!is_dir($path)) {
-            throw new \InvalidDirectoryRexception();
+            throw new \DirectoryNotFoundRexception();
         }
 
         $this->applicationDirectoryRoot = realpath($path);
