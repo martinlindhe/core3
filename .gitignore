@@ -1,4 +1,4 @@
-core3.sublime-workspace
+*.sublime-workspace
 coverage-report-html
 phpmd-report.html
 composer.phar
