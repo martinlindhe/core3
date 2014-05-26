@@ -17,12 +17,4 @@ class DocumentXhtmlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('text/html; charset=utf-8'), \Debug\XdebugExtras::findHeaders('Content-Type'));
     }
 
-    function testUsageExample()
-    {
-        $writer = new DocumentXhtml();
-        $data = $writer->render();
-
-        //$this->markTestIncomplete('TODO finish test');
-    }
-
 }
