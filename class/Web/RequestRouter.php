@@ -48,7 +48,7 @@ class RequestRouter
 
         if (count($parts) > 2) {
             var_dump($parts);
-            throw new \Exception('TODO params');
+            throw new \Exception('TODO params, requested '.$request);
         }
 
         \Writer\DocumentXhtml::sendHttpHeaders();
