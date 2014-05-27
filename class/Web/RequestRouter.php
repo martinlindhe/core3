@@ -20,42 +20,49 @@ class RequestRouter
         $this->applicationWebRoot = $path;
     }
 
+    public function stripApplicationPrefix($request)
+    {
+        $len = strlen($this->applicationWebRoot);
+
+        if (substr($request, 0, $len) != $this->applicationWebRoot) {
+            throw new \Exception('broken input one !');
+        }
+
+        return substr($request, $len);
+    }
+
     public function route($request)
     {
         if ($this->applicationWebRoot) {
-            $len = strlen($this->applicationWebRoot);
-            if (substr($request, 0, $len) != $this->applicationWebRoot) {
-                throw new \Exception('broken input one !');
-            }
-            $request = substr($request, $len);
+            $request = $this->stripApplicationPrefix($request);
         }
 
         $parts = explode('/', $request);
 
-        if (count($parts) < 2 || $parts[0] != '') {
-            throw new \Exception("broken input two !");
+        $view = $parts[1];
+
+        if (!$view) {
+            $view = 'index';
         }
 
-        $viewName = $parts[1];
-
-        if (!$viewName) {
-            $viewName = 'index';
+        if (!$this->isValidViewName($view)) {
+            $view = '404notfound';
         }
 
-        if (!$this->isValidViewName($viewName)) {
-            $viewName = '404notfound';
-        }
-
+        $param = array();
         if (count($parts) > 2) {
-            var_dump($parts);
-            throw new \Exception('TODO params, requested '.$request);
+            $param = array_slice($parts, 2);
         }
+        unset($parts);
 
         \Writer\DocumentXhtml::sendHttpHeaders();
 
-        $fileName = $this->getViewFilename($viewName);
+        // SECURITY NOTE: all defined variables will be available to the view
+        // $request  string   web request
+        // $view     string   name of the view
+        // $param    array    the parameters passed to this view
 
-        include $fileName;
+        include $this->getViewFilename($view);
     }
 
     /**
@@ -68,6 +75,7 @@ class RequestRouter
         ) {
             return true;
         }
+
         return false;
     }
 
