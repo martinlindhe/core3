@@ -21,8 +21,10 @@
 
 
 
+# TODO scss (compiled css) support
+- use scss_server to precompile etc, figure out how to hook everything up
 
-# TODO pdf support
+
 
 
 # TODO tests
@@ -39,4 +41,4 @@
 - try installing and running everything from win7
 - NAMESPACES: follow https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md
 	The fully qualified class name MUST have a top-level namespace name, also known as a "vendor namespace".
-	
+

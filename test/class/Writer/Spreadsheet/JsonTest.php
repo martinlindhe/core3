@@ -19,7 +19,6 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 {
     function testEscapedStringContainsLineFeed()
     {
-        echo "WOWW";
         $row1 = new RowFormat();
         $row1->id = 1;
         $row1->name = "mr mr";

@@ -1,8 +1,7 @@
 <?php
 namespace Writer\Barcode1D;
 
-$tcpdfRoot = realpath(__DIR__.'/../../../vendor/tecnick.com/tcpdf');
-require_once $tcpdfRoot.'/tcpdf_barcodes_1d.php';
+require_once realpath(__DIR__.'/../../../vendor/tecnick.com/tcpdf').'/tcpdf_barcodes_1d.php';
 
 class Ean13 extends \Writer\Barcode1D
 {
