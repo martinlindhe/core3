@@ -25,6 +25,11 @@
 - use scss_server to precompile etc, figure out how to hook everything up
 
 
+# TODO js minify support
+- maybe use https://code.google.com/p/minify/
+- need to run from CLI
+- need to create script.min.js and script.map.js files!
+
 
 
 # TODO tests
