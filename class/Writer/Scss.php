@@ -26,23 +26,17 @@ class Scss
 		return false;
 	}
 
-	public function isModified($mtime, $etag)
+	public function isClientCacheDirty($etag)
 	{
-		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) < $mtime) {
+		if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
 			return true;
 		}
 
-		if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] != $etag) {
-			return true;
+		if ($_SERVER['HTTP_IF_NONE_MATCH'] === $etag) {
+			return false;
 		}
 
-		return false;
-	}
-
-	public function sendValidationHeaders($mtime, $etag)
-	{
-		header('Last-Modified: '.gmdate('D, j M Y H:i:s', $mtime).' GMT');
-		header('Etag: '.$etag);
+		return true;
 	}
 
 	/**
@@ -68,43 +62,48 @@ class Scss
 			return;
 		}
 
-		$scssMtime = filemtime($scssFile);
-
-		$cachedMtime = 0;
-		if (file_exists($cachedFile)) {
-			$cachedMtime = filemtime($cachedFile);
+		if (!file_exists($cachedFile)) {
+			header('X-SCSS-1: rendering');
+			$data = $this->renderToFile($scssFile, $cachedFile);
 		}
 
-		$etag = md5($scssFile.$cachedMtime);
+		$cachedMtime = filemtime($cachedFile);
+
+		$etag = md5($cachedFile.$cachedMtime);
+		$data = '';
+
+		if ($this->isClientCacheDirty($etag)) {
+			// serve cached copy if browser didnt have it cached
+			header('X-SCSS: sending');
+			$httpCode = 200;
+			$data = file_get_contents($cachedFile);
+		} else {
+			header('X-SCSS: cached-in-client');
+			$httpCode = 302;
+		}
 
 		header('Content-Type: text/css');
+		header('ETag: '.$etag);
+		http_response_code(302);
 
-		if ($cachedMtime > $scssMtime) {
+		echo $data;
+	}
 
-			$this->sendValidationHeaders($cachedMtime, $etag);
-
-			if ($this->isModified($cachedMtime, $etag)) {
-				// serve cached copy if browser didnt have it cached
-				readfile($cachedFile);
-			} else {
-				http_response_code(304);   // Not Modified
-			}
-			return;
-
-		}
-
-		if (!$cachedMtime) {
-			$cachedMtime = time();
-		}
-
-		$this->sendValidationHeaders($cachedMtime, $etag);
-
+	/**
+	 * @param $scssFile scss file to render
+	 */
+	public function render($scssFile)
+	{
+		// render document
 		$scss = new \scssc();
 		$scss->setImportPaths($this->importPath);
 		$scss->setFormatter('scss_formatter_compressed');
 
-		$data = $scss->compile('@import "'.basename($scssFile).'"');
-		echo $data;
-		file_put_contents($cachedFile, $data);
+		return $scss->compile('@import "'.basename($scssFile).'"');
+	}
+
+	public function renderToFile($scssFile, $cachedFile)
+	{
+		file_put_contents($cachedFile, $this->render($scssFile));
 	}
 }
