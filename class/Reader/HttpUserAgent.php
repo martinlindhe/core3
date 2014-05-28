@@ -1,6 +1,8 @@
 <?php
 namespace Reader;
 
+// TODO: isArm() for Windows RT etc
+
 class WebBrowser // TODO move properties to HttpUserAgent class and use that?
 {
     var $name;
@@ -18,6 +20,15 @@ class HttpUserAgent
     {
         $b = self::getBrowser($s);
         if (in_array($b->os, array('iPhone', 'iPad', 'iPod'))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function isIpad($s)
+    {
+        if (self::isIOS($s) === true && strpos($s, 'iPad') !== false) {
             return true;
         }
 
@@ -60,6 +71,14 @@ class HttpUserAgent
         return false;
     }
 
+    public static function isWindowsSurface($s)
+    {
+        if (self::isMSIE($s) && strpos($s, 'Touch') !== false) {
+            return true;
+        }
+        return false;
+    }
+
     public static function isLinux($s)
     {
         if (strpos($s, 'Linux') !== false &&
@@ -78,6 +97,46 @@ class HttpUserAgent
         return false;
     }
 
+    public static function isAndroidPhone($s)
+    {
+        if (strpos($s, 'Android') !== false &&
+            strpos($s, 'Mobile') !== false &&
+            !self::isAndroidTabletSpecialDetection($s)
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public static function isAndroidTablet($s)
+    {
+        if (strpos($s, 'Android') !== false &&
+            (
+                strpos($s, 'Mobile') === false ||
+                self::isAndroidTabletSpecialDetection($s)
+            )
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Several Android tablets dont identify themselves as expected, by sending
+     * "Safari Mobile".  we work around this by device-model identification
+     */
+    protected static function isAndroidTabletSpecialDetection($s)
+    {
+        if (
+            strpos($s, 'SCH-I800') ||   // Samsung Galaxy Tab
+            strpos($s, 'Kindle')        // Amazon Kindle
+        ) {
+            return true;
+        }
+        return false;
+    }
+
     public static function isSymbian($s)
     {
         if (strpos($s, 'SymbianOS') !== false) {
@@ -88,7 +147,7 @@ class HttpUserAgent
 
     /**
      * @return true if browser is X86-64
-     */    
+     */
     public static function isX86_64($s)
     {
         if (strpos($s, 'x86_64') !== false ||
@@ -140,27 +199,13 @@ class HttpUserAgent
 
     public static function isSafari($s)
     {
-        if (strpos($s, 'Safari') !== false && 
+        if (strpos($s, 'Safari') !== false &&
             strpos($s, 'Mobile Safari') === false
         ) {
             return true;
         }
         return false;
     }
-
-    /**
-     * Default browser on Android
-     */
-    public static function isAndroidWebkitBrowser($s)
-    {
-        if (strpos($s, 'Mobile Safari') !== false &&
-            strpos($s, 'BlackBerry') === false
-        ) {
-            return true;
-        }
-        return false;
-    }
-
 
     public static function isOpera($s)
     {
@@ -170,7 +215,7 @@ class HttpUserAgent
         return false;
     }
 
-    public static function isMobileOS($s)
+    public static function isMobile($s)
     {
         if (self::isAndroid($s) ||
             self::isIOS($s) ||
@@ -184,7 +229,7 @@ class HttpUserAgent
         return false;
     }
 
-    public static function isDesktopOS($s)
+    public static function isDesktop($s)
     {
         if (self::isMacOsx($s) ||
             self::isWindows($s) ||
@@ -193,6 +238,17 @@ class HttpUserAgent
             return true;
         }
 
+        return false;
+    }
+
+    public static function isTablet($s)
+    {
+        if (self::isIpad($s) ||
+            self::isAndroidTablet($s) ||
+            self::isWindowsSurface($s)
+        ) {
+            return true;
+        }
         return false;
     }
 
@@ -383,7 +439,7 @@ class HttpUserAgent
             $y = explode(';', $x[1]);
             $o->version = $y[0];
             return $o;
-        } 
+        }
 
         // this format is used in IE 11 and forward
         $x = explode('rv:', $s, 2);

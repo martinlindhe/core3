@@ -26,7 +26,6 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(false, HttpUserAgent::isChrome($s));
         $this->assertEquals(false, HttpUserAgent::isSafari($s));
         $this->assertEquals(false, HttpUserAgent::isOpera($s));
-        $this->assertEquals(false, HttpUserAgent::isAndroidWebkitBrowser($s)); 
 
         // desktop OS
         $this->assertEquals(false, HttpUserAgent::isMacOsx($s));
@@ -35,18 +34,25 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
 
         // mobile OS
         $this->assertEquals(false, HttpUserAgent::isAndroid($s));
+        $this->assertEquals(false, HttpUserAgent::isAndroidPhone($s));
         $this->assertEquals(false, HttpUserAgent::isIOS($s));
         $this->assertEquals(false, HttpUserAgent::isWindowsPhone($s));
         $this->assertEquals(false, HttpUserAgent::isBlackberry($s));
         $this->assertEquals(false, HttpUserAgent::isSymbian($s));
+
+        // tablet
+        $this->assertEquals(false, HttpUserAgent::isIpad($s));
+        $this->assertEquals(false, HttpUserAgent::isAndroidTablet($s));
+        $this->assertEquals(false, HttpUserAgent::isWindowsSurface($s));
 
         // architecture
         $this->assertEquals(false, HttpUserAgent::isX86_64($s));
         $this->assertEquals(false, HttpUserAgent::isPowerPC($s));
 
         // simple checks
-        $this->assertEquals(false, HttpUserAgent::isMobileOS($s));
-        $this->assertEquals(true, HttpUserAgent::isDesktopOS($s));
+        $this->assertEquals(false, HttpUserAgent::isMobile($s));
+        $this->assertEquals(true, HttpUserAgent::isDesktop($s));
+        $this->assertEquals(false, HttpUserAgent::isTablet($s));
     }
 
     public function testFirefox2()
@@ -124,7 +130,7 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
 
     public function testChrome1()
     {
-        $s = 
+        $s =
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) '.
             'AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.68 Safari/534.24';
         $b = HttpUserAgent::getBrowser($s);
@@ -292,6 +298,8 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('4.0.4', $b->version);
         $this->assertEquals('iPhone', $b->os);
         $this->assertEquals('CPU OS 3_2 like Mac OS X', $b->arch);
+        $this->assertEquals(false, HttpUserAgent::isIpad($s));
+        $this->assertEquals(false, HttpUserAgent::isTablet($s));
     }
 
     public function testSafariIOS2()
@@ -306,6 +314,8 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('4.0.4', $b->version);
         $this->assertEquals('iPad', $b->os);
         $this->assertEquals('CPU OS 3_2_2 like Mac OS X', $b->arch);
+        $this->assertEquals(true, HttpUserAgent::isIpad($s));
+        $this->assertEquals(true, HttpUserAgent::isTablet($s));
     }
 
     public function testSafariIOS3()
@@ -319,6 +329,8 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('5.0.2', $b->version);
         $this->assertEquals('iPod', $b->os);
         $this->assertEquals('CPU iPhone OS 4_3_3 like Mac OS X', $b->arch);
+        $this->assertEquals(false, HttpUserAgent::isIpad($s));
+        $this->assertEquals(false, HttpUserAgent::isTablet($s));
     }
 
     public function testSafariIOS4()
@@ -402,6 +414,7 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $b = HttpUserAgent::getBrowser($s);
         $this->assertEquals('Internet Explorer', $b->name);
         $this->assertEquals('10.0', $b->version);
+        $this->assertEquals(false, HttpUserAgent::isWindowsSurface($s));
     }
 
     public function testIe8()
@@ -411,6 +424,7 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $b = HttpUserAgent::getBrowser($s);
         $this->assertEquals('Internet Explorer', $b->name);
         $this->assertEquals('11.0', $b->version);
+        $this->assertEquals(false, HttpUserAgent::isWindowsSurface($s));
     }
 
     public function testOpera1()
@@ -459,7 +473,7 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Windows NT 6.1', $b->os);
     }
 
-    public function testAndroid1()
+    public function testAndroidPhone1()
     {
         // NOTE: Webkit based browser for the Android Mobile Platform
         $s =
@@ -468,8 +482,47 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
 
         $b = HttpUserAgent::getBrowser($s);
         $this->assertEquals(true, HttpUserAgent::isAndroid($s));
-        $this->assertEquals(false, HttpUserAgent::isLinux($s)); // NOTE Android is counted as it's own OS, not as Linux
-        $this->assertEquals(true, HttpUserAgent::isAndroidWebkitBrowser($s)); 
+        $this->assertEquals(true, HttpUserAgent::isAndroidPhone($s));
+        $this->assertEquals(false, HttpUserAgent::isAndroidTablet($s));
+        $this->assertEquals(false, HttpUserAgent::isLinux($s));
+    }
+
+    public function testAndroidTablet1()
+    {
+        $s =
+        'Mozilla/5.0 (Linux; U; Android 3.0.1; en-us; Xoom Build/HRI66) '.
+        'AppleWebKit/534.13 (KHTML, like Gecko) Version/4.0 Safari/534.13';
+
+        $b = HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, HttpUserAgent::isAndroid($s));
+        $this->assertEquals(false, HttpUserAgent::isAndroidPhone($s));
+        $this->assertEquals(true, HttpUserAgent::isAndroidTablet($s));
+    }
+
+    public function testAndroidTablet2()
+    {
+        // NOTE detects "Samsung Galaxy Tab" incorrectly sets the "Mobile" part in UA
+        $s =
+        'Mozilla/5.0 (Linux; U; Android 2.2; en-us; SCH-I800 Build/FROYO) '.
+        'AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1';
+
+        $b = HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, HttpUserAgent::isAndroid($s));
+        $this->assertEquals(false, HttpUserAgent::isAndroidPhone($s));
+        $this->assertEquals(true, HttpUserAgent::isAndroidTablet($s));
+    }
+
+    public function testAndroidTablet3()
+    {
+        // NOTE old versions of "Amazon Kindle" incorrectly sets the "Mobile" part in UA
+        $s =
+        'Mozilla/5.0 (Linux; U; Android 2.3.4; en-us; Kindle Fire Build/GINGERBREAD) '.
+        'AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1';
+
+        $b = HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, HttpUserAgent::isAndroid($s));
+        $this->assertEquals(false, HttpUserAgent::isAndroidPhone($s));
+        $this->assertEquals(true, HttpUserAgent::isAndroidTablet($s));
     }
 
     public function testWindowsMobile1()
@@ -478,7 +531,7 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $b = HttpUserAgent::getBrowser($s);
         $this->assertEquals(true, HttpUserAgent::isWindowsPhone($s));
         $this->assertEquals(false, HttpUserAgent::isWindows($s));
-        $this->assertEquals(false, HttpUserAgent::isMSIE($s)); 
+        $this->assertEquals(false, HttpUserAgent::isMSIE($s));
     }
 
     public function testBlackberry1()
@@ -488,10 +541,10 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         'Mozilla/5.0 (BlackBerry; U; BlackBerry 9700; pt) '.
         'AppleWebKit/534.8+ (KHTML, like Gecko) Version/6.0.0.546 Mobile Safari/534.8+';
         $b = HttpUserAgent::getBrowser($s);
-        $this->assertEquals(false, HttpUserAgent::isAndroidWebkitBrowser($s));
+        $this->assertEquals(false, HttpUserAgent::isAndroid($s));
         $this->assertEquals(true, HttpUserAgent::isBlackberry($s));
-        $this->assertEquals(true, HttpUserAgent::isMobileOS($s));
-        $this->assertEquals(false, HttpUserAgent::isDesktopOS($s));
+        $this->assertEquals(true, HttpUserAgent::isMobile($s));
+        $this->assertEquals(false, HttpUserAgent::isDesktop($s));
     }
 
     public function testSymbian1()
@@ -503,7 +556,25 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $b = HttpUserAgent::getBrowser($s);
         $this->assertEquals(true, HttpUserAgent::isSymbian($s));
 
-        $this->assertEquals(true, HttpUserAgent::isMobileOS($s));
-        $this->assertEquals(false, HttpUserAgent::isDesktopOS($s));
+        $this->assertEquals(true, HttpUserAgent::isMobile($s));
+        $this->assertEquals(false, HttpUserAgent::isDesktop($s));
+    }
+
+    public function testSurfaceRT1()
+    {
+        $s = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch)';
+        $b = HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, HttpUserAgent::isMSIE($s));
+        $this->assertEquals(true, HttpUserAgent::isWindowsSurface($s));
+        $this->assertEquals(true, HttpUserAgent::isTablet($s));
+    }
+
+    public function testSurfacePro1()
+    {
+        $s = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; Trident/6.0; Touch)';
+        $b = HttpUserAgent::getBrowser($s);
+        $this->assertEquals(true, HttpUserAgent::isMSIE($s));
+        $this->assertEquals(true, HttpUserAgent::isWindowsSurface($s));
+        $this->assertEquals(true, HttpUserAgent::isTablet($s));
     }
 }
