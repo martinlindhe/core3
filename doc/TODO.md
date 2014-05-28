@@ -35,10 +35,9 @@
 
 
 # TODO js minify support
-- maybe use https://code.google.com/p/minify/
 - need to run from CLI
 - need to create script.min.js and script.map.js files!
-
+- using yui compressor! is added to composer
 
 
 # TODO tests
