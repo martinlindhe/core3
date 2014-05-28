@@ -22,4 +22,38 @@ class Scss
 
 		return self::$scss;
 	}
+
+	/**
+	 * allows a-z,A-Z,0-9 and -
+	 */
+	public static function isValidScssFileName($name)
+	{
+		if (strlen($name) <= 30 &&
+			preg_match('/^[a-zA-Z0-9-]+$/', $name) == 1
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static function isModified($mtime, $etag)
+	{
+		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) < $mtime) {
+			return true;
+		}
+
+		if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] != $etag) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static function sendValidationHeaders($mtime, $etag)
+	{
+		header('Last-Modified: '.gmdate('D, j M Y H:i:s', $mtime).' GMT');
+		header('Etag: '.$etag);
+	}
+
 }

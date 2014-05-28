@@ -3,7 +3,7 @@
 
 
 200 - OK
-304 - Not Modified (by apache?
+304 - Not Modified (when serving cached files, like compiled scss)
 
 400 - Bad Request  (api with bad/missing parameters)
 401 - Unauthorized (for session)
