@@ -35,9 +35,10 @@
 
 
 # TODO js minify support
-- need to run from CLI
-- need to create script.min.js and script.map.js files!
-- using yui compressor! is added to composer
+- DROP YUI COMP. USE Closure compiler!!!
+- uses yui compressor (TODO it requires java so its heavy dependency...)
+- create map files!!!
+- fix make task for creating min & map files of everything in js dir
 
 
 # TODO tests
