@@ -13,6 +13,9 @@
 
 
 
+# TODO api
+	- route all api requests to api.php in view order to have parameter parsing
+
 
 # TODO db
 - Not passing the PDO::PARAM_INT parameter when binding integer variables can
@@ -22,7 +25,13 @@
 
 
 # TODO scss (compiled css) support
-- use scss_server to precompile etc, figure out how to hook everything up
+- use scss_server to precompile etc, figure out how to hook everything up?
+- document how core3_app1 uses scss.php view as a compiler
+	- refactor core3_app scss.php view stuff into Writer/Scss class
+
+
+
+
 
 
 # TODO js minify support
@@ -36,9 +45,11 @@
 - maybe use php 5.5's cli webserver to test stuff?
   http://se2.php.net/manual/en/features.commandline.webserver.php
 
+
+
 # TODO linter
 - php: complain about trailing whitespace
-- xml: add linter for test/*.xml, view/*.html
+- xml: add linter for .html
 
 
 
