@@ -1,8 +1,6 @@
 <?php
 namespace Reader;
 
-// TODO: isArm() for Windows RT etc
-
 class WebBrowser // TODO move properties to HttpUserAgent class and use that?
 {
     var $name;
@@ -165,6 +163,14 @@ class HttpUserAgent
         if (strpos($s, 'PowerPC') !== false ||
             strpos($s, 'PPC Mac OS X') !== false
         ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function isARM($s)
+    {
+        if (strpos($s, 'ARM') !== false) {
             return true;
         }
         return false;

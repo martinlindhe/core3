@@ -48,6 +48,7 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         // architecture
         $this->assertEquals(false, HttpUserAgent::isX86_64($s));
         $this->assertEquals(false, HttpUserAgent::isPowerPC($s));
+        $this->assertEquals(false, HttpUserAgent::isARM($s));
 
         // simple checks
         $this->assertEquals(false, HttpUserAgent::isMobile($s));
@@ -567,6 +568,7 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, HttpUserAgent::isMSIE($s));
         $this->assertEquals(true, HttpUserAgent::isWindowsSurface($s));
         $this->assertEquals(true, HttpUserAgent::isTablet($s));
+        $this->assertEquals(true, HttpUserAgent::isARM($s));
     }
 
     public function testSurfacePro1()
@@ -576,5 +578,6 @@ class HttpUserAgentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, HttpUserAgent::isMSIE($s));
         $this->assertEquals(true, HttpUserAgent::isWindowsSurface($s));
         $this->assertEquals(true, HttpUserAgent::isTablet($s));
+        $this->assertEquals(false, HttpUserAgent::isARM($s));
     }
 }
