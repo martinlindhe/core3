@@ -26,17 +26,22 @@ class Scss
 		return false;
 	}
 
+	/**
+	 * Returns true if the client has same version
+	 * of the document corresponding to $etag
+	 *
+	 */
 	public function isClientCacheDirty($etag)
 	{
 		if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
 			return true;
 		}
 
-		if ($_SERVER['HTTP_IF_NONE_MATCH'] === $etag) {
-			return false;
+		if ($_SERVER['HTTP_IF_NONE_MATCH'] != $etag) {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -62,29 +67,24 @@ class Scss
 			return;
 		}
 
+		$data = '';
 		if (!file_exists($cachedFile)) {
-			header('X-SCSS-1: rendering');
 			$data = $this->renderToFile($scssFile, $cachedFile);
 		}
 
 		$cachedMtime = filemtime($cachedFile);
-
-		$etag = md5($cachedFile.$cachedMtime);
-		$data = '';
-
-		if ($this->isClientCacheDirty($etag)) {
-			// serve cached copy if browser didnt have it cached
-			header('X-SCSS: sending');
-			$httpCode = 200;
-			$data = file_get_contents($cachedFile);
-		} else {
-			header('X-SCSS: cached-in-client');
-			$httpCode = 302;
-		}
+		$etag = '"'.md5($cachedFile.$cachedMtime).'"';
 
 		header('Content-Type: text/css');
+		if (!$this->isClientCacheDirty($etag)) {
+			// tell client the content has not changed
+			http_response_code(304);
+			return;
+		}
+
+		// serve a copy if client didnt have it
 		header('ETag: '.$etag);
-		http_response_code(302);
+		$data = file_get_contents($cachedFile);
 
 		echo $data;
 	}

@@ -32,6 +32,13 @@ Install on OSX and Debian:
 
 
 
+# UglifyJS
+
+  sudo npm install uglify-js -g
+
+
+TODO: no composer package seems to exist
+
 
 # Run tests
 
