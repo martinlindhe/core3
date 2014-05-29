@@ -42,9 +42,11 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
     {
         $router = new \Web\RequestRouter();
         $this->assertEquals(true, $router->isValidViewName('index'));
-        $this->assertEquals(false, $router->isValidViewName(str_repeat('a', 25))); // max 20 letter view name
-        $this->assertEquals(false, $router->isValidViewName('123numbers'));
-        $this->assertEquals(false, $router->isValidViewName('MixedCase'));
+        $this->assertEquals(false, $router->isValidViewName(str_repeat('a', 40)));
+        $this->assertEquals(true, $router->isValidViewName('123numbers'));
+        $this->assertEquals(true, $router->isValidViewName('MixedCase'));
+        $this->assertEquals(true, $router->isValidViewName('with-line'));
+        $this->assertEquals(false, $router->isValidViewName('with.dot'));
         $this->assertEquals(false, $router->isValidViewName('unicöde'));
     }
 }

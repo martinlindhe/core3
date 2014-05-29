@@ -51,8 +51,7 @@ class Scss
 	{
 		if (!$this->isValidViewName($viewName)) {
 			http_response_code(400); // Bad Request
-			header('Content-Type: application/json');
-			echo json_encode(array('code'=>400, 'message'=>'Invalid scss name'));
+			error_log('Invalid scss name');
 			return;
 		}
 
@@ -60,10 +59,8 @@ class Scss
 		$cachedFile = $this->importPath.'/'.$viewName.'.compiled.css';
 
 		if (!file_exists($scssFile)) {
-			// TODO refactor API error message
 			http_response_code(400); // Bad Request
-			header('Content-Type: application/json');
-			echo json_encode(array('code'=>400, 'message'=>'No such scss file: '.$scssFile));
+			error_log('No such scss file: '.$scssFile);
 			return;
 		}
 
@@ -77,12 +74,10 @@ class Scss
 
 		header('Content-Type: text/css');
 		if (!$this->isClientCacheDirty($etag)) {
-			// tell client the content has not changed
-			http_response_code(304);
+			http_response_code(304); // Not Modified
 			return;
 		}
 
-		// serve a copy if client didnt have it
 		header('ETag: '.$etag);
 		$data = file_get_contents($cachedFile);
 
