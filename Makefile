@@ -3,32 +3,22 @@
 install-composer:
 	curl -s https://getcomposer.org/installer | php
 
-install-dev-deps:
-	php composer.phar install --dev
-
-update-dev-deps:
+install-deps:
+update-deps:
 	php composer.phar update --dev
 
-install-production-deps:
-	php composer.phar install
-
+update-prod-deps:
 update-production-deps:
 	php composer.phar update
 
 test:
-	./vendor/bin/phpunit --stderr --exclude-group Benchmark,Database
+	./vendor/bin/phpunit --exclude-group Benchmark,Database
 
 test-all:
-	./vendor/bin/phpunit --stderr
-
-test-reader:
-	./vendor/bin/phpunit --stderr --group Reader
-
-test-writer:
-	./vendor/bin/phpunit --stderr --group Writer
+	./vendor/bin/phpunit
 
 benchmark:
-	./vendor/bin/phpunit --stderr --group Benchmark
+	./vendor/bin/phpunit --group Benchmark
 
 lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test view
