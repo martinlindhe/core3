@@ -3,9 +3,9 @@ namespace Core;
 
 require_once 'Exceptions.php';
 
-class Bootstrapper
+class Bootstrap
 {
-    public static function autoload($class)
+    private static function autoload($class)
     {
         $class = strtr($class, "\\", DIRECTORY_SEPARATOR);
 
@@ -17,16 +17,16 @@ class Bootstrapper
     }
 
     /**
-     * Bootstraps the application
+     * Activates the class autoloader
      * @codeCoverageIgnore
      */
-    public static function bootstrap()
+    public static function registerAutoloader()
     {
-        spl_autoload_register('Core\Bootstrapper::autoload');
+        spl_autoload_register('Core\Bootstrap::autoload');
     }
 
     /**
-     * unit test helper
+     * Test helper
      * @codeCoverageIgnore
      */
     public static function initTestingSettings()
