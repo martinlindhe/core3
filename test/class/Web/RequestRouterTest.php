@@ -12,7 +12,8 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         $router = new \Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         //$router->setApplicationWebRoot('/app1');
-        $router->route('/');
+        
+        $res = $router->route('/');
 
         // TODO: verify output, for example request page not found and check that we get a 404 return.
         //       load start page and check that we get a 200 OK
@@ -24,9 +25,53 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         $router = new \Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         $router->setApplicationWebRoot('/app1');
-        $router->route('/app1/');
+        
+        $res = $router->route('/app1/');
 
         // TODO verify output
+    }
+
+    function testSstripApplicationPrefix()
+    {
+        $router = new \Web\RequestRouter();
+        $router->setApplicationDirectoryRoot(__DIR__);
+
+        $router->setApplicationWebRoot('/app1');
+
+        $this->assertEquals(
+                '/path/view',
+                $router->stripApplicationPrefix('/app1/path/view')
+                );
+
+        $router->setApplicationWebRoot('/');
+
+        $this->assertEquals(
+                '/path/view',
+                $router->stripApplicationPrefix('/path/view')
+                );
+    }
+
+    function testRoutedResult404()
+    {
+        // NOTE: test config where the app is served from a subdirectory of the webserver, like http://localhost/app1
+        $router = new \Web\RequestRouter();
+        $router->setApplicationDirectoryRoot(__DIR__);
+        $router->setApplicationWebRoot('/');
+        
+        $res = $router->route('/wrong/path');
+        
+        // TODO how can wwe verify http code is 404 ?
+        
+        $this->assertEquals(
+            '<html>
+
+<title>404 error - file not found!</title>
+
+/wrong/path not found
+
+</html>
+', $res);
+
     }
 
     /**

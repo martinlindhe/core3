@@ -9,6 +9,10 @@ class Scss
 
     public function setImportPath($path)
     {
+        if (!is_dir($path)) {
+            throw new \DirectoryNotFoundRexception();
+        }
+
         $this->importPath = $path;
     }
 
@@ -45,7 +49,7 @@ class Scss
     }
 
     /**
-     * WARNING: outputs result to stdout and sets http headers
+     * WARNING: outputs http headers
      */
     public function handle($viewName)
     {
@@ -81,7 +85,7 @@ class Scss
 
         header('ETag: '.$etag);
 
-        echo $data;
+        return $data;
     }
 
     /**

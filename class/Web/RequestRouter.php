@@ -5,6 +5,8 @@ class RequestRouter
 {
     protected $applicationDirectoryRoot;
     protected $applicationWebRoot;
+    
+    protected $routes;
 
     public function setApplicationDirectoryRoot($path)
     {
@@ -22,15 +24,23 @@ class RequestRouter
 
     public function stripApplicationPrefix($request)
     {
+        if ($this->applicationWebRoot == '/') {
+            return $request;
+        }
+
         $len = strlen($this->applicationWebRoot);
 
         if (substr($request, 0, $len) != $this->applicationWebRoot) {
-            throw new \Exception('broken input one !');
+            throw new \Exception('broken input');
         }
 
         return substr($request, $len);
     }
 
+    /**
+     * @param string $request Requested path
+     * @return string rendered view
+     */
     public function route($request)
     {
         if ($this->applicationWebRoot) {
@@ -56,14 +66,21 @@ class RequestRouter
         unset($parts);
 
         \Writer\DocumentXhtml::sendHttpHeaders();
+        
+        // call registered method
+        if (isset($this->routes[$view])) {
+            return $this->routes[$view]($param);
+        }
 
         // SECURITY: all defined variables will be available to the view
 
+        ob_start();
         include $this->getViewFilename($view);
+        return ob_get_clean();
     }
 
     /**
-     * @return true if $viewName is valid (a-z, A-Z, 0-9 and -, and max 30 letters)
+     * @return bool if $viewName is valid (a-z, A-Z, 0-9 and -, and max 30 letters)
      */
     public function isValidViewName($name)
     {
@@ -91,5 +108,13 @@ class RequestRouter
         }
 
         return $fileName;
+    }
+    
+    /**
+     * @param string $route
+     */
+    public function registerRoute($route, $callback)
+    {
+        $this->routes[$route] = $callback;
     }
 }
