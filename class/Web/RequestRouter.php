@@ -57,10 +57,7 @@ class RequestRouter
 
         \Writer\DocumentXhtml::sendHttpHeaders();
 
-        // SECURITY NOTE: all defined variables will be available to the view
-        // $request  string   web request
-        // $view     string   name of the view
-        // $param    array    the parameters passed to this view
+        // SECURITY: all defined variables will be available to the view
 
         include $this->getViewFilename($view);
     }

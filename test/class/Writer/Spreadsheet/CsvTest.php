@@ -8,8 +8,6 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 {
     function testHttpHeaders()
     {
-        // NOTE: for header() testing to work, we must run phpunit with --stderr
-
         $fileName = 'file_'.mt_rand().'.csv';
 
         $writer = new Csv();

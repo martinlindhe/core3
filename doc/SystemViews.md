@@ -5,10 +5,15 @@ by using the same names and putting them in your app/view,
 the application views are used instead.
 
 
-The user views can only contain a-z lower case letters,
+The user views can only contain a-z, A-Z, 0-9 and "-",
 all other characters are reserved.
 
-The system views
+
+Available variables:
+    $request  string   web request
+    $view     string   name of the view
+    $param    array    the parameters passed to this view
+
 
 
 
