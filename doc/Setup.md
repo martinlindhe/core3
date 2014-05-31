@@ -5,7 +5,7 @@ PHP 5.3.7 is minimum requirement, due to password_compat requirements
 
 
 
-# Install
+# Install 1: Dependencies for development
 
 In order to simplify setup, requirement must be installed using composer
 
@@ -17,14 +17,29 @@ Next, let composer install project depencencies + required dev tools (phpunit, h
 
   make install-dev-deps
 
-After changes to composer.json, update depenencies:
 
-  make update-dev-deps
 
-On a production install, instead use
+# Install 1: Dependencies for production
 
-  make install-production-deps
+  make install-composer && make install-production-deps
+
+
+
+# Install 2: Upgrade dependencies
+
+After changes to composer.json, depenencies need to be updated:
+
   make update-production-deps
+
+
+
+# Install 2: Link to core3
+
+Then add a symlink to core3 in the project root directory:
+
+  ln -s /path/to/core3 /path/to/core3_app1/core3
+
+(Or check out the repository to core3)
 
 
 
