@@ -1,7 +1,7 @@
 <?php
 namespace Core;
 
-require_once 'Exceptions.php';
+require_once __DIR__.'/../Exceptions.php';
 
 class Bootstrap
 {
