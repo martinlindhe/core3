@@ -13,6 +13,19 @@ class ResponseError
 		case self::MISSING_PARAM: return 'Missing parameters';
 		}
 	}
+    
+    public static function exceptionToJson(\Exception $ex)
+    {
+        $arr = array(
+            'status'    => 'exception',
+            'exception' => get_class($ex),
+            'message'   => htmlentities($ex->getMessage()),
+            'file'      => htmlentities($ex->getFile()),
+            'line'      => $ex->getLine(),
+        );
+
+        return json_encode($arr, JSON_UNESCAPED_SLASHES);
+    }
 
 	public static function asArray($code, $message = '')
 	{
