@@ -49,23 +49,22 @@ class Scss
     }
 
     /**
-     * WARNING: outputs http headers
+     * @param type $viewName base name of view to handle
+     * @return type
+     * @throws \FileNotFoundException
+     * @throws \CachedApiException
      */
     public function handle($viewName)
     {
         if (!$this->isValidViewName($viewName)) {
-            http_response_code(400); // Bad Request
-            error_log('Invalid scss name');
-            return;
+            throw new \Exception('Invalid scss name');
         }
 
         $scssFile = $this->importPath.'/'.$viewName.'.scss';
         $cachedFile = $this->importPath.'/compiled/'.$viewName.'.compiled.css';
 
         if (!file_exists($scssFile)) {
-            http_response_code(400); // Bad Request
-            error_log('No such scss file: '.$scssFile);
-            return;
+            throw new \FileNotFoundException('Scss not found');
         }
 
         if (file_exists($cachedFile)) {
@@ -77,12 +76,11 @@ class Scss
         $cachedMtime = filemtime($cachedFile);
         $etag = '"'.md5($cachedFile.$cachedMtime).'"';
 
-        header('Content-Type: text/css');
         if (!$this->isClientCacheDirty($etag)) {
-            http_response_code(304); // Not Modified
-            return;
+            throw new \CachedInClientException();
         }
 
+        // TODO dont set headers in here
         header('ETag: '.$etag);
 
         return $data;
@@ -103,6 +101,14 @@ class Scss
 
     public function renderToFile($scssFile, $cachedFile)
     {
+        $dstDir = dirname($cachedFile);
+        if (!is_dir($dstDir)) {
+            throw new \DirectoryNotFoundRexception($dstDir);
+        }
+        if (!is_writable($dstDir)) {
+           throw new \WritePermissionDeniedException($dstDir);
+        }
+
         file_put_contents($cachedFile, $this->render($scssFile));
     }
 }
