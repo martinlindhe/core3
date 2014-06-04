@@ -39,16 +39,16 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         $router->setApplicationWebRoot('/app1');
 
         $this->assertEquals(
-                '/path/view',
-                $router->stripApplicationPrefix('/app1/path/view')
-                );
+            '/path/view',
+            $router->stripApplicationPrefix('/app1/path/view')
+        );
 
         $router->setApplicationWebRoot('/');
 
         $this->assertEquals(
-                '/path/view',
-                $router->stripApplicationPrefix('/path/view')
-                );
+            '/path/view',
+            $router->stripApplicationPrefix('/path/view')
+        );
     }
 
     function testRoutedResult404()
@@ -63,14 +63,15 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         // TODO how can wwe verify http code is 404 ?
         
         $this->assertEquals(
-            '<html>
-
-<title>404 error - file not found!</title>
-
-/wrong/path not found
-
-</html>
-', $res);
+            "<html>\n".
+            "\n".
+            "<title>404 error - file not found!</title>\n".
+            "\n".
+            "/wrong/path not found\n".
+            "\n".
+            "</html>\n",
+            $res
+        );
 
     }
 
