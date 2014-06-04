@@ -1,8 +1,6 @@
 <?php
 namespace Writer;
 
-require_once realpath(__DIR__.'/../../vendor/leafo/scssphp').'/scss.inc.php';
-
 class Scss
 {
     protected $importPath;

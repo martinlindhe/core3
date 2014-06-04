@@ -1,8 +1,8 @@
 <?php
 namespace Writer\Spreadsheet;
 
-$tcpdfRoot = realpath(__DIR__.'/../../../vendor/tecnick.com/tcpdf');
-require_once $tcpdfRoot.'/tcpdf.php';
+// TODO: tcpdf dont have autoloading?
+require_once realpath(__DIR__.'/../../../vendor/tecnick.com/tcpdf').'/tcpdf.php';
 
 class Pdf extends \Writer\Spreadsheet
 {

@@ -1,8 +1,6 @@
 <?php
 namespace Client;
 
-require_once realpath(__DIR__.'/../../vendor/swiftmailer/swiftmailer/lib/').'/swift_required.php';
-
 /**
  * Uses Swiftmailer
  */

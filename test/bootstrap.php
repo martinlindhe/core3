@@ -1,8 +1,7 @@
 <?php
 namespace Core;
 
-require_once realpath(__DIR__.'/../class/Core').'/Bootstrap.php';
+require_once __DIR__.'/../class/Core/Bootstrap.php';
+
 Bootstrap::registerAutoloader();
-
 Bootstrap::initTestingSettings();
-

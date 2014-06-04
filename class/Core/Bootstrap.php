@@ -17,11 +17,13 @@ class Bootstrap
     }
 
     /**
-     * Activates the class autoloader
+     * Registers composer autoloader and our class autoloader
      * @codeCoverageIgnore
      */
     public static function registerAutoloader()
     {
+        require_once __DIR__.'/../../vendor/autoload.php';
+
         spl_autoload_register('Core\Bootstrap::autoload');
     }
 
