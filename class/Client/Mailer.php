@@ -4,7 +4,7 @@ namespace Client;
 /**
  * Uses Swiftmailer
  */
-class Mailer extends \Writer\MimeMessage
+class Mailer extends \Writer\MimeMessage // TODO drop MimeMessage
 {
     private function deliver(\Swift_Message $message)
     {
