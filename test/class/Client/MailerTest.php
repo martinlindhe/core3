@@ -1,6 +1,7 @@
 <?php
 /**
  * @group Client
+ * @group Mailer
  * 
  * NOTE: in ordet to test this, setup MTA on localhost:25 and
  *       verify the recieved mails are correct
