@@ -22,7 +22,7 @@ class ScssTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '.navigation{color:#eee;}.footer{color:#444;}',
-            $scss->render($code)
+            $scss->renderCode($code)
         );
     }
 }
