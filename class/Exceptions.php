@@ -1,6 +1,7 @@
 <?php
 /**
  * All exceptions lives in root namespace
+ * used SPL exceptions: InvalidArgumentException
  */
 
 class AlreadyConnectedException extends \Exception
