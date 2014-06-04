@@ -23,13 +23,13 @@ class Spreadsheet
     }
 
     /**
-	 * Defines column names using an 1D array of strings
-	 */
+     * Defines column names using an 1D array of strings
+     */
     public function defineColumns($cols)
     {
-		if (!is_array($cols) && !is_object($cols)) {
-			throw new \InvalidArgumentException();
-		}
+        if (!is_array($cols) && !is_object($cols)) {
+            throw new \InvalidArgumentException();
+        }
         $this->columns = $cols;
     }
 
@@ -42,22 +42,22 @@ class Spreadsheet
 
     public function addRow($row)
     {
-		if (!is_array($row) && !is_object($row)) {
-			throw new \InvalidArgumentException();
-		}
+        if (!is_array($row) && !is_object($row)) {
+            throw new \InvalidArgumentException();
+        }
 
         if (count($this->columns) != 0 && count($row) != count($this->columns)) {
             throw new \InvalidArgumentException('column count mismatch');
-		}
+        }
 
         $this->rows[] = $row;
     }
 
     public function setFooter($cols)
     {
-		if (!is_array($cols) && !is_object($cols)) {
-			throw new \InvalidArgumentException();
-		}
+        if (!is_array($cols) && !is_object($cols)) {
+            throw new \InvalidArgumentException();
+        }
 
         $this->footer = $cols;
     }

@@ -24,20 +24,20 @@ class MimeMessage
     protected $boundary;
     protected $attachments = array();
 
-	public function getAttachments()
+    public function getAttachments()
     {
         return $this->attachments;
     }
-	
+
     public function getRecipients()
     {
         return $this->mailRecipients;
     }
-	
-	public function getFrom()
-	{
-		return $this->mailFrom;
-	}
+
+    public function getFrom()
+    {
+        return $this->mailFrom;
+    }
 
     public function setContentType($s)
     {
@@ -99,16 +99,15 @@ class MimeMessage
         $this->message = $s;
     }
 
-	
     /**
 	 * @return $contentId used to refer to embedded graphics from html document
      */
     public function embedData($data, $fileName, $mimeType)
     {
-		static $contentCnt = 0;
+        static $contentCnt = 0;
 
-		$contentCnt++;
-		$contentId = 'content_'.$contentCnt;
+        $contentCnt++;
+        $contentId = 'content_'.$contentCnt;
 
         $a = new MimeAttachment();
         $a->data      = $data;
@@ -116,7 +115,7 @@ class MimeMessage
         $a->mimeType  = $mimeType;
         $a->contentId = $contentId;
         $this->attachments[] = $a;
-		return $contentId;
+        return $contentId;
     }
 
     public function attachData($data, $fileName, $mimeType)

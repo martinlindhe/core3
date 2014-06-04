@@ -33,27 +33,30 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
     function testUseObjects()
     {
-		// NOTE tests the use of objects
+        // NOTE tests the use of objects
 
-        $row1 = new RowFormat();
-        $row1->id = 1;
-        $row1->name = "mr mr";
-        $row1->decimalNumber = 3.14;
-        $row1->datestamp = "2014-04-26 11:13:21";
+        $rowOne = new RowFormat();
+        $rowOne->id = 1;
+        $rowOne->name = "mr mr";
+        $rowOne->decimalNumber = 3.14;
+        $rowOne->datestamp = "2014-04-26 11:13:21";
 
-        $row2 = new RowFormat();
-        $row2->id = 2;
-        $row2->name = "oteth";
-        $row2->decimalNumber = 5.559;
-        $row2->datestamp = "2014-05-01 12:00:00";
+        $rowTwo = new RowFormat();
+        $rowTwo->id = 2;
+        $rowTwo->name = "oteth";
+        $rowTwo->decimalNumber = 5.559;
+        $rowTwo->datestamp = "2014-05-01 12:00:00";
 
         $model = new Model\Spreadsheet();
-        $model->addRows(array($row1, $row2));
+        $model->addRows(array($rowOne, $rowTwo));
 
         $writer = new Writer\Spreadsheet\Json();
 
         $this->assertEquals(
-            '[{"id":1,"name":"mr mr","decimalNumber":3.14,"datestamp":"2014-04-26 11:13:21"},{"id":2,"name":"oteth","decimalNumber":5.559,"datestamp":"2014-05-01 12:00:00"}]',
+            '['.
+            '{"id":1,"name":"mr mr","decimalNumber":3.14,"datestamp":"2014-04-26 11:13:21"},'.
+            '{"id":2,"name":"oteth","decimalNumber":5.559,"datestamp":"2014-05-01 12:00:00"}'.
+            ']',
             $writer->render($model)
         );
     }
