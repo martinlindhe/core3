@@ -3,25 +3,46 @@ namespace Client;
 
 class WebRequest
 {
-	public static function Get($url, $headers = null)
+	private $ch; ///< cURL handle
+
+	public function __construct()
 	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$this->ch = curl_init();
+		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);		
+	}
+	
+	public function __destruct()
+	{
+		curl_close($this->ch);
+	}
 
-		if (is_array($headers)) {
-			$curl_headers = array ();
+	/**
+	 * Performs a simple HTTP GET request
+	 * @param string $url
+	 * @param array $headers
+	 * @return \Client\WebResponse
+	 */
+	public function Get($url, array $headers = array())
+	{
+		curl_setopt($this->ch, CURLOPT_URL, $url);
 
-			foreach ($headers as $key => $value) {
-				$curl_headers[] = "$key: $value";
-			}
-			curl_setopt($ch, CURLOPT_HTTPHEADER, $curl_headers);
+		$this->setHeaders($headers);
+		
+		$res = new WebResponse();
+		$res->content = curl_exec($this->ch);
+		$res->httpCode = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+
+		return $res;
+	}
+	
+	private function setHeaders(array $headers)
+	{
+		$curl_headers = array();
+
+		foreach ($headers as $key => $value) {
+			$curl_headers[] = "$key: $value";
 		}
 
-		$content = curl_exec($ch);
-		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
-
-		return array ('content' => $content, 'http_code' => $http_code);
-	}	
+		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $curl_headers);
+	}
 }
