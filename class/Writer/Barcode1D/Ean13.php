@@ -1,8 +1,6 @@
 <?php
 namespace Writer\Barcode1D;
 
-require_once realpath(__DIR__.'/../../../vendor/tecnick.com/tcpdf').'/tcpdf_barcodes_1d.php';
-
 class Ean13 extends \Writer\Barcode1D
 {
     public function renderAsHtml($code)

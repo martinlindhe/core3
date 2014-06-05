@@ -1,9 +1,6 @@
 <?php
 namespace Writer\Spreadsheet;
 
-$tcpdfRoot = realpath(__DIR__.'/../../../vendor/tecnick.com/tcpdf');
-require_once $tcpdfRoot.'/tcpdf.php';
-
 class Pdf extends \Writer\Spreadsheet
 {
     protected $creator;
@@ -70,7 +67,7 @@ class Pdf extends \Writer\Spreadsheet
 
     private function initTcpdfObject()
     {
-        $tcpdf = new \tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $tcpdf = new \TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         if ($this->creator) {
             $tcpdf->SetCreator($this->creator);

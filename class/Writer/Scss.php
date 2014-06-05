@@ -1,8 +1,6 @@
 <?php
 namespace Writer;
 
-require_once realpath(__DIR__.'/../../vendor/leafo/scssphp').'/scss.inc.php';
-
 class Scss
 {
     protected $importPath;
@@ -87,11 +85,12 @@ class Scss
     }
 
     /**
+     * Render a scss file to css
      * @param $scssFile scss file to render
+     * @return string compiled css
      */
-    public function render($scssFile)
+    public function renderFile($scssFile)
     {
-        // render document
         $scss = new \scssc();
         $scss->setImportPaths($this->importPath);
         $scss->setFormatter('scss_formatter_compressed');
@@ -99,6 +98,21 @@ class Scss
         return $scss->compile('@import "'.basename($scssFile).'"');
     }
 
+    /**
+     * Render a scss code block to css
+     * @return string compiled css
+     */
+    public function renderCode($scssCode)
+    {
+        $scss = new \scssc();
+        $scss->setFormatter('scss_formatter_compressed');
+
+        return $scss->compile($scssCode);
+    }
+
+    /**
+     * Render a scss file to css and writes to disk
+     */
     public function renderToFile($scssFile, $cachedFile)
     {
         $dstDir = dirname($cachedFile);
@@ -109,6 +123,6 @@ class Scss
            throw new \WritePermissionDeniedException($dstDir);
         }
 
-        file_put_contents($cachedFile, $this->render($scssFile));
+        file_put_contents($cachedFile, $this->renderFile($scssFile));
     }
 }

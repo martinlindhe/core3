@@ -12,7 +12,7 @@ update-production-deps:
 	php composer.phar update
 
 test:
-	./vendor/bin/phpunit --exclude-group Benchmark,Database
+	./vendor/bin/phpunit --exclude-group Benchmark,Database,Mailer
 
 test-all:
 	./vendor/bin/phpunit
