@@ -5,6 +5,7 @@ class ResponseError
 {
     const GENERAL = 400;
     const MISSING_PARAM = 410;
+    const EXCEPTION = 420;
 
     protected static function getDefaultMessage($code)
     {
@@ -13,12 +14,15 @@ class ResponseError
             return 'General error';
         case self::MISSING_PARAM:
             return 'Missing parameters';
+        case self::EXCEPTION:
+            return 'Exception';
         }
     }
     
     public static function exceptionToJson(\Exception $ex)
     {
         $arr = array(
+            'code'      => self::EXCEPTION,
             'status'    => 'exception',
             'exception' => get_class($ex),
             'message'   => htmlentities($ex->getMessage()),
