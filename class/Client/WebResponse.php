@@ -3,6 +3,6 @@ namespace Client;
 
 class WebResponse
 {
-	var $httpCode;
-	var $content;
+    var $httpCode;
+    var $content;
 }

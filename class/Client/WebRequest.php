@@ -3,46 +3,46 @@ namespace Client;
 
 class WebRequest
 {
-	private $ch; ///< cURL handle
+    private $ch; ///< cURL handle
 
-	public function __construct()
-	{
-		$this->ch = curl_init();
-		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);		
-	}
-	
-	public function __destruct()
-	{
-		curl_close($this->ch);
-	}
+    public function __construct()
+    {
+        $this->ch = curl_init();
+        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);		
+    }
 
-	/**
-	 * Performs a simple HTTP GET request
-	 * @param string $url
-	 * @param array $headers
-	 * @return \Client\WebResponse
-	 */
-	public function Get($url, array $headers = array())
-	{
-		curl_setopt($this->ch, CURLOPT_URL, $url);
+    public function __destruct()
+    {
+        curl_close($this->ch);
+    }
 
-		$this->setHeaders($headers);
-		
-		$res = new WebResponse();
-		$res->content = curl_exec($this->ch);
-		$res->httpCode = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+    /**
+     * Performs a simple HTTP GET request
+     * @param string $url
+     * @param array $headers
+     * @return \Client\WebResponse
+     */
+    public function Get($url, array $headers = array())
+    {
+        curl_setopt($this->ch, CURLOPT_URL, $url);
 
-		return $res;
-	}
-	
-	private function setHeaders(array $headers)
-	{
-		$curl_headers = array();
+        $this->setHeaders($headers);
 
-		foreach ($headers as $key => $value) {
-			$curl_headers[] = "$key: $value";
-		}
+        $res = new WebResponse();
+        $res->content = curl_exec($this->ch);
+        $res->httpCode = curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
 
-		curl_setopt($this->ch, CURLOPT_HTTPHEADER, $curl_headers);
-	}
+        return $res;
+    }
+
+    private function setHeaders(array $headers)
+    {
+        $curlHeaders = array();
+
+        foreach ($headers as $key => $value) {
+            $curlHeaders[] = "$key: $value";
+        }
+
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $curlHeaders);
+    }
 }
