@@ -48,6 +48,14 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db->connect(); // should raise exception
     }
 
+    function tearDown()
+    {
+        $db = $this->getConnection();
+
+        $db->query('DROP TEMPORARY TABLE IF EXISTS testTable');
+        $db->query('DROP PROCEDURE IF EXISTS TestProcedure');
+    }
+
     function testSelectItem()
     {
         $db = $this->getConnection();
@@ -56,7 +64,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $db->query(
             '
-		CREATE TABLE testSelectItem (
+		CREATE TEMPORARY TABLE testTable (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
 			name varchar(32) NOT NULL,
 			PRIMARY KEY (id)
@@ -65,13 +73,11 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(true, $db->isConnected());
 
-        $db->insert('INSERT INTO testSelectItem SET name = :name', array(':name' => 'Pelle'));
-        $db->insert('INSERT INTO testSelectItem SET name = :name', array(':name' => 'Kalle'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Pelle'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Kalle'));
 
-        $cnt = $db->selectItem('SELECT COUNT(*) FROM testSelectItem');
+        $cnt = $db->selectItem('SELECT COUNT(*) FROM testTable');
         $this->assertEquals(2, $cnt);
-
-        $db->query('DROP TABLE testSelectItem');
 
         $db->disconnect();
         $this->assertEquals(false, $db->isConnected());
@@ -86,26 +92,24 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('127.0.0.1', $db->getServer());
 
-        $db->query('DROP TABLE IF EXISTS testSelectItemMultiRowsResultFailure');
-
         $db->query(
             '
-		CREATE TABLE testSelectItemMultiRowsResultFailure (
+		CREATE TEMPORARY TABLE testTable (
 			name varchar(32) NOT NULL
 		)'
         );
 
         $this->assertEquals(true, $db->isConnected());
 
-        $db->insert('INSERT INTO testSelectItemMultiRowsResultFailure SET name = :name', array(':name' => 'Pelle'));
-        $db->insert('INSERT INTO testSelectItemMultiRowsResultFailure SET name = :name', array(':name' => 'Kalle'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Pelle'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Kalle'));
 
-        $cnt = $db->selectItem('SELECT * FROM testSelectItemMultiRowsResultFailure'); // should raise exception
+        $cnt = $db->selectItem('SELECT * FROM testTable'); // should raise exception
     }
 
     /**
-	 * @expectedException InvalidResultException
-	 */
+     * @expectedException InvalidResultException
+     */
     function testSelectItemMultipleColumnsFailure()
     {
         $db = $this->getConnection();
@@ -118,18 +122,18 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $db->query(
             '
-		CREATE TABLE testToObject (
+		CREATE TEMPORARY TABLE testTable (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
 			name varchar(32) NOT NULL,
 			PRIMARY KEY (id)
 		)'
         );
 
-        $db->insert('INSERT INTO testToObject SET name = :name', array(':name' => 'Lisa'));
-        $db->insert('INSERT INTO testToObject SET name = :name', array(':name' => 'Ebba'));
-        $db->insert('INSERT INTO testToObject SET name = :name', array(':name' => 'Didrik'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Lisa'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Ebba'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Didrik'));
 
-        $res = $db->selectToObjects('test2Table', 'SELECT * FROM testToObject');
+        $res = $db->selectToObjects('test2Table', 'SELECT * FROM testTable');
 
         $this->assertEquals(3, count($res));
 
@@ -139,7 +143,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $res = $db->selectToObject(
             'test2Table',
-            'SELECT * FROM testToObject WHERE name = :name',
+            'SELECT * FROM testTable WHERE name = :name',
             array(':name' => 'Ebba')
         );
 
@@ -147,8 +151,6 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $chk->id = 2;
         $chk->name = 'Ebba';
         $this->assertEquals($chk, $res);
-
-        $db->query('DROP TABLE testToObject');
     }
 
     function testSelectRow()
@@ -157,63 +159,57 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $db->query(
             '
-		CREATE TABLE testSelectRow (
+		CREATE TEMPORARY TABLE testTable (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
 			name varchar(32) NOT NULL,
 			PRIMARY KEY (id)
 		)'
         );
 
-        $res = $db->select('SELECT * FROM testSelectRow');
+        $res = $db->select('SELECT * FROM testTable');
         $this->assertSame(array(), $res);
 
-        $db->insert('INSERT INTO testSelectRow SET name = :name', array(':name' => 'Lotta'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Lotta'));
 
-        $res = $db->select('SELECT * FROM testSelectRow');
+        $res = $db->select('SELECT * FROM testTable');
         $this->assertSame(array( array('id'=>'1','name'=>'Lotta') ), $res);
 
-        $res = $db->selectRow('SELECT * FROM testSelectRow WHERE id = :id', array(':id' => 1));
+        $res = $db->selectRow('SELECT * FROM testTable WHERE id = :id', array(':id' => 1));
         $this->assertSame(array('id'=>'1','name'=>'Lotta'), $res);
-
-        $db->query('DROP TABLE testSelectRow');
     }
 
     /**
-	 * @expectedException InvalidResultException
-	 */
+     * @expectedException InvalidResultException
+     */
     function testSelectRowMultipleRowsFailure()
     {
         $db = $this->getConnection();
 
-        $db->query('DROP TABLE IF EXISTS testSelectRowMultipleRowsFailure');
-
         $db->query(
             '
-		CREATE TABLE testSelectRowMultipleRowsFailure (
+		CREATE TEMPORARY TABLE testTable (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
 			name varchar(32) NOT NULL,
 			PRIMARY KEY (id)
 		)'
         );
 
-        $db->insert('INSERT INTO testSelectRowMultipleRowsFailure SET name = :name', array(':name' => 'Lotta'));
-        $db->insert('INSERT INTO testSelectRowMultipleRowsFailure SET name = :name', array(':name' => 'Pelle'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Lotta'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Pelle'));
 
-        $res = $db->selectRow('SELECT * FROM testSelectRowMultipleRowsFailure');
+        $res = $db->selectRow('SELECT * FROM testTable');
     }
 
     /**
-	 * @expectedException InvalidResultException
-	 */
+     * @expectedException InvalidResultException
+     */
     function testSelectRowNoResult()
     {
         $db = $this->getConnection();
 
-        $db->query('DROP TABLE IF EXISTS testSelectRowNoResult');
-
         $db->query(
             '
-		CREATE TABLE testSelectRowNoResult (
+		CREATE TEMPORARY TABLE testTable (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
 			name varchar(32) NOT NULL,
 			PRIMARY KEY (id)
@@ -221,7 +217,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         );
 
         // expected to fail because the id dont exist
-        $res = $db->selectRow('SELECT * FROM testSelectRowNoResult WHERE id = :id', array(':id' => 1));
+        $res = $db->selectRow('SELECT * FROM testTable WHERE id = :id', array(':id' => 1));
     }
 
     function testUpdate()
@@ -230,35 +226,32 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $db->query(
             '
-		CREATE TABLE testUpdate (
+		CREATE TEMPORARY TABLE testTable (
 			id int(11) unsigned NOT NULL AUTO_INCREMENT,
 			name varchar(32) NOT NULL,
 			PRIMARY KEY (id)
 		)'
         );
 
-        $db->insert('INSERT INTO testUpdate SET name = :name', array(':name' => 'Pelle'));
-        $db->insert('INSERT INTO testUpdate SET name = :name', array(':name' => 'Kalle'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Pelle'));
+        $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Kalle'));
 
-        $cnt = $db->selectItem('SELECT COUNT(*) FROM testUpdate');
+        $cnt = $db->selectItem('SELECT COUNT(*) FROM testTable');
         $this->assertEquals(2, $cnt);
 
         $db->update(
-            'UPDATE testUpdate SET name = :newName WHERE name = :oldName',
+            'UPDATE testTable SET name = :newName WHERE name = :oldName',
             array(':newName' => 'Sven', ':oldName' => 'Kalle')
         );
 
-        $cnt = $db->selectItem('SELECT COUNT(*) FROM testUpdate WHERE name = :name', array(':name' => 'Sven'));
+        $cnt = $db->selectItem('SELECT COUNT(*) FROM testTable WHERE name = :name', array(':name' => 'Sven'));
         $this->assertEquals(1, $cnt);
 
-        $db->delete('DELETE FROM testUpdate WHERE name = :name', array(':name' => 'Pelle'));
+        $db->delete('DELETE FROM testTable WHERE name = :name', array(':name' => 'Pelle'));
 
 
-        $cnt = $db->selectItem('SELECT COUNT(*) FROM testUpdate');
+        $cnt = $db->selectItem('SELECT COUNT(*) FROM testTable');
         $this->assertEquals(1, $cnt);
-
-
-        $db->query('DROP TABLE testUpdate');
     }
 
     function testSelect1d()
@@ -267,29 +260,27 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $db->query(
             '
-		CREATE TABLE testSelect1d (
+		CREATE TEMPORARY TABLE testTable (
 			name VARCHAR(10) NOT NULL
 		)'
         );
 
         $db->insert(
-            'INSERT INTO testSelect1d (name) VALUES (:v1),(:v2),(:v3),(:v4),(:v5)',
+            'INSERT INTO testTable (name) VALUES (:v1),(:v2),(:v3),(:v4),(:v5)',
             array(':v1' => 'hej', ':v2' => 'svejs', ':v3' => 'tralla', ':v4' => 'lalla', ':v5' => 'lopp')
         );
 
-        $cnt = $db->selectItem('SELECT COUNT(*) FROM testSelect1d');
+        $cnt = $db->selectItem('SELECT COUNT(*) FROM testTable');
         $this->assertEquals(5, $cnt);
 
-        $res = $db->select1d('SELECT name FROM testSelect1d');
+        $res = $db->select1d('SELECT name FROM testTable');
 
         $this->assertEquals(array('hej', 'svejs', 'tralla', 'lalla', 'lopp'), $res);
-
-        $db->query('DROP TABLE testSelect1d');
     }
 
     /**
-	 * @expectedException InvalidResultException
-	 */
+     * @expectedException InvalidResultException
+     */
     function testSelect1dFailure()
     {
         $db = $this->getConnection();
@@ -302,14 +293,14 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $db->query(
             '
-		CREATE TABLE testSelectMapped (
+		CREATE TEMPORARY TABLE testTable (
 			id int(11) unsigned NOT NULL,
 			name VARCHAR(10) NOT NULL
 		)'
         );
 
         $db->insert(
-            'INSERT INTO testSelectMapped (id,name) VALUES (:v1a,:v1b),(:v2a,:v2b),(:v3a,:v3b)',
+            'INSERT INTO testTable (id,name) VALUES (:v1a,:v1b),(:v2a,:v2b),(:v3a,:v3b)',
             array(
                 ':v1a' => 2, ':v1b' => 'boll',
                 ':v2a' => 4, ':v2b' => 'sten',
@@ -317,19 +308,17 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $cnt = $db->selectItem('SELECT COUNT(*) FROM testSelectMapped');
+        $cnt = $db->selectItem('SELECT COUNT(*) FROM testTable');
         $this->assertEquals(3, $cnt);
 
-        $res = $db->selectMapped('SELECT id, name FROM testSelectMapped');
+        $res = $db->selectMapped('SELECT id, name FROM testTable');
 
         $this->assertEquals(array( 2 => 'boll', 4 => 'sten', 19 => 'burk'), $res);
-
-        $db->query('DROP TABLE testSelectMapped');
     }
 
     /**
-	 * @expectedException InvalidResultException
-	 */
+     * @expectedException InvalidResultException
+     */
     function testSelectMappedFailure()
     {
         $db = $this->getConnection();
@@ -337,8 +326,8 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-	 * @expectedException InvalidArgumentException
-	 */
+     * @expectedException InvalidArgumentException
+     */
     function testSelectNoQueryFailure()
     {
         $db = $this->getConnection();
@@ -346,8 +335,8 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-	 * @expectedException InvalidQueryException
-	 */
+     * @expectedException InvalidQueryException
+     */
     function testSelectInvalidQueryFailure()
     {
         $db = $this->getConnection();
@@ -360,11 +349,9 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         // NOTE: the mysql "DELIMITER" command is inplemented client side and is messing with these tests
 
-        $db->query('DROP PROCEDURE IF EXISTS ProcedureTest1');
-
         $db->query(
             '
-		CREATE PROCEDURE ProcedureTest1 (
+		CREATE PROCEDURE TestProcedure (
 			IN input VARCHAR(255)
 		)
 
@@ -374,7 +361,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         );
 
         $res = $db->storedProc(
-            'CALL ProcedureTest1(:param)',
+            'CALL TestProcedure(:param)',
             array(':param' => 'tjena')
         );
 
