@@ -3,13 +3,22 @@
  * @group Client
  * @group Mailer
  * 
- * NOTE: in ordet to test this, setup MTA on localhost:25 and
+ * NOTE: in order to test this, setup MTA on localhost:25 and
  *       verify the recieved mails are correct
  */
 class MailerTest extends \PHPUnit_Framework_TestCase
 {
     private $toAddress = 'martin.lindhe@freespee.com';
 
+	function testValidMail()
+    {
+        $mailer = new \Client\Mailer();
+        $this->assertEquals(true, $mailer->isValidMail('user.name@sub.domain.com'));
+
+        $this->assertEquals(false, $mailer->isValidMail('user.name'));
+        $this->assertEquals(false, $mailer->isValidMail('@domain.com'));
+    }
+	
     function testSendTextMail()
     {
         $msg =
@@ -73,5 +82,21 @@ class MailerTest extends \PHPUnit_Framework_TestCase
         '<img src="cid:'.$contentId.'"/>';  // <- embeds attached image in the mail
 
         $mailer->sendHtml($msg);
+    }
+
+	function testSendTemplate()
+    {
+        $mailer = new \Client\Mailer();
+        $mailer->setFrom('noreply@example.com');
+        $mailer->addRecipient($this->toAddress);
+        $mailer->setSubject('template mail åäö');
+		
+		$vars = array(
+			'BASE_URL' => 'http:///www.test.com/',
+			'TEXT' => 'message body!'
+		);
+		
+		$mailer->setTemplatePath(__DIR__.'/../../../template/mail/');
+        $mailer->sendTemplate('generic', $vars);
     }
 }
