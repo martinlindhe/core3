@@ -3,12 +3,10 @@
 install-composer:
 	curl -s https://getcomposer.org/installer | php
 
-install-deps:
-update-deps:
+install-deps update-deps:
 	php composer.phar update --dev
 
-update-prod-deps:
-update-production-deps:
+update-prod-deps update-production-deps:
 	php composer.phar update
 
 test:
