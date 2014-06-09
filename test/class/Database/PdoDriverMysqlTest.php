@@ -63,12 +63,11 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('127.0.0.1', $db->getServer());
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			id int(11) unsigned NOT NULL AUTO_INCREMENT,
-			name varchar(32) NOT NULL,
-			PRIMARY KEY (id)
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'id int(11) unsigned NOT NULL AUTO_INCREMENT,'.
+                'name varchar(32) NOT NULL,'.
+                'PRIMARY KEY (id)'.
+            ')'
         );
 
         $this->assertEquals(true, $db->isConnected());
@@ -93,10 +92,9 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('127.0.0.1', $db->getServer());
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			name varchar(32) NOT NULL
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'name varchar(32) NOT NULL'.
+            ')'
         );
 
         $this->assertEquals(true, $db->isConnected());
@@ -121,12 +119,11 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db = $this->getConnection();
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			id int(11) unsigned NOT NULL AUTO_INCREMENT,
-			name varchar(32) NOT NULL,
-			PRIMARY KEY (id)
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'id int(11) unsigned NOT NULL AUTO_INCREMENT,'.
+                'name varchar(32) NOT NULL,'.
+                'PRIMARY KEY (id)'.
+            ')'
         );
 
         $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Lisa'));
@@ -158,12 +155,11 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db = $this->getConnection();
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			id int(11) unsigned NOT NULL AUTO_INCREMENT,
-			name varchar(32) NOT NULL,
-			PRIMARY KEY (id)
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'id int(11) unsigned NOT NULL AUTO_INCREMENT,'.
+                'name varchar(32) NOT NULL,'.
+                'PRIMARY KEY (id)'.
+            ')'
         );
 
         $res = $db->select('SELECT * FROM testTable');
@@ -186,12 +182,11 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db = $this->getConnection();
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			id int(11) unsigned NOT NULL AUTO_INCREMENT,
-			name varchar(32) NOT NULL,
-			PRIMARY KEY (id)
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'id int(11) unsigned NOT NULL AUTO_INCREMENT,'.
+                'name varchar(32) NOT NULL,'.
+                'PRIMARY KEY (id)'.
+            ')'
         );
 
         $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Lotta'));
@@ -208,12 +203,11 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db = $this->getConnection();
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			id int(11) unsigned NOT NULL AUTO_INCREMENT,
-			name varchar(32) NOT NULL,
-			PRIMARY KEY (id)
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'id int(11) unsigned NOT NULL AUTO_INCREMENT,'.
+                'name varchar(32) NOT NULL,'.
+                'PRIMARY KEY (id)'.
+            ')'
         );
 
         // expected to fail because the id dont exist
@@ -225,12 +219,11 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db = $this->getConnection();
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			id int(11) unsigned NOT NULL AUTO_INCREMENT,
-			name varchar(32) NOT NULL,
-			PRIMARY KEY (id)
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'id int(11) unsigned NOT NULL AUTO_INCREMENT,'.
+                'name varchar(32) NOT NULL,'.
+                'PRIMARY KEY (id)'.
+            ')'
         );
 
         $db->insert('INSERT INTO testTable SET name = :name', array(':name' => 'Pelle'));
@@ -249,7 +242,6 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 
         $db->delete('DELETE FROM testTable WHERE name = :name', array(':name' => 'Pelle'));
 
-
         $cnt = $db->selectItem('SELECT COUNT(*) FROM testTable');
         $this->assertEquals(1, $cnt);
     }
@@ -259,10 +251,9 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db = $this->getConnection();
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			name VARCHAR(10) NOT NULL
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'name VARCHAR(10) NOT NULL'.
+            ')'
         );
 
         $db->insert(
@@ -292,11 +283,10 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         $db = $this->getConnection();
 
         $db->query(
-            '
-		CREATE TEMPORARY TABLE testTable (
-			id int(11) unsigned NOT NULL,
-			name VARCHAR(10) NOT NULL
-		)'
+            'CREATE TEMPORARY TABLE testTable ('.
+                'id int(11) unsigned NOT NULL,'.
+                'name VARCHAR(10) NOT NULL'.
+            ')'
         );
 
         $db->insert(
@@ -350,14 +340,13 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
         // NOTE: the mysql "DELIMITER" command is inplemented client side and is messing with these tests
 
         $db->query(
-            '
-		CREATE PROCEDURE TestProcedure (
-			IN input VARCHAR(255)
-		)
+            'CREATE PROCEDURE TestProcedure ('.
+                'IN input VARCHAR(255)'.
+            ')'.
 
-		BEGIN
-			SELECT CONCAT(input,"_two");
-		END;'
+            'BEGIN '.
+                'SELECT CONCAT(input,"_two");'.
+            'END;'
         );
 
         $res = $db->storedProc(
