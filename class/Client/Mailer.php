@@ -17,21 +17,63 @@ class Mailer
     protected $message;
     protected $boundary;
     protected $attachments = array();	
-	protected $templatePath;
+    protected $templatePath;
 
     public function getAttachments()
     {
         return $this->attachments;
     }
 
+    /**
+     * @return array of MailAddress objects
+     */
     public function getRecipients()
     {
         return $this->mailRecipients;
     }
 
+    protected function getMailAddressesAsArray($adr)
+    {
+        $res = array();
+        foreach ($adr as $r) {
+            if ($r->getName()) {
+                $res[$r->getAddress()] = $r->getName();
+            } else {
+                $res[] = $r->getAddress();
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * @return MailAddress
+     */
     public function getFrom()
     {
         return $this->mailFrom;
+    }
+
+    /**
+     * @return MailAddress
+     */
+    public function getReplyTo()
+    {
+        return $this->mailReplyTo;
+    }
+
+    public function getCc()
+    {
+        return $this->mailCc;
+    }
+
+    public function getBcc()
+    {
+        return $this->mailBcc;
+    }
+
+    public function getTemplatePath()
+    {
+        return $this->templatePath;
     }
 
     public function setContentType($s)
@@ -39,44 +81,59 @@ class Mailer
         $this->contentType = $s;
     }
 
-    public function addRecipient($to)
+    public function addRecipient($to, $toName = '')
     {
         if (!$this->isValidMail($to)) {
             throw new \InvalidArgumentException();
         }
-        $this->mailRecipients[] = $to;
+        $adr = new MailAddress();
+        $adr->setAddress($to);
+        $adr->setName($toName);
+        $this->mailRecipients[] = $adr;
     }
 
-    public function setFrom($from)
+    public function setFrom($from, $fromName = '')
     {
         if (!$this->isValidMail($from)) {
             throw new \InvalidArgumentException();
         }
-        $this->mailFrom = $from;
+        $adr = new MailAddress();
+        $adr->setAddress($from);
+        $adr->setName($fromName);
+        $this->mailFrom = $adr;
     }
 
-    public function setReplyTo($replyTo)
+    public function setReplyTo($replyTo, $replyToName = '')
     {
         if (!$this->isValidMail($replyTo)) {
             throw new \InvalidArgumentException();
         }
-        $this->mailReplyTo = $replyTo;
+        $adr = new MailAddress();
+        $adr->setAddress($replyTo);
+        $adr->setName($replyToName);
+        $this->mailReplyTo = $adr;
     }
 
-    public function addCc($cc)
+    public function addCc($cc, $ccName = '')
     {
         if (!$this->isValidMail($cc)) {
             throw new \InvalidArgumentException();
         }
-        $this->mailCc[] = $cc;
+        $adr = new MailAddress();
+        $adr->setAddress($cc);
+        $adr->setName($ccName);
+        $this->mailCc[] = $adr;
     }
 
-    public function addBcc($bcc)
+    public function addBcc($bcc, $bccName = '')
     {
         if (!$this->isValidMail($bcc)) {
             throw new \InvalidArgumentException();
         }
-        $this->mailBcc[] = $bcc;
+        $adr = new MailAddress();
+        $adr->setAddress($bcc);
+        $adr->setName($bccName);
+        $this->mailBcc[] = $adr;
     }
 
     public function setUserAgent($s)
@@ -94,12 +151,12 @@ class Mailer
         $this->message = $s;
     }
 
-	public function setTemplatePath($s)
-	{
-		$this->templatePath = $s;
-	}
+    public function setTemplatePath($s)
+    {
+        $this->templatePath = $s;
+    }
 
-	public function isValidMail($email)
+    public function isValidMail($email)
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
             return false;
@@ -108,7 +165,7 @@ class Mailer
     }
 
     /**
-	 * @return $contentId used to refer to embedded graphics from html document
+     * @return $contentId used to refer to embedded graphics from html document
      */
     public function embedData($data, $fileName, $mimeType)
     {
@@ -143,7 +200,8 @@ class Mailer
 
         $data = file_get_contents($fileName);
 
-        $mimeType = 'application/octet-stream'; // generic binary data
+        // generic binary data
+        $mimeType = 'application/octet-stream';
 
         $this->attachData($data, $fileName, $mimeType, $contentId);
     }	
@@ -161,8 +219,13 @@ class Mailer
         $message = \Swift_Message::newInstance();
 
         $message->setSubject($this->subject);
-        $message->setFrom($this->getFrom());
-        $message->setTo($this->getRecipients());
+        $message->setFrom($this->getFrom()->toArray());
+        if ($this->getReplyTo()) {
+            $message->setReplyTo($this->getReplyTo()->toArray());
+        }
+        $message->setTo($this->getMailAddressesAsArray($this->getRecipients()));
+        $message->setCc($this->getMailAddressesAsArray($this->getCc()));
+        $message->setBcc($this->getMailAddressesAsArray($this->getBcc()));
 
         foreach ($this->getAttachments() as $a) {
             $attachment = \Swift_Attachment::newInstance()
@@ -178,52 +241,55 @@ class Mailer
 
         return $message;
     }
-	
-	/**
-	 * Replaces {keywords} in e-mail template
-	 * @param $tpl basename of template, with file extension
-	 */
-	protected function rewriteTemplate($tpl, $variables)
-	{
-		$fullPath = $this->templatePath.$tpl;
-		if (!file_exists($fullPath)) {
-			throw new \Exception('file not found');
-		}
-		
-		$data = file_get_contents($fullPath);
 
-		$search = array();
-		$replace = array();
-		foreach ($variables as $key => $val) {
-			$search[] = '{'.$key.'}';
-			$replace[] = $val;
-		}
+    /**
+     * Replaces {keywords} in e-mail template
+     * @param $tpl basename of template, with file extension
+     */
+    protected function rewriteTemplate($tpl, $variables)
+    {
+        $fullPath = $this->getTemplatePath().'/'.$tpl;
+        if (!file_exists($fullPath)) {
+            throw new \Exception('file not found');
+        }
 
-		return str_replace($search, $replace, $data);
-	}
-	
-	/**
-	 * @param string $tpl basename of template, without file extension
-	 * @param array $variables
-	 */
-	public function sendTemplate($tpl, $variables)
-	{
-		$message = $this->getSwiftInstance();
+        $data = file_get_contents($fullPath);
 
-		$bodyText = $this->rewriteTemplate($tpl.'.txt', $variables);
-		$bodyHtml = $this->rewriteTemplate($tpl.'.html', $variables);
+        $search = array();
+        $replace = array();
+        foreach ($variables as $key => $val) {
+            $search[] = '{'.$key.'}';
+            $replace[] = $val;
+        }
 
+        return str_replace($search, $replace, $data);
+    }
+
+    /**
+     * @param string $tpl basename of template, without file extension
+     * @param array $variables
+     */
+    public function sendTemplate($tpl, $variables)
+    {
+        $bodyText = $this->rewriteTemplate($tpl.'.txt', $variables);
+        $bodyHtml = $this->rewriteTemplate($tpl.'.html', $variables);
+
+        $optionsFile = $this->getTemplatePath().'/'.$tpl.'.inc';
+        if (file_exists($optionsFile)) {
+            include $optionsFile;
+        }
+
+        $message = $this->getSwiftInstance();
         $message->setBody($bodyText);
-		
-		$message->addPart($bodyHtml, 'text/html');
+
+        $message->addPart($bodyHtml, 'text/html');
 
         $this->deliver($message);
-	}
+    }
 
-    public function send($msg)
+    public function sendText($msg)
     {
         $message = $this->getSwiftInstance();
-
         $message->setBody($msg);
 
         $this->deliver($message);

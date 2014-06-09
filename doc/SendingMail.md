@@ -7,6 +7,17 @@ but it is disabled by default.
 
 
 
+## Templates
+
+In template/mail exists default templates.
+
+The .txt and .html files are templates for the text and html version
+of the mail. If a .inc file exists, it will be included in order to
+configure the mailer object with reusable settings, such as From-address
+and Subject.
+
+
+
 ## Mavericks MTA config
 
   sudo vi /System/Library/LaunchDaemons/org.postfix.master.plist
