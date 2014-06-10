@@ -47,7 +47,7 @@ class Scss
     }
 
     /**
-     * @param type $viewName base name of view to handle
+     * @param type $viewName base name of view to handle (without extension)
      * @return type
      * @throws \FileNotFoundException
      * @throws \CachedApiException
@@ -68,7 +68,7 @@ class Scss
         if (file_exists($cachedFile)) {
             $data = file_get_contents($cachedFile);
         } else {
-            $data = $this->renderToFile($scssFile, $cachedFile);
+            $data = $this->renderFileToCssFile($scssFile, $cachedFile);
         }
 
         $cachedMtime = filemtime($cachedFile);
@@ -89,7 +89,7 @@ class Scss
      * @param $scssFile scss file to render
      * @return string compiled css
      */
-    public function renderFile($scssFile)
+    public function renderFileToCss($scssFile)
     {
         $scss = new \scssc();
         $scss->setImportPaths($this->importPath);
@@ -102,7 +102,7 @@ class Scss
      * Render a scss code block to css
      * @return string compiled css
      */
-    public function renderCode($scssCode)
+    public function renderCodeToCss($scssCode)
     {
         $scss = new \scssc();
         $scss->setFormatter('scss_formatter_compressed');
@@ -113,9 +113,9 @@ class Scss
     /**
      * Render a scss file to css and writes to disk
      */
-    public function renderToFile($scssFile, $cachedFile)
+    public function renderFileToCssFile($scssFile, $outFile)
     {
-        $dstDir = dirname($cachedFile);
+        $dstDir = dirname($outFile);
         if (!is_dir($dstDir)) {
             throw new \DirectoryNotFoundRexception($dstDir);
         }
@@ -123,6 +123,6 @@ class Scss
            throw new \WritePermissionDeniedException($dstDir);
         }
 
-        file_put_contents($cachedFile, $this->renderFile($scssFile));
+        file_put_contents($outFile, $this->renderFileToCss($scssFile));
     }
 }

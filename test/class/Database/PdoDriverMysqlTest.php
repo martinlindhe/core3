@@ -343,7 +343,6 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
             'CREATE PROCEDURE TestProcedure ('.
                 'IN input VARCHAR(255)'.
             ')'.
-
             'BEGIN '.
                 'SELECT CONCAT(input,"_two");'.
             'END;'
