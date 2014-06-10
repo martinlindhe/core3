@@ -11,8 +11,7 @@ class ScssTest extends \PHPUnit_Framework_TestCase
         $scss = new \Writer\Scss();
 
         $code =
-        '
-        // comment
+        '// comment
         .navigation {
             color: #777 + #777;
         }
@@ -31,15 +30,7 @@ class ScssTest extends \PHPUnit_Framework_TestCase
         // compile SASS (from file) to compressed CSS
         $scss = new \Writer\Scss();
 
-        $code =
-        '
-        // comment
-        .navigation {
-            color: #777 + #777;
-        }
-        .footer {
-            color: #222 * 2;
-        }';
+        $code = '.footer { color: #222 * 2; }';
         
         $scssFile = tempnam(sys_get_temp_dir(), 'scss');
         file_put_contents($scssFile, $code);
@@ -47,28 +38,19 @@ class ScssTest extends \PHPUnit_Framework_TestCase
         $scss->setImportPath(dirname($scssFile));
 
         $this->assertEquals(
-            '.navigation{color:#eee;}.footer{color:#444;}',
+            '.footer{color:#444;}',
             $scss->renderFileToCss($scssFile)
         );
         
         unlink($scssFile);
     }
 
-    
     function testRenderFileToCssFile()
     {
         // compile SASS (from file) to compressed CSS (to file)
         $scss = new \Writer\Scss();
 
-        $code =
-        '
-        // comment
-        .navigation {
-            color: #777 + #777;
-        }
-        .footer {
-            color: #222 * 2;
-        }';
+        $code = '.footer { color: #222 * 2; }';
         
         $scssFile = tempnam(sys_get_temp_dir(), 'scss');
         $cssFile = tempnam(sys_get_temp_dir(), 'css');
@@ -80,12 +62,57 @@ class ScssTest extends \PHPUnit_Framework_TestCase
         $scss->renderFileToCssFile($scssFile, $cssFile);
 
         $this->assertEquals(
-            '.navigation{color:#eee;}.footer{color:#444;}',
+            '.footer{color:#444;}',
             file_get_contents($cssFile)
         );
         
         unlink($scssFile);
         unlink($cssFile);
+    }
+
+    /**
+     * @expectedException \DirectoryNotFoundRexception
+     */
+    function testRenderFileToCssFileInvalidDstDir()
+    {
+        $scss = new \Writer\Scss();
+
+        $code = '.footer { color: #222 * 2; }';
+
+        $scssFile = tempnam(sys_get_temp_dir(), 'scss');
+        $cssFile = '/invalid/dst/dir/file.css';
+
+        file_put_contents($scssFile, $code);
+
+        $scss->setImportPath(dirname($scssFile));
+
+        $scss->renderFileToCssFile($scssFile, $cssFile);
+
+        unlink($scssFile); // XXX wont run due to exception
+    }
+
+
+    /**
+     * @expectedException \WritePermissionDeniedException
+     */
+    function testRenderFileToCssFileNotWritableDstDir()
+    {
+        // tries to write to PHP_BINDIR (/usr/bin on OSX),
+        // assuming it is not writable
+        $scss = new \Writer\Scss();
+
+        $code = '.footer { color: #222 * 2; }';
+
+        $scssFile = tempnam(sys_get_temp_dir(), 'scss');
+        $cssFile = PHP_BINDIR.'/file.css';
+
+        file_put_contents($scssFile, $code);
+
+        $scss->setImportPath(dirname($scssFile));
+
+        $scss->renderFileToCssFile($scssFile, $cssFile);
+
+        unlink($scssFile); // XXX wont run due to exception
     }
     
     function testIsValidViewName()
