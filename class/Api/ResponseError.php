@@ -3,20 +3,18 @@ namespace Api;
 
 class ResponseError
 {
-    const GENERAL = 400;
+    const GENERAL       = 400;
     const MISSING_PARAM = 410;
-    const EXCEPTION = 420;
+    const EXCEPTION     = 420;
 
     protected static function getDefaultMessage($code)
     {
-        switch ($code) {
-        case self::GENERAL:
-            return 'General error';
-        case self::MISSING_PARAM:
-            return 'Missing parameters';
-        case self::EXCEPTION:
-            return 'Exception';
-        }
+        $messages = array(
+            self::GENERAL       => 'General error',
+            self::MISSING_PARAM => 'Missing parameters',
+            self::EXCEPTION     => 'Exception',
+        );
+        return $messages[$code];
     }
     
     public static function exceptionToJson(\Exception $ex)

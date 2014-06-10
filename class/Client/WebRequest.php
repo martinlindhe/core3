@@ -22,7 +22,7 @@ class WebRequest
      * @param array $headers
      * @return \Client\WebResponse
      */
-    public function Get($url, array $headers = array())
+    public function get($url, array $headers = array())
     {
         curl_setopt($this->ch, CURLOPT_URL, $url);
 
