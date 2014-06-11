@@ -6,4 +6,4 @@ composer.lock
 vendor
 .DS_Store
 .tags
-/nbproject/private/
+nbproject

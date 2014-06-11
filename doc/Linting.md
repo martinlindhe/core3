@@ -1,22 +1,32 @@
-# Linter: phpcs
+# Linting
 
-http://pear.php.net/package/PHP_CodeSniffer/
-
-Is configured in composer.json (2.0.x-dev)
-
-STATUS: integrated
+Tools to help keep source files clean and usable.
 
 
+# PHP
 
-# Linter: PHPLint
+Using PHP CodeSniffer,
+https://github.com/squizlabs/PHP_CodeSniffer
 
-http://www.icosaedro.it/phplint/download.html
-http://www.icosaedro.it/phplint/phplint-2.0_20140331.tar.gz
-
-STATUS: TODO check out
+STATUS: installed by composer
+USAGE: "make lint"
 
 
 
-# Linter: Zend Code Analyzer, a tool that comes with Zend Studio
 
-STATUS: TODO check out
+
+# JSON
+
+Using jq,
+http://stedolan.github.io/jq/
+
+Debian:
+
+  sudo apt-get install jq
+
+OSX:
+
+  sudo port install jq
+
+STATUS: requires manual install
+USAGE: "make lint-json"

@@ -21,6 +21,9 @@ benchmark:
 lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test view
 
+lint-json:
+	jq 'type' composer.json > /dev/null
+
 ctags:
 	ctags --languages=PHP --exclude=vendor --exclude=.git --exclude=composer.phar -R -f .tags
 
