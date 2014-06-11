@@ -22,7 +22,7 @@ lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test view
 
 lint-json:
-	jq 'type' composer.json > /dev/null
+	./vendor/bin/jsonlint composer.json
 
 ctags:
 	ctags --languages=PHP --exclude=vendor --exclude=.git --exclude=composer.phar -R -f .tags

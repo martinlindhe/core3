@@ -5,7 +5,7 @@ Tools to help keep source files clean and usable.
 
 # PHP
 
-Using PHP CodeSniffer,
+Using PHP CodeSniffer from
 https://github.com/squizlabs/PHP_CodeSniffer
 
 STATUS: installed by composer
@@ -17,16 +17,8 @@ USAGE: "make lint"
 
 # JSON
 
-Using jq,
-http://stedolan.github.io/jq/
+Using jsonlint from
+https://github.com/Seldaek/jsonlint
 
-Debian:
-
-  sudo apt-get install jq
-
-OSX:
-
-  sudo port install jq
-
-STATUS: requires manual install
+STATUS: installed by composer
 USAGE: "make lint-json"
