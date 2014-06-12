@@ -28,7 +28,7 @@ class ResponseError
             'line'      => $ex->getLine(),
         );
 
-        return json_encode($arr, JSON_UNESCAPED_SLASHES);
+        return \Writer\Json::encodeSlim($arr);
     }
 
     public static function asArray($code, $message = '')
@@ -42,6 +42,6 @@ class ResponseError
 
     public static function render($code, $message = '')
     {
-        return json_encode(self::asArray($code, $message));
+        return \Writer\Json::encodeSlim(self::asArray($code, $message));
     }
 }

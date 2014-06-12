@@ -15,7 +15,7 @@ class RowFormat
 /**
  * @group Writer
  */
-class JsonTest extends \PHPUnit_Framework_TestCase
+class JsonSpreadsheetTest extends \PHPUnit_Framework_TestCase
 {
     function testBasicUsage()
     {
