@@ -2,7 +2,7 @@
 /**
  * @group Client
  * @group Mailer
- * 
+ *
  * NOTE: in order to test this, setup MTA on localhost:25 and
  *       verify the recieved mails are correct
  */
@@ -34,7 +34,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
 
     function testSendHtmlMail()
     {
-        $msg = 
+        $msg =
         '<html>
             <body>
                 <p>utf8 test mail åäö</p> - <b>bold</b>

@@ -98,7 +98,7 @@ class Pdf extends \Writer\Spreadsheet
         $tcpdf->SetHeaderMargin(PDF_MARGIN_HEADER);
         $tcpdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-        $tcpdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $tcpdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 
         $tcpdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 

@@ -8,7 +8,7 @@ namespace Debug;
 class XdebugExtras
 {
     /**
-     * @return array with all header lines matching $headerKey 
+     * @return array with all header lines matching $headerKey
      */
     public static function findHeaders($headerKey)
     {

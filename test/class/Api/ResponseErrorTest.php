@@ -23,7 +23,7 @@ class ResponseErrorTest extends \PHPUnit_Framework_TestCase
     
     function testExceptionToJson()
     {
-        $json = 
+        $json =
             '{'.
             '"code":420,'.
             '"status":"exception",'.

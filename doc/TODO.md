@@ -50,6 +50,7 @@
 # TODO linter
 - php: complain about trailing whitespace
 - xml: add linter for .html
+- phpcs: disable warning for <?= php 5.4 no longer considers this a "short tag" and is encouraged
 
 
 

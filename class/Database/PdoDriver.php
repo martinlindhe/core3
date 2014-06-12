@@ -277,7 +277,7 @@ class PdoDriver
         return $this->dbHandle->lastInsertId();
     }
 
-    /** 
+    /**
 	 * @return number of affected rows
 	 */
     public function delete()
@@ -286,7 +286,7 @@ class PdoDriver
         return $stmt->rowCount();
     }
 
-    /** 
+    /**
 	 * @return number of affected rows
 	 */
     public function update()

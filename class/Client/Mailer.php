@@ -16,7 +16,7 @@ class Mailer
     protected $subject;
     protected $message;
     protected $boundary;
-    protected $attachments = array();	
+    protected $attachments = array();
     protected $templatePath;
 
     public function getAttachments()
@@ -204,7 +204,7 @@ class Mailer
         $mimeType = 'application/octet-stream';
 
         $this->attachData($data, $fileName, $mimeType, $contentId);
-    }	
+    }
 
     private function deliver(\Swift_Message $message)
     {
