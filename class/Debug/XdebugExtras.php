@@ -12,7 +12,7 @@ class XdebugExtras
      */
     public static function findHeaders($headerKey)
     {
-        $findKey = $headerKey.': '; 
+        $findKey = $headerKey.': ';
         $len = strlen($findKey);
         $res = array();
 
