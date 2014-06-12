@@ -1,7 +1,7 @@
 .PHONY: test
 
 install-composer:
-	curl -s https://getcomposer.org/installer | php
+	curl -sS https://getcomposer.org/installer | php
 
 install-deps update-deps:
 	php composer.phar update --dev
