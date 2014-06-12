@@ -1,6 +1,5 @@
 <?php
 namespace Writer;
-// NOTE: for header() testing to work, we must run phpunit with --stderr
 
 /**
  * @group Writer
