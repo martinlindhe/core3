@@ -32,12 +32,29 @@ Install on OSX and Debian:
 
 
 
+# Karma
+
+TODO use to unit test js code
+
+
+Install Karma:
+  npm install karma --save-dev
+
+Install plugins that your project needs:
+  npm install karma-jasmine karma-chrome-launcher grunt-karma karma-ng-scenario --save-dev
+
+Install karma-cli and protractor globally:
+  sudo npm install -g karma-cli protractor
+
+
+
 # UglifyJS
+
+Install with npm:
 
   sudo npm install uglify-js -g
 
 
-TODO: no composer package seems to exist
 
 
 # Run tests

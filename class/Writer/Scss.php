@@ -35,6 +35,8 @@ class Scss
      */
     public function isClientCacheDirty($etag)
     {
+		return true; // XXX something is broken!
+		
         if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
             return true;
         }

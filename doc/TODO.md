@@ -35,10 +35,8 @@
 
 
 # TODO js minify support
-- DROP YUI COMP. USE Closure compiler!!!
-- uses yui compressor (TODO it requires java so its heavy dependency...)
-- create map files!!!
-- fix make task for creating min & map files of everything in js dir
+- uses uglify-js
+- make task for creating min & map files of everything in js dir
 
 
 # TODO tests
@@ -48,9 +46,7 @@
 
 
 # TODO linter
-- php: complain about trailing whitespace
-- xml: add linter for .html
-- phpcs: disable warning for <?= php 5.4 no longer considers this a "short tag" and is encouraged
+- phpcs: disable warning for <?=, php 5.4 no longer considers this a "short tag" and is encouraged
 
 
 
