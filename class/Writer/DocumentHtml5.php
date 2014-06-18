@@ -40,11 +40,11 @@ class DocumentHtml5
         '<html>'.
         '<head>'.
             $this->renderDocumentTitle().
+            $this->renderEmbeddedCss().
             $this->renderIncludeJs().
             $this->renderEmbeddedJs().
         '</head>'.
         '<body>'.
-            $this->renderEmbeddedCss().
             $this->documentBody.
         '</body>'.
         '</html>';
@@ -52,14 +52,13 @@ class DocumentHtml5
 
     private function renderEmbeddedCss()
     {
-        return '<style>'.$this->embeddedCss.'</style>';
+        return '<style type="text/css">'.$this->embeddedCss.'</style>';
     }
 
     private function renderDocumentTitle()
     {
-        if ($this->documentTitle) {
-            return '<title>'.$this->documentTitle.'</title>';
-        }
+        // NOTE: html5 requires the title tag
+        return '<title>'.$this->documentTitle.'</title>';
     }
 
     private function renderIncludeJs()
