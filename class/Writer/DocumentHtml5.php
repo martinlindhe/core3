@@ -55,9 +55,11 @@ class DocumentHtml5
         return '<style type="text/css">'.$this->embeddedCss.'</style>';
     }
 
+    /**
+     * html5 requires the title tag
+     */
     private function renderDocumentTitle()
     {
-        // NOTE: html5 requires the title tag
         return '<title>'.$this->documentTitle.'</title>';
     }
 
@@ -74,9 +76,7 @@ class DocumentHtml5
     {
         $js = '';
         if ($this->jsOnload) {
-            $js .=
-            'window.onload=function()'.
-            '{'.$this->jsOnload.'}';
+            $js .= 'window.onload=function(){'.$this->jsOnload.'}';
         }
 
         if ($js) {
