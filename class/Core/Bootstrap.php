@@ -9,7 +9,7 @@ class Bootstrap
     {
         $class = strtr($class, "\\", DIRECTORY_SEPARATOR);
 
-        $fileName = realpath(__DIR__.'/../').'/'.$class.'.php';
+        $fileName = realpath(__DIR__.'/..').'/'.$class.'.php';
 
         if (file_exists($fileName)) {
             include $fileName;

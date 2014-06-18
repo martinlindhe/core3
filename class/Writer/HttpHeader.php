@@ -3,7 +3,7 @@ namespace Writer;
 
 class HttpHeader
 {
-    public function sendContentType($type)
+    public static function sendContentType($type)
     {
         header('Content-Type: '.$type);
     }
@@ -12,7 +12,7 @@ class HttpHeader
 	 * Sends http headers that causes the document to popup a "save as" dialog
 	 * @param $fileName name of document
 	 */
-    public function sendAttachment($fileName)
+    public static function sendAttachment($fileName)
     {
         header('Content-Disposition: attachment; filename="'.basename($fileName).'"');
     }
@@ -22,7 +22,7 @@ class HttpHeader
 	 * but with a defined name should the user choose to "save as"
 	 * @param $fileName name of document
 	 */
-    public function sendInline($fileName)
+    public static function sendInline($fileName)
     {
         header('Content-Disposition: inline; filename="'.basename($fileName).'"');
     }
@@ -30,7 +30,7 @@ class HttpHeader
     /**
 	 * Sends http headers that completely disables browser caching
 	 */
-    public function sendNoCacheHeaders()
+    public static function sendNoCacheHeaders()
     {
         header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
         header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
@@ -48,7 +48,7 @@ class HttpHeader
 	 *
 	 * @param $param CSP configuration string
 	 */
-    public function sendContentSecurityPolicy($param)
+    public static function sendContentSecurityPolicy($param)
     {
         header('Content-Security-Policy: '.$param);
     }
@@ -58,7 +58,7 @@ class HttpHeader
 	 *
 	 * @param $param CSP configuration string
 	 */
-    public function sendContentSecurityPolicyReportOnly($param)
+    public static function sendContentSecurityPolicyReportOnly($param)
     {
         header('Content-Security-Policy-Report-Only: '.$param);
     }
@@ -70,7 +70,7 @@ class HttpHeader
 	 *
 	 * @param DENY, SAMEORIGIN, ALLOW-FROM uri
 	 */
-    public function sendFrameOptions($param)
+    public static function sendFrameOptions($param)
     {
         header('X-Frame-Options: '.$param);
     }

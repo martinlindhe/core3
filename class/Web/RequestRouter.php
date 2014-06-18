@@ -64,8 +64,6 @@ class RequestRouter
             $param = array_slice($parts, 2);
         }
         unset($parts);
-
-        \Writer\DocumentXhtml::sendHttpHeaders();
         
         // call registered method
         if (isset($this->routes[$view])) {
