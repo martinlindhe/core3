@@ -70,7 +70,9 @@ class RequestRouter
             return $this->routes[$view]($param);
         }
 
-        // SECURITY: all defined variables will be available to the view
+        // SECURITY: all defined variables from current
+        //           scope is available in the view
+        $webRoot = $this->applicationWebRoot;
 
         ob_start();
         include $this->getViewFilename($view);

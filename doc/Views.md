@@ -13,8 +13,7 @@ Available variables:
     $request  string   web request
     $view     string   name of the view
     $param    array    the parameters passed to this view
-
-
+    $webRoot  string   application web root, eg "/" or "/app1"
 
 
 # TODO use default system views for header, footer, css ?
