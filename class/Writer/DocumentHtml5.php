@@ -7,6 +7,7 @@ class DocumentHtml5
     protected $jsOnload;
     protected $documentTitle;
     protected $documentBody;
+    protected $embeddedCss;
 
     public function includeJs($url)
     {
@@ -20,6 +21,11 @@ class DocumentHtml5
     public function attachJsOnload($code)
     {
         $this->jsOnload .= $code;
+    }
+
+    public function embedCss($code)
+    {
+        $this->embeddedCss .= $code;
     }
 
     public function attachToBody($code)
@@ -38,9 +44,15 @@ class DocumentHtml5
             $this->renderEmbeddedJs().
         '</head>'.
         '<body>'.
+            $this->renderEmbeddedCss().
             $this->documentBody.
         '</body>'.
         '</html>';
+    }
+
+    private function renderEmbeddedCss()
+    {
+        return '<style>'.$this->embeddedCss.'</style>';
     }
 
     private function renderDocumentTitle()
