@@ -34,7 +34,7 @@ class Scss
      *
      */
     public function isClientCacheDirty($etag)
-    {	
+    {
         if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
             return true;
         }
@@ -54,34 +54,62 @@ class Scss
      */
     public function handle($viewName)
     {
-        if (!$this->isValidViewName($viewName)) {
-            throw new \Exception('Invalid scss name');
-        }
-
-        $scssFile = $this->importPath.'/'.$viewName.'.scss';
-        $cachedFile = $this->importPath.'/compiled/'.$viewName.'.compiled.css';
-
+        $scssFile = $this->getScssFile($viewName);
         if (!file_exists($scssFile)) {
             throw new \FileNotFoundException('Scss not found');
         }
 
+        $cachedFile = $this->getCachedFile($viewName);
         if (file_exists($cachedFile)) {
             $data = file_get_contents($cachedFile);
         } else {
             $data = $this->renderFileToCssFile($scssFile, $cachedFile);
         }
 
-        $cachedMtime = filemtime($cachedFile);
-        $etag = '"'.md5($cachedFile.$cachedMtime).'"';
+        $etag = $this->getETag($viewName);
+
+        // TODO dont set headers in here
+        header('ETag: '.$etag);
 
         if (!$this->isClientCacheDirty($etag)) {
             throw new \CachedInClientException();
         }
 
-        // TODO dont set headers in here
-        header('ETag: '.$etag);
-
         return $data;
+    }
+
+    /**
+     * @return string full path of scss file for $viewName
+     */
+    public function getScssFile($viewName)
+    {
+        if (!$this->isValidViewName($viewName)) {
+            throw new \Exception('Invalid scss name');
+        }
+        return $this->importPath.'/'.$viewName.'.scss';
+    }
+
+    /**
+     * @return string full path of cached file for compiled $viewName
+     */
+    public function getCachedFile($viewName)
+    {
+        if (!$this->isValidViewName($viewName)) {
+            throw new \Exception('Invalid scss name');
+        }
+        return $this->importPath.'/compiled/'.$viewName.'.compiled.css';
+    }
+
+    public function getETag($viewName)
+    {
+        $cachedFile = $this->getCachedFile($viewName);
+
+        if (!file_exists($cachedFile)) {
+            throw new \FileNotFoundException('Scss not found');
+        }
+
+        $cachedMtime = filemtime($cachedFile);
+        return '"'.md5($cachedFile.$cachedMtime).'"';
     }
 
     /**
@@ -112,7 +140,7 @@ class Scss
 
     /**
      * Render a scss file to css and writes to disk
-	 * @return string compiled css
+     * @return string compiled css
      */
     public function renderFileToCssFile($scssFile, $outFile)
     {
@@ -123,11 +151,11 @@ class Scss
         if (!is_writable($dstDir)) {
            throw new \WritePermissionDeniedException($dstDir);
         }
-		
-		$data = $this->renderFileToCss($scssFile);
+
+        $data = $this->renderFileToCss($scssFile);
 
         file_put_contents($outFile, $data);
-		
-		return $data;
+
+        return $data;
     }
 }
