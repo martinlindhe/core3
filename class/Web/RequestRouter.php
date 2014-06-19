@@ -52,7 +52,10 @@ class RequestRouter
 
         $parts = explode('/', $request);
 
-        $view = $parts[1];
+        $view = '';
+        if (count($parts) > 1) {
+            $view = $parts[1];
+        }
 
         if (!$view) {
             $view = 'index';
@@ -67,7 +70,7 @@ class RequestRouter
             $param = array_slice($parts, 2);
         }
         unset($parts);
-        
+
         // call registered method
         if (isset($this->routes[$view])) {
             return $this->routes[$view]($param);
