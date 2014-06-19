@@ -37,7 +37,7 @@ class RequestRouter
             throw new \Exception('broken input');
         }
 
-        return substr($request, $len);
+        return substr($request, $len - 1);
     }
 
     /**
@@ -46,9 +46,7 @@ class RequestRouter
      */
     public function route($request)
     {
-        if ($this->applicationWebRoot) {
-            $request = $this->stripApplicationPrefix($request);
-        }
+        $request = $this->stripApplicationPrefix($request);
 
         $parts = explode('/', $request);
 
