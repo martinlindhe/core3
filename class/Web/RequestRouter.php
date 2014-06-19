@@ -19,6 +19,9 @@ class RequestRouter
 
     public function setApplicationWebRoot($path)
     {
+		if (substr($path, -1, 1) != '/') {
+			$path .= '/';
+		}
         $this->applicationWebRoot = $path;
     }
 

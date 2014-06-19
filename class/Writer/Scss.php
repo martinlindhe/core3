@@ -34,9 +34,7 @@ class Scss
      *
      */
     public function isClientCacheDirty($etag)
-    {
-		return true; // XXX something is broken!
-		
+    {	
         if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
             return true;
         }
@@ -114,6 +112,7 @@ class Scss
 
     /**
      * Render a scss file to css and writes to disk
+	 * @return string compiled css
      */
     public function renderFileToCssFile($scssFile, $outFile)
     {
@@ -124,7 +123,11 @@ class Scss
         if (!is_writable($dstDir)) {
            throw new \WritePermissionDeniedException($dstDir);
         }
+		
+		$data = $this->renderFileToCss($scssFile);
 
-        file_put_contents($outFile, $this->renderFileToCss($scssFile));
+        file_put_contents($outFile, $data);
+		
+		return $data;
     }
 }
