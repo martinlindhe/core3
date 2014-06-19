@@ -71,6 +71,9 @@ class Scss
         // TODO dont set headers in here
         header('ETag: '.$etag);
 
+        $timestamp = filemtime($cachedFile);
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s ', $timestamp).'GMT');
+
         if (!$this->isClientCacheDirty($etag)) {
             throw new \CachedInClientException();
         }
