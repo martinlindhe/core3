@@ -1,8 +1,10 @@
 <?php
 namespace Core\Password;
 
-// TODO: REQUIRES php 5.3.7  how to add such @tag ?!?
-
+/**
+ * NOTE: password_hash() is available since PHP 5.5.0,
+ *       we use password-compat to support PHP 5.3.7+
+ */
 class Bcrypt extends \Core\Password
 {
     protected $cost;

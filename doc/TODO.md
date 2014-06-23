@@ -14,7 +14,7 @@
 
 
 # TODO api
-	- route all api requests to api.php in view order to have parameter parsing
+	
 
 
 # TODO db
@@ -25,9 +25,7 @@
 
 
 # TODO scss (compiled css) support
-- use scss_server to precompile etc, figure out how to hook everything up?
-- document how core3_app1 uses scss.php view as a compiler
-	- refactor core3_app scss.php view stuff into Writer/Scss class
+- refactor core3_app scss.php view stuff into Writer/Scss class
 
 
 
@@ -40,9 +38,6 @@
 
 
 # TODO tests
-- maybe use php 5.5's cli webserver to test stuff?
-  http://se2.php.net/manual/en/features.commandline.webserver.php
-
 
 
 # TODO linter
