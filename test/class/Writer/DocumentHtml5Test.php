@@ -6,7 +6,7 @@ namespace Writer;
  */
 class DocumentHtml5Test extends \PHPUnit_Framework_TestCase
 {
-    function testHttpHeaders()
+    function testBasic()
     {
         $doc = new DocumentHtml5();
 
@@ -30,6 +30,26 @@ class DocumentHtml5Test extends \PHPUnit_Framework_TestCase
             '<script type="text/javascript">window.onload=function(){alert("hello");}</script>'.
             '</head>'.
             '<body><b>bold</b></body>'.
+            '</html>',
+            $doc->render()
+        );
+    }
+
+    function testDoubleIncludeJs()
+    {
+        $doc = new DocumentHtml5();
+
+        $doc->includeJs('http://url.com');
+        $doc->includeJs('http://url.com');
+
+        $this->assertEquals(
+            '<!DOCTYPE html>'.
+            '<html>'.
+            '<head>'.
+            '<title></title>'.
+            '<script type="text/javascript" src="http://url.com"></script>'.
+            '</head>'.
+            '<body></body>'.
             '</html>',
             $doc->render()
         );

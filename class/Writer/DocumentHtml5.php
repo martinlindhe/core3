@@ -52,6 +52,9 @@ class DocumentHtml5
 
     private function renderEmbeddedCss()
     {
+        if (!$this->embeddedCss) {
+            return;
+        }
         return '<style type="text/css">'.$this->embeddedCss.'</style>';
     }
 
