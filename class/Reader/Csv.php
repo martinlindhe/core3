@@ -1,11 +1,26 @@
 <?php
-// TODO TEST
 namespace Reader;
 
 class Csv
 {
-    var $delimiter = ','; ///< character separating CSV cells (usually , or ;)
-    var $startLine = 0;
+    private $delimiter = ',';
+    private $startLine = 1;
+
+    /**
+     * @param string $s character separating CSV cells (usually , or ;)
+     */
+    public function setDelimiter($s)
+    {
+        $this->delimiter = $s;
+    }
+
+    /**
+     * @param int $n starting line of csv data (1-based)
+     */
+    public function setStartLine($n)
+    {
+        $this->startLine = $n;
+    }
 
     public function parse($data)
     {
@@ -13,12 +28,11 @@ class Csv
 
         $rows = explode("\n", $data);
 
-        $line = 0;
+        $line = 1;
         foreach ($rows as $row) {
             if ($line >= $this->startLine && $row) {
                 $res[] = $this->parseRow($row);
             }
-
             $line++;
         }
 
@@ -44,7 +58,7 @@ class Csv
 
         $el = 0;
         $res = array();
-        $in_esc = false;
+        $inEscape = false;
 
         for ($i = 0; $i < strlen($row); $i++) {
             if (!isset($res[$el])) {
@@ -54,10 +68,10 @@ class Csv
             $c = substr($row, $i, 1);
 
             if ($c == $this->delimiter) {
-                if (!$in_esc) $el++;
+                if (!$inEscape) $el++;
                 else $res[$el] .= $c;
             } else if ($c == '"') {
-                $in_esc = !$in_esc;
+                $inEscape = !$inEscape;
                 $res[$el] .= $c;
             } else {
                 $res[$el] .= $c;
