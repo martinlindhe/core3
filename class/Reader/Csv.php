@@ -44,6 +44,42 @@ class Csv
         return $this->parse(file_get_contents($fileName));
     }
 
+    public function parseFileToObjects($fileName, $obj)
+    {
+        return $this->parseToObjects(file_get_contents($fileName), $obj);
+    }
+
+    public function parseToObjects($data, $objName)
+    {
+        $res = array();
+        $rows = explode("\n", $data);
+        $line = 1;
+
+        foreach ($rows as $row) {
+            if ($line >= $this->startLine && $row) {
+                $res[] = $this->mapColumnsToObject($this->parseRow($row), $objName);
+            }
+            $line++;
+        }
+
+        return $res;
+    }
+
+    private function mapColumnsToObject($cols, $objName)
+    {
+        $res = new $objName;
+
+        $i = 0;
+        foreach ($res as $property => $value) {
+            if (!isset($cols[$i])) {
+                break;
+            }
+            $res->$property = $cols[$i++];
+        }
+
+        return $res;
+    }
+
     /**
      * Parses a row of CSV data into a array
      *
