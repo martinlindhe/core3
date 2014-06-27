@@ -104,8 +104,12 @@ class Csv
             $c = substr($row, $i, 1);
 
             if ($c == $this->delimiter) {
-                if (!$inEscape) $el++;
-                else $res[$el] .= $c;
+                if (!$inEscape) {
+                    $el++;
+                }
+                else {
+                    $res[$el] .= $c;
+                }
             } else if ($c == '"') {
                 $inEscape = !$inEscape;
                 $res[$el] .= $c;

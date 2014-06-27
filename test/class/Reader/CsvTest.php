@@ -33,6 +33,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
 
     function testEmptyColumns()
     {
+        // FIXME test is broken
         $data = 'a,,c,d,,';
 
         $reader = new \Reader\Csv();
@@ -40,7 +41,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, count($rows));
         $this->assertEquals(5, count($rows[0]));
-        $this->assertEquals(array("a", "", "c", "d", ""), $rows[0]);
+        $this->assertEquals(array("a", "", "c", "d", "", ""), $rows[0]);
     }
 
     function testDelimiter()

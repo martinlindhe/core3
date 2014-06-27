@@ -24,6 +24,6 @@ class Ean13Test extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThanOrEqual(100, strlen($data));
 
         $reader = new \Reader\BinaryData\Image();
-        $this->assertGreaterThanOrEqual(true, $reader->isPngData($data));
+        $this->assertEquals(true, $reader->isPngData($data));
     }
 }
