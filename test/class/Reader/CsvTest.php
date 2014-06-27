@@ -27,33 +27,39 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
         $rows = $reader->parse($data);
 
         $this->assertEquals(1, count($rows));
-        $this->assertEquals(5, count($rows[0]));
-        $this->assertEquals(array("AAPL",357.05,357.01,194.06,360.00), $rows[0]);
+        $this->assertEquals(array('AAPL', 357.05, 357.01, 194.06, 360.00), $rows[0]);
     }
 
     function testEmptyColumns()
     {
-        // FIXME test is broken
         $data = 'a,,c,d,,';
 
         $reader = new \Reader\Csv();
         $rows = $reader->parse($data);
 
         $this->assertEquals(1, count($rows));
-        $this->assertEquals(5, count($rows[0]));
-        $this->assertEquals(array("a", "", "c", "d", "", ""), $rows[0]);
+        $this->assertEquals(array('a', '', 'c', 'd', '', ''), $rows[0]);
+    }
+    function testEscapedColumn()
+    {
+         $data = '"a""ha",b,c';
+
+        $reader = new \Reader\Csv();
+        $rows = $reader->parse($data);
+
+        $this->assertEquals(1, count($rows));
+        $this->assertEquals(array('a"ha', 'b','c'), $rows[0]);
     }
 
     function testDelimiter()
     {
-        $data = "a;b;c\n";
+        $data = "a;b;c";
 
         $reader = new \Reader\Csv();
         $reader->setDelimiter(';');
         $rows = $reader->parse($data);
 
         $this->assertEquals(1, count($rows));
-        $this->assertEquals(3, count($rows[0]));
         $this->assertEquals(array('a', 'b', 'c'), $rows[0]);
     }
 
@@ -69,8 +75,6 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
         $rows = $reader->parse($data);
 
         $this->assertEquals(2, count($rows));
-        $this->assertEquals(3, count($rows[0]));
-        $this->assertEquals(3, count($rows[1]));
         $this->assertEquals(array('a', 'b', 'c'), $rows[0]);
         $this->assertEquals(array('d', 'e', 'f'), $rows[1]);
     }
@@ -86,15 +90,15 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($objs));
 
         $ref = new MyCsvColumn();
-        $ref->col1 = "a";
-        $ref->col2 = "b";
-        $ref->col3 = "c";
+        $ref->col1 = 'a';
+        $ref->col2 = 'b';
+        $ref->col3 = 'c';
         $this->assertEquals($ref, $objs[0]);
 
         $ref = new MyCsvColumn();
-        $ref->col1 = "1";
-        $ref->col2 = "2";
-        $ref->col3 = "3";
+        $ref->col1 = '1';
+        $ref->col2 = '2';
+        $ref->col3 = '3';
         $this->assertEquals($ref, $objs[1]);
     }
 }

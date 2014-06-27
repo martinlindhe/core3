@@ -106,8 +106,8 @@ class Csv
             if ($c == $this->delimiter) {
                 if (!$inEscape) {
                     $el++;
-                }
-                else {
+                    $res[$el] = '';
+                } else {
                     $res[$el] .= $c;
                 }
             } else if ($c == '"') {
