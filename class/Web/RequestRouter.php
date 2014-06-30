@@ -84,12 +84,12 @@ class RequestRouter
     }
 
     /**
-     * @return bool if $viewName is valid (a-z, A-Z, 0-9 and -, and max 30 letters)
+     * @return bool if $viewName is valid (a-z, A-Z, 0-9, _ and -, and max 30 letters)
      */
     public function isValidViewName($name)
     {
         if (strlen($name) <= 30 &&
-            preg_match('/^[a-zA-Z0-9-]+$/', $name) == 1
+            preg_match('/^[a-zA-Z0-9_-]+$/', $name) == 1
         ) {
             return true;
         }

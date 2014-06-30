@@ -92,6 +92,7 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $router->isValidViewName('123numbers'));
         $this->assertEquals(true, $router->isValidViewName('MixedCase'));
         $this->assertEquals(true, $router->isValidViewName('with-line'));
+        $this->assertEquals(true, $router->isValidViewName('with_underscore'));
         $this->assertEquals(false, $router->isValidViewName('with.dot'));
         $this->assertEquals(false, $router->isValidViewName('unicöde'));
     }
