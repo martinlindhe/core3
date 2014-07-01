@@ -7,10 +7,6 @@ class Scss
 
     public function setImportPath($path)
     {
-        if (!is_dir($path)) {
-            throw new \DirectoryNotFoundRexception();
-        }
-
         $this->importPath = $path;
     }
 
@@ -86,6 +82,10 @@ class Scss
      */
     public function getScssFile($viewName)
     {
+        if (!is_dir($this->importPath)) {
+            throw new \DirectoryNotFoundRexception();
+        }
+
         if (!$this->isValidViewName($viewName)) {
             throw new \Exception('Invalid scss name');
         }

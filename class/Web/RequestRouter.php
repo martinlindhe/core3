@@ -8,6 +8,40 @@ class RequestRouter
     
     protected $routes;
 
+    public function __construct()
+    {
+
+        // TODO: route /api into registered callback functions, configured by project + some system defaults like PING
+
+        /**
+         * Compiles SCSS to CSS stylesheets on demand
+         */
+        $this->registerRoute('scss', function($params) // XXX param should be full path, /scss
+        {
+            $viewName = $params[0]; ///< base name of the scss file
+
+            $scss = new \Writer\Scss();
+
+            $scss->setImportPath(realpath(__DIR__.'/scss'));
+
+            header('Content-Type: text/css');
+
+            try {
+                return $scss->handle($viewName);
+            } catch (\CachedInClientException $ex) {
+                http_response_code(304); // Not Modified
+                return;
+            } catch (\Exception $ex) {
+                
+                // TODO set different http response code depending on the exception type
+
+                http_response_code(400); // Bad Request
+                header('Content-Type: application/json');
+                return \Api\ResponseError::exceptionToJson($ex);
+            }
+        });
+    }
+
     public function setApplicationDirectoryRoot($path)
     {
         if (!is_dir($path)) {
