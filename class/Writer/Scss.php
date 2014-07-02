@@ -46,16 +46,17 @@ class Scss
     }
 
     /**
+     * Serves a compiled scss -> css file to browser client
      * @param type $viewName base name of view to handle (without extension)
-     * @return type
+     * @return string rendered view
      * @throws \FileNotFoundException
      * @throws \CachedApiException
      */
-    public function handle($viewName)
+    public function handleRequest($viewName)
     {
         $scssFile = $this->getScssFile($viewName);
         if (!file_exists($scssFile)) {
-            throw new \FileNotFoundException('Scss not found');
+            throw new \FileNotFoundException();
         }
 
         $cachedFile = $this->getCachedFile($viewName);
@@ -67,7 +68,7 @@ class Scss
 
         $etag = $this->getETag($viewName);
 
-        // TODO dont set headers in here
+        // TODO dont set headers in here, so in core3/view/scss.php
         header('ETag: '.$etag);
 
         $timestamp = filemtime($cachedFile);

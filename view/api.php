@@ -1,0 +1,24 @@
+<?php
+/**
+ * Handle API calls
+ */
+
+$viewName = $param[0]; ///< name of the api call
+
+header('Content-Type: application/json');
+
+// first, look in app api/routname.php
+$apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
+if (!file_exists($apiViewFileName)) {
+    // next, look in core3/api/routename.php
+    $apiViewFileName = __DIR__.'/../../api/'.$viewName.'.php';
+    if (!file_exists($apiViewFileName)) {
+        return \Writer\Json::encodeSlim(array('error' => 'route not available'));
+    }
+}
+
+try {
+    include $apiViewFileName;
+} catch (\Exception $ex) {
+    return \Api\ResponseError::exceptionToJson($ex);
+}
