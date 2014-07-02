@@ -13,28 +13,33 @@ class RequestRouter
         /**
          * Handle API calls
          */
-        $this->registerRoute('api', function($param)
+        $this->registerRoute('api', function($param, $requestMethod)
         {
             $viewName = $param[0]; ///< name of the api call
 
-            // TODO: configure api calls by project
             header('Content-Type: application/json');
 
-            switch ($viewName) {
-                case 'ping':
-                    $res = array('ping' => 'ok');
-                    break;
-                default:
-                    $res = array('error' => 'unknown command');
-                    break;
+            // first, look in app api/routname.php
+            $apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
+            if (!file_exists($apiViewFileName)) {
+                // next, look in core3/api/routename.php
+                $apiViewFileName = __DIR__.'/../../api/'.$viewName.'.php';
+                if (!file_exists($apiViewFileName)) {
+                    return \Writer\Json::encodeSlim(array('error' => 'route not available'));
+                }
             }
-            echo \Writer\Json::encodeSlim($res);
+
+            try {
+                include $apiViewFileName;
+            } catch (\Exception $ex) {
+                return \Api\ResponseError::exceptionToJson($ex);
+            }
         });
 
         /**
          * Compile SCSS to CSS stylesheets on demand
          */
-        $this->registerRoute('scss', function($param)
+        $this->registerRoute('scss', function($param, $requestMethod)
         {
             $viewName = $param[0]; ///< base name of the scss file
 
@@ -45,14 +50,14 @@ class RequestRouter
             header('Content-Type: text/css');
 
             try {
+                if ($requestMethod != 'GET') {
+                    throw new \Exception('only GET supported');
+                }
                 return $scss->handle($viewName);
             } catch (\CachedInClientException $ex) {
                 http_response_code(304); // Not Modified
                 return;
             } catch (\Exception $ex) {
-                
-                // TODO set different http response code depending on the exception type
-
                 http_response_code(400); // Bad Request
                 header('Content-Type: application/json');
                 return \Api\ResponseError::exceptionToJson($ex);
@@ -96,7 +101,7 @@ class RequestRouter
      * @param string $request Requested path
      * @return string rendered view
      */
-    public function route($request)
+    public function route($request, $requestMethod)
     {
         $request = $this->stripApplicationPrefix($request);
 
@@ -130,7 +135,7 @@ class RequestRouter
 
         // call registered method
         if (isset($this->routes[$view])) {
-            return $this->routes[$view]($param);
+            return $this->routes[$view]($param, $requestMethod);
         }
 
         // SECURITY: all defined variables from current
