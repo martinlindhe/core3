@@ -1,6 +1,9 @@
 <?php
 namespace Writer;
 
+/**
+ * Uses scssphp from http://leafo.net/scssphp/
+ */
 class Scss
 {
     protected $importPath;

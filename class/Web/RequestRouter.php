@@ -10,19 +10,37 @@ class RequestRouter
 
     public function __construct()
     {
+        /**
+         * Handle API calls
+         */
+        $this->registerRoute('api', function($param)
+        {
+            $viewName = $param[0]; ///< name of the api call
 
-        // TODO: route /api into registered callback functions, configured by project + some system defaults like PING
+            // TODO: configure api calls by project
+            header('Content-Type: application/json');
+
+            switch ($viewName) {
+                case 'ping':
+                    $res = array('ping' => 'ok');
+                    break;
+                default:
+                    $res = array('error' => 'unknown command');
+                    break;
+            }
+            echo \Writer\Json::encodeSlim($res);
+        });
 
         /**
-         * Compiles SCSS to CSS stylesheets on demand
+         * Compile SCSS to CSS stylesheets on demand
          */
-        $this->registerRoute('scss', function($params) // XXX param should be full path, /scss
+        $this->registerRoute('scss', function($param)
         {
-            $viewName = $params[0]; ///< base name of the scss file
+            $viewName = $param[0]; ///< base name of the scss file
 
             $scss = new \Writer\Scss();
 
-            $scss->setImportPath(realpath(__DIR__.'/scss'));
+            $scss->setImportPath($this->applicationDirectoryRoot.'/scss');
 
             header('Content-Type: text/css');
 
@@ -103,6 +121,13 @@ class RequestRouter
         }
         unset($parts);
 
+        // make sure array keys are defined in view
+        for ($i = 0; $i < 3; $i++) {
+            if (!isset($param[$i])) {
+                $param[$i] = '';
+            }
+        }
+
         // call registered method
         if (isset($this->routes[$view])) {
             return $this->routes[$view]($param);
@@ -149,10 +174,11 @@ class RequestRouter
     }
     
     /**
-     * @param string $route
+     * Registers routing from a view name to a callback function
+     * @param string $viewName
      */
-    public function registerRoute($route, $callback)
+    public function registerRoute($viewName, $callback)
     {
-        $this->routes[$route] = $callback;
+        $this->routes[$viewName] = $callback;
     }
 }
