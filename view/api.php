@@ -13,12 +13,12 @@ if (!file_exists($apiViewFileName)) {
     // next, look in core3/api/routename.php
     $apiViewFileName = __DIR__.'/../../api/'.$viewName.'.php';
     if (!file_exists($apiViewFileName)) {
-        return \Writer\Json::encodeSlim(array('error' => 'route not available'));
+        echo \Writer\Json::encodeSlim(array('error' => 'route not available'));
     }
 }
 
 try {
     include $apiViewFileName;
 } catch (\Exception $ex) {
-    return \Api\ResponseError::exceptionToJson($ex);
+    echo \Api\ResponseError::exceptionToJson($ex);
 }

@@ -1,10 +1,17 @@
 <?php
+/**
+ * Force generates all scss -> css in app/scss
+ */
 
-## TODO : looks in current dir/scss/*.scss, creates scss/compiled/*.css
+echo "Generating css files, base dir ".getcwd()." ...\n";
 
-echo "Generating css files ...\n";
+$scss = new \Writer\Scss();
+$scss->setImportPath(getcwd().'/scss');
+
 
 $files = glob('scss/*.{scss}', GLOB_BRACE);
 foreach ($files as $file) {
-    echo $file."\n";
+    $viewName = substr(basename($file), 0, -5);
+    echo 'Rendering '.$viewName."\n";
+    $scss->renderView($viewName, false);
 }

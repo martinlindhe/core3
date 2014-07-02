@@ -46,42 +46,6 @@ class Scss
     }
 
     /**
-     * Serves a compiled scss -> css file to browser client
-     * @param type $viewName base name of view to handle (without extension)
-     * @return string rendered view
-     * @throws \FileNotFoundException
-     * @throws \CachedApiException
-     */
-    public function handleRequest($viewName)
-    {
-        $scssFile = $this->getScssFile($viewName);
-        if (!file_exists($scssFile)) {
-            throw new \FileNotFoundException();
-        }
-
-        $cachedFile = $this->getCachedFile($viewName);
-        if (file_exists($cachedFile)) {
-            $data = file_get_contents($cachedFile);
-        } else {
-            $data = $this->renderFileToCssFile($scssFile, $cachedFile);
-        }
-
-        $etag = $this->getETag($viewName);
-
-        // TODO dont set headers in here, so in core3/view/scss.php
-        header('ETag: '.$etag);
-
-        $timestamp = filemtime($cachedFile);
-        header('Last-Modified: '.gmdate('D, d M Y H:i:s ', $timestamp).'GMT');
-
-        if (!$this->isClientCacheDirty($etag)) {
-            throw new \CachedInClientException();
-        }
-
-        return $data;
-    }
-
-    /**
      * @return string full path of scss file for $viewName
      */
     public function getScssFile($viewName)
@@ -99,7 +63,7 @@ class Scss
     /**
      * @return string full path of cached file for compiled $viewName
      */
-    public function getCachedFile($viewName)
+    public function getCachedFileName($viewName)
     {
         if (!$this->isValidViewName($viewName)) {
             throw new \Exception('Invalid scss name');
@@ -107,30 +71,53 @@ class Scss
         return $this->importPath.'/compiled/'.$viewName.'.compiled.css';
     }
 
-    public function getETag($viewName)
+    public function getCachedFileMtime($viewName)
     {
-        $cachedFile = $this->getCachedFile($viewName);
+        $cachedFile = $this->getCachedFileName($viewName);
 
         if (!file_exists($cachedFile)) {
             throw new \FileNotFoundException('Scss not found');
         }
 
-        $cachedMtime = filemtime($cachedFile);
-        return '"'.md5($cachedFile.$cachedMtime).'"';
+        return filemtime($cachedFile);
     }
 
     /**
-     * Render a scss file to css
-     * @param $scssFile scss file to render
-     * @return string compiled css
+     * Uses or creates cached version as needed
+     * @return string rendered view into css
      */
-    public function renderFileToCss($scssFile)
+    public function renderView($viewName, $readCache = true)
     {
-        $scss = new \scssc();
-        $scss->setImportPaths($this->importPath);
-        $scss->setFormatter('scss_formatter_compressed');
+        $scssFile = $this->getScssFile($viewName);
+        if (!file_exists($scssFile)) {
+            throw new \FileNotFoundException();
+        }
 
-        return $scss->compile('@import "'.basename($scssFile).'"');
+        $cachedFile = $this->getCachedFileName($viewName);
+        if ($readCache) {
+            if (file_exists($cachedFile)) {
+                return file_get_contents($cachedFile);
+            }
+        }
+
+        $data = $this->renderFileToCss($scssFile);
+
+        $this->writeCache($cachedFile, $data);
+
+        return $data;
+    }
+
+    private function writeCache($outFile, $data)
+    {
+        $dstDir = dirname($outFile);
+        if (!is_dir($dstDir)) {
+            throw new \DirectoryNotFoundRexception($dstDir);
+        }
+        if (!is_writable($dstDir)) {
+           throw new \WritePermissionDeniedException($dstDir);
+        }
+
+        file_put_contents($outFile, $data);
     }
 
     /**
@@ -146,23 +133,16 @@ class Scss
     }
 
     /**
-     * Render a scss file to css and writes to disk
+     * Render a scss file to css
+     * @param $scssFile scss file to render
      * @return string compiled css
      */
-    public function renderFileToCssFile($scssFile, $outFile)
+    public function renderFileToCss($scssFile)
     {
-        $dstDir = dirname($outFile);
-        if (!is_dir($dstDir)) {
-            throw new \DirectoryNotFoundRexception($dstDir);
-        }
-        if (!is_writable($dstDir)) {
-           throw new \WritePermissionDeniedException($dstDir);
-        }
+        $scss = new \scssc();
+        $scss->setImportPaths($this->importPath);
+        $scss->setFormatter('scss_formatter_compressed');
 
-        $data = $this->renderFileToCss($scssFile);
-
-        file_put_contents($outFile, $data);
-
-        return $data;
+        return $scss->compile('@import "'.basename($scssFile).'"');
     }
 }

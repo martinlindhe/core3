@@ -1,12 +1,12 @@
 <?php
 /**
-* Compile SCSS to CSS stylesheets on demand
+* Compile SCSS to CSS stylesheets on demand and
+* serve file to browser client
 */
 
 $viewName = $param[0]; ///< base name of the scss file
 
 $scss = new \Writer\Scss();
-
 $scss->setImportPath($this->applicationDirectoryRoot.'/scss');
 
 header('Content-Type: text/css');
@@ -16,7 +16,18 @@ try {
         throw new \Exception('only GET supported');
     }
 
-    echo $scss->handleRequest($viewName);
+    $data = $scss->renderView($viewName);
+    $etag = '"'.md5($viewName.$scss->getCachedFileMtime($viewName)).'"';
+
+    header('ETag: '.$etag);
+
+    $timestamp = filemtime($scss->getCachedFileName($viewName));
+    header('Last-Modified: '.gmdate('D, d M Y H:i:s ', $timestamp).'GMT');
+
+    if (!$scss->isClientCacheDirty($etag)) {
+        throw new \CachedInClientException();
+    }
+    echo $data;
 
 } catch (\CachedInClientException $ex) {
 
