@@ -13,7 +13,7 @@ class RequestRouter
         /**
          * Handle API calls
          */
-        $this->registerRoute('api', function($param, $requestMethod)
+        $this->registerRoute('api', function($requestMethod, $param)
         {
             $viewName = $param[0]; ///< name of the api call
 
@@ -39,7 +39,7 @@ class RequestRouter
         /**
          * Compile SCSS to CSS stylesheets on demand
          */
-        $this->registerRoute('scss', function($param, $requestMethod)
+        $this->registerRoute('scss', function($requestMethod, $param)
         {
             $viewName = $param[0]; ///< base name of the scss file
 
@@ -135,7 +135,7 @@ class RequestRouter
 
         // call registered method
         if (isset($this->routes[$view])) {
-            return $this->routes[$view]($param, $requestMethod);
+            return $this->routes[$view]($requestMethod, $param);
         }
 
         // SECURITY: all defined variables from current

@@ -13,9 +13,6 @@
 
 
 
-# TODO api
-	
-
 
 # TODO db
 - Not passing the PDO::PARAM_INT parameter when binding integer variables can
@@ -36,8 +33,6 @@
 - uses uglify-js
 - make task for creating min & map files of everything in js dir
 
-
-# TODO tests
 
 
 # TODO linter
