@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 $apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
 if (!file_exists($apiViewFileName)) {
     // next, look in core3/api/routename.php
-    $apiViewFileName = __DIR__.'/../../api/'.$viewName.'.php';
+    $apiViewFileName = __DIR__.'/../api/'.$viewName.'.php';
     if (!file_exists($apiViewFileName)) {
         http_response_code(400); // Bad Request
         echo \Writer\Json::encodeSlim(array('error' => 'route not available'));
