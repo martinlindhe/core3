@@ -4,8 +4,8 @@
 
 # TODO cli
 - task runner for the project, instead of the Makefile
-  in order to automate things like db upgrade on the project's configured db,
-  run benchmarks (currently: phpunit --group Benchmark)
+  in order to automate things like db upgrade on the project's configured db
+
 
 - tool that verifies all tables & columns exist. use reflection to find all
   classes extending from PdoTable, use their public variables as column names,
@@ -43,4 +43,3 @@
 # TODO setup
 - NAMESPACES: follow https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md
 	The fully qualified class name MUST have a top-level namespace name, also known as a "vendor namespace".
-

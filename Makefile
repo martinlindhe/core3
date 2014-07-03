@@ -10,13 +10,10 @@ update-prod-deps update-production-deps:
 	php composer.phar update
 
 test:
-	./vendor/bin/phpunit --exclude-group Benchmark,Database,Mailer
+	./vendor/bin/phpunit --exclude-group Database,Mailer
 
 test-all:
 	./vendor/bin/phpunit
-
-benchmark:
-	./vendor/bin/phpunit --group Benchmark
 
 lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test view

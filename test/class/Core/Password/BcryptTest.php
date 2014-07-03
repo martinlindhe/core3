@@ -7,6 +7,29 @@ namespace Core\Password;
 class BcryptTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Looks in forbidden passwords file for useless rules,
+     * which are covered by the validation checks
+     */
+    function testFindUselessForbiddenRules()
+    {
+        $password = new Bcrypt();
+
+        $filename = $password->getForbiddenPasswordsFilename();
+
+        $rows = explode("\n", trim(file_get_contents($filename)));
+
+        $this->assertGreaterThanOrEqual(488, count($rows));
+
+        foreach ($rows as $row) {
+            $this->assertEquals(
+                false,
+                $password->isRepeatingString($row),
+                'Asserting that string '.$row.' is not repeated'
+            );
+        }
+    }
+
+    /**
 	 * verify that repeated letter strings are disallowed
 	 */
     function testIsAllowedRepeated()
