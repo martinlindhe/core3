@@ -12,8 +12,8 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         $router = new \Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         //$router->setApplicationWebRoot('/app1');
-        
-        $res = $router->route('/');
+
+        $res = $router->route('/', 'GET');
 
         // TODO: verify output, for example request page not found and check that we get a 404 return.
         //       load start page and check that we get a 200 OK
@@ -25,8 +25,8 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         $router = new \Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         $router->setApplicationWebRoot('/app1');
-        
-        $res = $router->route('/app1/');
+
+        $res = $router->route('/app1/', 'GET');
 
         // TODO verify output
     }
@@ -57,11 +57,11 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
         $router = new \Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         $router->setApplicationWebRoot('/');
-        
-        $res = $router->route('/wrong/path');
-        
+
+        $res = $router->route('/wrong/path', 'GET');
+
         // TODO how can wwe verify http code is 404 ?
-        
+
         $this->assertEquals(
             "<html>\n".
             "\n".

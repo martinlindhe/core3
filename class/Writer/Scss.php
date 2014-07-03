@@ -14,12 +14,12 @@ class Scss
     }
 
     /**
-     * allows a-z,A-Z,0-9 and -
+     * allows a-z, A-Z, 0-9, _ and -
      */
     public function isValidViewName($name)
     {
         if (strlen($name) <= 30 &&
-            preg_match('/^[a-zA-Z0-9-]+$/', $name) == 1
+            preg_match('/^[a-zA-Z0-9-_]+$/', $name) == 1
         ) {
             return true;
         }

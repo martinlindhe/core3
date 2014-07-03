@@ -6,19 +6,16 @@
 
 require 'bootstrap.php';
 
+$router = new \Cli\ApplicationRouter();
+
 if (count($argv) < 2) {
     echo "Usage: <go to app root>\n";
-    // TODO iterate over available cli views in core3 & app folders 
-    echo "  ".$argv[0]." scss-generate   [core]\n\n";
+    $router->printAvailableRoutes($argv[0]);
     die;
 }
 
-//XXX validate input
-$cliViewFile = __DIR__.'/cli/'.$argv[1].'.php';
-
-if (!file_exists($cliViewFile)) {
-    echo "Invalid command";
-    die;
+try {
+    $router->route($argv[1]);
+} catch (\Exception $ex) {
+    echo "Error: ".$ex."\n";
 }
-
-include $cliViewFile;
