@@ -5,7 +5,7 @@
 		"ircmaxell/password-compat": "1.0.3",
 		"martinlindhe/http_response_code_compat": "1.0.0",
 		"leafo/scssphp": "0.0.10",
-		"tecnick.com/tcpdf": "6.0.086"
+		"tecnick.com/tcpdf": "6.0.087"
 	},
 	"require-dev": {
 		"packagist/closurecompiler-bin": "dev-master",
