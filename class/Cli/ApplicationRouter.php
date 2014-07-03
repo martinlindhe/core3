@@ -54,7 +54,7 @@ class ApplicationRouter
 
         if (!file_exists($cliViewFile)) {
             // look for core cli view
-            $cliViewFile = __DIR__.'/cli/'.$viewName.'.php';
+            $cliViewFile = __DIR__.'/../../cli/'.$viewName.'.php';
             if (!file_exists($cliViewFile)) {
                 throw new \Exception("Invalid command");
             }
