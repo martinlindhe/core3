@@ -29,3 +29,6 @@ $requestMethod      method used for the request (GET, PUT, POST, DELETE)
 ## TODO
 
 TODO: how to pass in POST / PUT data?
+TODO: how to require authentication for certain api calls? what auth scheme to use that fits with js auth?
+TODO: if app1 uses User (database storage) class, then make available core api views for user,
+    such as isUsernameAvailable, registerUser
