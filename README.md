@@ -5,7 +5,7 @@ web application views through the Web\RequestRouter, cli views
 (through the Cli\ApplicationRouter) and REST api views.
 
 
-## Directory structure
+## Core3 directory structure
 
     api/            API views
     class/          Class files
@@ -21,6 +21,13 @@ web application views through the Web\RequestRouter, cli views
     vendor/         Composer dependencies
 
 
+## Application directory structure
+
+    api/            Application API views
+    class/          Application class files
+    cli/            Application CLI views
+    scss/           Application SCSS files
+    test/           Application PHPUnit tests
 
 
 ## PDF support
