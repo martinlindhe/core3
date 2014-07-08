@@ -76,5 +76,11 @@ class JsonTest extends \PHPUnit_Framework_TestCase
             '{"name":"test"}',
             \Writer\Json::encodeSkipNullValues($o)
         );
+
+        $this->assertEquals(
+            '[{"name":"test"}]',
+            \Writer\Json::encodeSkipNullValues(array($o))
+        );
+
     }
 }

@@ -1,6 +1,9 @@
 <?php
 namespace Writer;
 
+/**
+ * Supports PHP 5.3 and up
+ */
 class Json
 {
     /**
@@ -13,19 +16,21 @@ class Json
         return json_encode($obj);
     }
 
+    private static function stripNullValuesFromJson($json)
+    {
+        return preg_replace(
+            '/,\s*"[^"]+":null|"[^"]+":null,?/',
+            '',
+            $json
+        );
+    }
+
     /**
      * Encodes object to JSON string, excluding null values
      */
     public static function encodeSkipNullValues($obj)
     {
-        return json_encode(
-            array_filter(
-                (array) $obj,
-                function ($var) {
-                    return !is_null($var);
-                }
-            )
-        );
+        return self::stripNullValuesFromJson(json_encode($obj));
     }
 
     /**
