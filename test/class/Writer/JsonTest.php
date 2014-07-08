@@ -5,7 +5,7 @@
  */
 class JsonTest extends \PHPUnit_Framework_TestCase
 {
-    function testBasic()
+    function testEncode()
     {
         $o = new stdClass();
         $o->name = "hej";
@@ -49,8 +49,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
             \Writer\Json::encodeSlim($o)
         );
     }
-    
-    
+
     function testEncodeSlashes()
     {
         $o = new stdClass();
@@ -59,6 +58,23 @@ class JsonTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             '{"name":"path\/to\/file"}',
             \Writer\Json::encode($o)
+        );
+    }
+
+    function testEncodeSkipNullValues()
+    {
+        $o = new stdClass();
+        $o->name = "test";
+        $o->var = null;
+
+        $this->assertEquals(
+            '{"name":"test","var":null}',
+            \Writer\Json::encode($o)
+        );
+
+        $this->assertEquals(
+            '{"name":"test"}',
+            \Writer\Json::encodeSkipNullValues($o)
         );
     }
 }

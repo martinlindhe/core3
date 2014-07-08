@@ -12,7 +12,22 @@ class Json
     {
         return json_encode($obj);
     }
-    
+
+    /**
+     * Encodes object to JSON string, excluding null values
+     */
+    public static function encodeSkipNullValues($obj)
+    {
+        return json_encode(
+            array_filter(
+                (array) $obj,
+                function ($var) {
+                    return !is_null($var);
+                }
+            )
+        );
+    }
+
     /**
      * Encodes object to JSON string, without escaping unicode or slashes
      * @param type $obj
@@ -27,7 +42,7 @@ class Json
         // NOTE: for compatibility with php 5.3
         return self::unescapeSlashes(self::unescapeUnicode(json_encode($obj)));
     }
-    
+
     /**
      * Converts escaped slashes from json string, simulating JSON_UNESCAPED_SLASHES
      * in versions before php 5.4
@@ -38,7 +53,7 @@ class Json
     {
         return str_replace('\\/', '/', $rawJson);
     }
-    
+
     /**
      * Decodes \u00xx (utf8 encoding) from json string, simulating JSON_UNESCAPED_UNICODE
      * in versions before php 5.4
