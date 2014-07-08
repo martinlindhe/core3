@@ -28,27 +28,9 @@ class Scss
     }
 
     /**
-     * Returns true if the client has same version
-     * of the document corresponding to $etag
-     *
-     */
-    public function isClientCacheDirty($etag)
-    {
-        if (!isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
-            return true;
-        }
-
-        if ($_SERVER['HTTP_IF_NONE_MATCH'] != $etag) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * @return string full path of scss file for $viewName
      */
-    public function getScssFile($viewName)
+    public function getScssFileName($viewName)
     {
         if (!is_dir($this->importPath)) {
             throw new \DirectoryNotFoundRexception();
@@ -82,32 +64,7 @@ class Scss
         return filemtime($cachedFile);
     }
 
-    /**
-     * Uses or creates cached version as needed
-     * @return string rendered view into css
-     */
-    public function renderView($viewName, $readCache = true)
-    {
-        $scssFile = $this->getScssFile($viewName);
-        if (!file_exists($scssFile)) {
-            throw new \FileNotFoundException();
-        }
-
-        $cachedFile = $this->getCachedFileName($viewName);
-        if ($readCache) {
-            if (file_exists($cachedFile)) {
-                return file_get_contents($cachedFile);
-            }
-        }
-
-        $data = $this->renderFileToCss($scssFile);
-
-        $this->writeCache($cachedFile, $data);
-
-        return $data;
-    }
-
-    private function writeCache($outFile, $data)
+    public function writeCache($outFile, $data)
     {
         $dstDir = dirname($outFile);
         if (!is_dir($dstDir)) {
@@ -134,11 +91,16 @@ class Scss
 
     /**
      * Render a scss file to css
-     * @param $scssFile scss file to render
+     * @param $viewName
      * @return string compiled css
      */
-    public function renderFileToCss($scssFile)
+    public function renderViewToCss($viewName)
     {
+        $scssFile = $this->getScssFileName($viewName);
+        if (!file_exists($scssFile)) {
+            throw new \FileNotFoundException();
+        }
+
         $scss = new \scssc();
         $scss->setImportPaths($this->importPath);
         $scss->setFormatter('scss_formatter_compressed');

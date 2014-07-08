@@ -25,21 +25,23 @@ class ScssTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    function testRenderFileToCss()
+    function testRenderViewToCss()
     {
         // compile SASS (from file) to compressed CSS
         $scss = new \Writer\Scss();
 
         $code = '.footer { color: #222 * 2; }';
 
-        $scssFile = tempnam(sys_get_temp_dir(), 'scss');
+        $scssFile = tempnam(sys_get_temp_dir(), 'scss').'.scss';
         file_put_contents($scssFile, $code);
+
+        $viewName = substr(basename($scssFile), 0, -5);
 
         $scss->setImportPath(dirname($scssFile));
 
         $this->assertEquals(
             '.footer{color:#444;}',
-            $scss->renderFileToCss($scssFile)
+            $scss->renderViewToCss($viewName)
         );
 
         unlink($scssFile);
@@ -52,15 +54,16 @@ class ScssTest extends \PHPUnit_Framework_TestCase
 
         $code = '.footer { color: #222 * 2; }';
 
-        $scssFile = tempnam(sys_get_temp_dir(), 'scss');
-
+        $scssFile = tempnam(sys_get_temp_dir(), 'scss').'.scss';
         file_put_contents($scssFile, $code);
 
         $scss->setImportPath(dirname($scssFile));
 
+        $viewName = substr(basename($scssFile), 0, -5);
+
         $this->assertEquals(
             '.footer{color:#444;}',
-            $scss->renderFileToCss($scssFile)
+            $scss->renderViewToCss($viewName)
         );
 
         unlink($scssFile);
