@@ -35,7 +35,6 @@ try {
         throw new \Exception('only GET supported');
     }
 
-
     $scssFile = $scss->getScssFileName($viewName);
     if (!file_exists($scssFile)) {
         throw new \FileNotFoundException();
@@ -59,17 +58,16 @@ try {
         $scss->writeCache($cachedFile, $data);
     }
 
-
     $etag = '"'.md5($viewName.$scss->getCachedFileMtime($viewName)).'"';
-
-    if (isClientCachingDocument($etag)) {
-        throw new \CachedInClientException();
-    }
 
     header('ETag: '.$etag);
 
     $timestamp = filemtime($scss->getCachedFileName($viewName));
     header('Last-Modified: '.gmdate('D, d M Y H:i:s ', $timestamp).'GMT');
+
+    if (isClientCachingDocument($etag)) {
+        throw new \CachedInClientException();
+    }
 
     echo $data;
 
