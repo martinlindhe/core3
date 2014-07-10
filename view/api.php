@@ -5,7 +5,7 @@
 
 $viewName = $param[0]; ///< name of the api call
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=UTF-8');
 
 // first, look in app api/routname.php
 $apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
