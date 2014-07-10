@@ -34,18 +34,20 @@ class Json
     }
 
     /**
-     * Encodes object to JSON string, without escaping unicode or slashes
+     * Encodes object to JSON string, without escaping unicode or slashes and no null values
      * @param type $obj
      * @return string
      */
     public static function encodeSlim($obj)
     {
         if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
-            return json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+            $json = json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        } else {
+            // NOTE: for compatibility with php 5.3
+            $json = self::unescapeSlashes(self::unescapeUnicode(json_encode($obj)));
         }
 
-        // NOTE: for compatibility with php 5.3
-        return self::unescapeSlashes(self::unescapeUnicode(json_encode($obj)));
+        return self::stripNullValuesFromJson($json);
     }
 
     /**
