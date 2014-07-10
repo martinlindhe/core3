@@ -3,11 +3,12 @@
  * Handle API calls
  */
 
-$viewName = $param[0]; ///< name of the api call
+// shifts first parameter off array, so called api view have correct $param
+$viewName = array_shift($param);
 
 header('Content-Type: application/json; charset=UTF-8');
 
-// first, look in app api/routname.php
+// first, look in app/api/routname.php
 $apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
 if (!file_exists($apiViewFileName)) {
     // next, look in core3/api/routename.php
@@ -21,6 +22,9 @@ if (!file_exists($apiViewFileName)) {
 
 try {
     include $apiViewFileName;
+} catch (\FileNotFoundException $ex) {
+    http_response_code(404); // File Not Found
+    echo \Api\ResponseError::exceptionToJson($ex);
 } catch (\Exception $ex) {
     http_response_code(400); // Bad Request
     echo \Api\ResponseError::exceptionToJson($ex);
