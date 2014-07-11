@@ -8,6 +8,23 @@ class Scss
 {
     protected $importPath;
 
+    private $formatterMode = 'scss_formatter_nested';
+
+    public function setFormatterModeCompressed()
+    {
+        $this->formatterMode = 'scss_formatter_compressed';
+    }
+
+    public function setFormatterModeNested()
+    {
+        $this->formatterMode = 'scss_formatter_nested';
+    }
+
+    public function setFormatterModePretty()
+    {
+        $this->formatterMode = 'scss_formatter';
+    }
+
     public function setImportPath($path)
     {
         $this->importPath = $path;
@@ -84,7 +101,7 @@ class Scss
     public function renderCodeToCss($scssCode)
     {
         $scss = new \scssc();
-        $scss->setFormatter('scss_formatter_compressed');
+        $scss->setFormatter($this->formatterMode);
 
         return $scss->compile($scssCode);
     }
@@ -103,7 +120,7 @@ class Scss
 
         $scss = new \scssc();
         $scss->setImportPaths($this->importPath);
-        $scss->setFormatter('scss_formatter_compressed');
+        $scss->setFormatter($this->formatterMode);
 
         return $scss->compile('@import "'.basename($scssFile).'"');
     }
