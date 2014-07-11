@@ -1,13 +1,16 @@
 .PHONY: test
 
+setup: install-composer install-deps
+
 install-composer:
 	curl -sS https://getcomposer.org/installer | php
+	mv composer.phar /usr/local/bin/composer
 
 install-deps update-deps:
-	php composer.phar update --dev
+	composer update --dev
 
 update-prod-deps update-production-deps:
-	php composer.phar update
+	composer update
 
 test:
 	./vendor/bin/phpunit --exclude-group Database,Mailer
