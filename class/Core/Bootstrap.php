@@ -39,7 +39,7 @@ class Bootstrap
 
         error_reporting(E_ALL | E_STRICT | E_DEPRECATED);
         ini_set('display_errors', 1);
-        
+
         // tell php to stop modifying Content-Type header
         ini_set('default_charset', '');
     }
