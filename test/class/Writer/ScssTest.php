@@ -5,10 +5,17 @@
  */
 class ScssTest extends \PHPUnit_Framework_TestCase
 {
+    private function getScssInstance()
+    {
+        $scss = new \Writer\Scss();
+        $scss->setFormatterModeCompressed();
+        return $scss;
+    }
+
     function testRenderCodeToCss()
     {
         // compile SASS to compressed CSS
-        $scss = new \Writer\Scss();
+        $scss = $this->getScssInstance();
 
         $code =
         '// comment
@@ -28,7 +35,7 @@ class ScssTest extends \PHPUnit_Framework_TestCase
     function testRenderViewToCss()
     {
         // compile SASS (from file) to compressed CSS
-        $scss = new \Writer\Scss();
+        $scss = $this->getScssInstance();
 
         $code = '.footer { color: #222 * 2; }';
 
@@ -50,7 +57,7 @@ class ScssTest extends \PHPUnit_Framework_TestCase
     function testRenderFileToCssFile()
     {
         // compile SASS (from file) to compressed CSS (to file)
-        $scss = new \Writer\Scss();
+        $scss = $this->getScssInstance();
 
         $code = '.footer { color: #222 * 2; }';
 
@@ -71,7 +78,7 @@ class ScssTest extends \PHPUnit_Framework_TestCase
 
     function testIsValidViewName()
     {
-        $scss = new \Writer\Scss();
+        $scss = $this->getScssInstance();
 
         $this->assertEquals(true, $scss->isValidViewName('viewName'));
         $this->assertEquals(true, $scss->isValidViewName('viewName111'));
