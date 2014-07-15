@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @group Web
+ */
 class GeoIpTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCountry()
@@ -17,16 +19,29 @@ class GeoIpTest extends \PHPUnit_Framework_TestCase
     public function testGetRecord1()
     {
         $geoip = new \Web\GeoIp();
+        $res = $geoip->getRecord('8.8.8.8');
+        $this->assertInstanceOf('\Web\GeoIpRecord', $res);
+        $this->assertEquals(38, $res->latitude);
+        $this->assertEquals(-97, $res->longitude);
+    }
+
+    public function testGetRecord2()
+    {
+        $geoip = new \Web\GeoIp();
         $res = $geoip->getRecord('www.whitehouse.gov');
+        $this->assertInstanceOf('\Web\GeoIpRecord', $res);
 
         // NOTE this may not always hold true
-        $this->assertEquals('United States', $res['country_name']);
-        $this->assertEquals('MA', $res['region']);
-        $this->assertEquals('Cambridge', $res['city']);
+        $this->assertEquals('United States', $res->countryName);
+        $this->assertEquals('MA', $res->region);
+        $this->assertEquals('Cambridge', $res->city);
+        $this->assertEquals(42.362598419189, $res->latitude);
+        $this->assertEquals(-71.084297180176, $res->longitude);
     }
 /*
     public function testGetDatabaseVersions()
     {
+        // BUG crashes php 5.4 & 5.6rc2 on mac
         $geoip = new \Web\GeoIp();
         var_dump($geoip->getDatabaseVersions());
     }

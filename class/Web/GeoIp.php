@@ -1,6 +1,20 @@
 <?php
 namespace Web;
 
+class GeoIpRecord
+{
+    var $continentCode;
+    var $countryCode;
+    var $countryCode3;
+    var $countryName;
+    var $region;
+    var $city;
+    var $postalCode;
+    var $latitude;
+    var $longitude;
+    var $dmaCode;
+    var $areaCode;
+}
 
 /**
  * Queries the installed geoip database
@@ -10,7 +24,21 @@ class GeoIp
 {
     public function getRecord($s)
     {
-        return geoip_record_by_name($s);
+        $arr = geoip_record_by_name($s);
+
+        $res = new GeoIpRecord();
+        $res->continentCode = $arr['continent_code'];
+        $res->countryCode = $arr['country_code'];
+        $res->countryCode3 = $arr['country_code3'];
+        $res->countryName = $arr['country_name'];
+        $res->region = $arr['region'];
+        $res->city = $arr['city'];
+        $res->postalCode = $arr['postal_code'];
+        $res->latitude = $arr['latitude'];
+        $res->longitude = $arr['longitude'];
+        $res->dmaCode = $arr['dma_code'];
+        $res->areaCode = $arr['area_code'];
+        return $res;
     }
 
     public function getCountry($s)
@@ -21,7 +49,7 @@ class GeoIp
     public function getTimezone($s)
     {
         $r = $this->getRecord($s);
-        return geoip_time_zone_by_country_and_region($r['country_code'], $r['region']);
+        return geoip_time_zone_by_country_and_region($r->countryCode, $r->region);
     }
 
     public function getDatabaseVersions()
