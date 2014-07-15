@@ -24,7 +24,7 @@ class UuidTest extends \PHPUnit_Framework_TestCase
     function testV4random()
     {
         $this->assertEquals(
-            36,  // random value, assert length
+            36, // random value, assert length
             strlen(\Writer\Uuid::v4())
         );
     }
