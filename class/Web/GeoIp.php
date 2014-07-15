@@ -70,8 +70,7 @@ class GeoIp
 
         $res = array();
 
-        foreach ($dbs as $name => $id)
-        {
+        foreach ($dbs as $name => $id) {
             if (!geoip_db_avail($id)) {
                 continue;
             }
