@@ -1,16 +1,16 @@
 <?php
-namespace Present\DateTime;
+namespace Present\Date;
 
 /**
  * English (American)
  */
-class en_US extends \Present\DateTime
+class en_US extends \Present\Date
 {
     /**
      * mm/dd/yyyy
      */
     public function render()
     {
-        return date('m/d/Y h:i:s A', $this->ts);
+        return date('m/d/Y', $this->ts);
     }
 }

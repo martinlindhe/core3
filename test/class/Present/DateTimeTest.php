@@ -12,11 +12,27 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLocalizedRenderSwedish()
+    public function testLocalizedSwedish()
     {
         $this->assertEquals(
             '2010-01-01 22:11:39',
-            \Present\DateTime::localized('sv_se', strtotime('2010-01-01 22:11:39'))
+            \Present\DateTime::localized('sv_SE', strtotime('2010-01-01 22:11:39'))
+        );
+    }
+
+    public function testLocalizedGerman()
+    {
+        $this->assertEquals(
+            '2010-01-01 22:11:39',
+            \Present\DateTime::localized('de_DE', strtotime('2010-01-01 22:11:39'))
+        );
+    }
+
+    public function testLocalizedAmerican()
+    {
+        $this->assertEquals(
+            '01/01/2010 10:11:39 PM',
+            \Present\DateTime::localized('en_US', strtotime('2010-01-01 22:11:39'))
         );
     }
 }

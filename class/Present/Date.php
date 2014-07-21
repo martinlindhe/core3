@@ -13,10 +13,11 @@ class Date extends DateTime
 
     public static function localized($locale, $ts = 0)
     {
-        $locale = strtolower($locale);
-        if ($locale == 'sv_se') {
-            return (new Date\sv_SE($ts))->render();
+        if (!in_array($locale, array('sv_SE', 'en_US', 'de_DE'))) {
+            throw new \Exception('unhandled locale '.$locale);
         }
-        throw new \Exception('unhandled locale '.$locale);
+
+        $class = __CLASS__.'\\'.$locale;
+        return (new $class($ts))->render();
     }
 }
