@@ -22,12 +22,13 @@ class IniFile
                 $currentSection = substr($line, 1, -1);
             }
 
-            if (strpos($line, '=') !== false) {
-                list($currentKey, $val) = explode('=', $line, 2);
+            if (strpos($line, '=') === false) {
+                continue;
+            }
+            list($currentKey, $val) = explode('=', $line, 2);
 
-                if ($currentSection == $section && $currentKey == $key) {
-                    return $val;
-                }
+            if ($currentSection == $section && $currentKey == $key) {
+                return $val;
             }
         }
 
@@ -56,7 +57,6 @@ class IniFile
                 $this->lines[$currentLine] = $key.'='.$val;
                 return;
             }
-
         }
     }
 }
