@@ -15,6 +15,9 @@ update-prod-deps update-production-deps:
 test:
 	./vendor/bin/phpunit --exclude-group Database,Mailer
 
+test-hhvm:
+	hhvm /usr/local/bin/phpunit --exclude-group Database,Mailer,GeoIp
+
 test-all:
 	./vendor/bin/phpunit
 

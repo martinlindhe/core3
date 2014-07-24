@@ -1,6 +1,8 @@
 <?php
 namespace Debug;
 
+// TODO: not compatible with hhvm, nuke this file
+
 /**
  * unit test helper
  * @codeCoverageIgnore
