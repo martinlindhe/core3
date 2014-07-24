@@ -1,6 +1,6 @@
 <?php
 /**
- * @group GeoIp
+ * @group HhvmIncompatible
  * @group Web
  */
 class GeoIpTest extends \PHPUnit_Framework_TestCase

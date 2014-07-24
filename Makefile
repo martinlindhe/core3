@@ -16,7 +16,7 @@ test:
 	./vendor/bin/phpunit --exclude-group Database,Mailer
 
 test-hhvm:
-	hhvm /usr/local/bin/phpunit --exclude-group Database,Mailer,GeoIp
+	hhvm /usr/local/bin/phpunit --exclude-group Database,Mailer,HhvmIncompatible
 
 test-all:
 	./vendor/bin/phpunit

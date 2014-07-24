@@ -2,6 +2,7 @@
 namespace Writer\Spreadsheet;
 
 /**
+ * @group HhvmIncompatible
  * @group Writer
  */
 class CsvTest extends \PHPUnit_Framework_TestCase

@@ -1,9 +1,10 @@
 <?php
 namespace Writer\Spreadsheet;
+
 /**
+* @group HhvmIncompatible
  * @group Writer
  */
-
 class PdfTest extends \PHPUnit_Framework_TestCase
 {
     function testHttpHeaders()

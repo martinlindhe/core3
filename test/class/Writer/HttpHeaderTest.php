@@ -2,6 +2,7 @@
 namespace Writer;
 
 /**
+ * @group HhvmIncompatible
  * @group Writer
  */
 class HttpHeaderTest extends \PHPUnit_Framework_TestCase
