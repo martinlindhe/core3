@@ -54,4 +54,24 @@ class DocumentHtml5Test extends \PHPUnit_Framework_TestCase
             $doc->render()
         );
     }
+
+    function testSetBaseHref()
+    {
+        $doc = new DocumentHtml5();
+
+        $doc->setBaseHref('/app1/');
+
+        $this->assertEquals(
+            '<!DOCTYPE html>'.
+            '<html>'.
+            '<head>'.
+            '<base href="/app1/"/>'.
+            '<title></title>'.
+            '</head>'.
+            '<body></body>'.
+            '</html>',
+            $doc->render()
+        );
+    }
+
 }

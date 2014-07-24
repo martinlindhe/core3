@@ -9,6 +9,7 @@ class DocumentHtml5
     protected $documentBody;
     protected $embeddedCss;
     protected $embeddedJs;
+    protected $baseHref;
 
     public function includeJs($url)
     {
@@ -39,12 +40,18 @@ class DocumentHtml5
         $this->documentBody .= $code;
     }
 
+    public function setBaseHref($s)
+    {
+        $this->baseHref = $s;
+    }
+
     public function render()
     {
         return
         '<!DOCTYPE html>'.
         '<html>'.
         '<head>'.
+            $this->renderBaseHref().
             $this->renderDocumentTitle().
             $this->renderEmbeddedCss().
             $this->renderIncludeJs().
@@ -54,6 +61,14 @@ class DocumentHtml5
             $this->documentBody.
         '</body>'.
         '</html>';
+    }
+
+    private function renderBaseHref()
+    {
+        if (!$this->baseHref) {
+            return;
+        }
+        return '<base href="'.$this->baseHref.'"/>';
     }
 
     private function renderEmbeddedCss()
