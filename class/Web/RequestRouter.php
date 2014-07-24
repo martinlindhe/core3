@@ -5,7 +5,7 @@ class RequestRouter
 {
     protected $applicationDirectoryRoot;
     protected $applicationWebRoot;
-    
+
     protected $routes;
 
     public function setApplicationDirectoryRoot($path)
@@ -91,6 +91,17 @@ class RequestRouter
     }
 
     /**
+     * Only send http response code if not in CLI mode
+     */
+    public function setHttpResponseCode($n)
+    {
+        if (PHP_SAPI == 'cli') {
+            return;
+        }
+        http_response_code($n);
+    }
+
+    /**
      * @return bool if $viewName is valid (a-z, A-Z, 0-9, _ and -, and max 30 letters)
      */
     public function isValidViewName($name)
@@ -120,7 +131,7 @@ class RequestRouter
 
         return $fileName;
     }
-    
+
     /**
      * Registers routing from a view name to a callback function
      * @param string $viewName

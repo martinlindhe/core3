@@ -1,5 +1,6 @@
 <?php
-http_response_code(404);
+
+$this->setHttpResponseCode(404);
 ?>
 <html>
 

@@ -14,7 +14,7 @@ if (!file_exists($apiViewFileName)) {
     // next, look in core3/api/routename.php
     $apiViewFileName = __DIR__.'/../api/'.$viewName.'.php';
     if (!file_exists($apiViewFileName)) {
-        http_response_code(400); // Bad Request
+        $this->setHttpResponseCode(400); // Bad Request
         echo \Writer\Json::encodeSlim(array('error' => 'route not available'));
         die;
     }
@@ -23,9 +23,9 @@ if (!file_exists($apiViewFileName)) {
 try {
     include $apiViewFileName;
 } catch (\FileNotFoundException $ex) {
-    http_response_code(404); // File Not Found
+    $this->setHttpResponseCode(404); // File Not Found
     echo \Api\ResponseError::exceptionToJson($ex);
 } catch (\Exception $ex) {
-    http_response_code(400); // Bad Request
+    $this->setHttpResponseCode(400); // Bad Request
     echo \Api\ResponseError::exceptionToJson($ex);
 }

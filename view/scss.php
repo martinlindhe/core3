@@ -73,11 +73,11 @@ try {
 
 } catch (\CachedInClientException $ex) {
 
-    http_response_code(304); // Not Modified
+    $this->setHttpResponseCode(304); // Not Modified
 
 } catch (\Exception $ex) {
 
-    http_response_code(400); // Bad Request
+    $this->setHttpResponseCode(400); // Bad Request
     header('Content-Type: application/json');
     echo \Api\ResponseError::exceptionToJson($ex);
 }
