@@ -21,6 +21,7 @@ $skeletonDir = __DIR__.'/../app_skeleton';
 
 $filesToCopy = array(
     'Makefile' => 'Makefile',
+    'bootstrap.php' => 'bootstrap.php',
     'index.php' => 'index.php',
     'gitignore' => '.gitignore',
     'htaccess' => '.htaccess'

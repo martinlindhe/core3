@@ -4,7 +4,7 @@
  * Invokes core3 application command line utils
  */
 
-require 'bootstrap.php';
+require 'app_skeleton/bootstrap.php';
 
 $router = new \Cli\ApplicationRouter();
 
