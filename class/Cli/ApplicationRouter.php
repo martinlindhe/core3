@@ -1,6 +1,8 @@
 <?php
 namespace Cli;
 
+// TODO define cli routes as classes, implementing a interface with expected: getCliName(), getDescription() and run()
+
 /**
  * Routes cli applications to the user
  * Invoke with the core3/cli.php util
