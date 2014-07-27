@@ -4,9 +4,7 @@
  * copies skeleton files into place and creates directory structure
  */
 
-// TODO another tool that echos out a useable apache vhost entry
 // TODO check permissions
-
 
 echo "Initial setup for ".getcwd()." ...\n";
 
