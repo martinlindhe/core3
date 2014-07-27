@@ -1,0 +1,19 @@
+# dont send X-Pad header (fix for ancient bug in Netscape browser still sent in apache 2.2)
+Header unset X-Pad
+
+# -Indexes: dont expose directory listings
+# -MultiViews: dont have apache trying to outsmart our request routing
+Options +FollowSymLinks -Indexes -MultiViews
+
+# dont expose .git directory
+# TODO block access to all dot . directories
+RedirectMatch 404 /\.svn
+RedirectMatch 404 /\.git
+
+RewriteEngine on
+RewriteRule ^css/ - [L]
+RewriteRule ^js/ - [L]
+RewriteRule ^img/ - [L]
+RewriteRule ^fonts/ - [L]
+RewriteRule ^partials/ - [L]
+RewriteRule ^(.*)$ index.php [QSA,L]
