@@ -1,6 +1,6 @@
 <?php
 
-// register core3 composer autoloader:
+// register core3 composer autoloader
 require_once __DIR__.'/core3/vendor/autoload.php';
 
 // register core3 autoloader
