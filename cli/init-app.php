@@ -23,6 +23,7 @@ $filesToCopy = array(
     'Makefile' => 'Makefile',
     'bootstrap.php' => 'bootstrap.php',
     'index.php' => 'index.php',
+    'composer.json' => 'composer.json',
     'gitignore' => '.gitignore',
     'htaccess' => '.htaccess'
 );
