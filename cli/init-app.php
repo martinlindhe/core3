@@ -17,6 +17,12 @@ foreach ($defaultDirectories as $dirName) {
     }
 }
 
+
+// allow apache to write into compiled dir
+mkdir('scss/compiled');
+chmod('scss/compiled', 0777);  // FIXME what is proper flags?
+
+
 $skeletonDir = __DIR__.'/../app_skeleton';
 
 $filesToCopy = array(
