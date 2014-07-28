@@ -6,10 +6,10 @@ install-composer:
 	curl -sS https://getcomposer.org/installer | php
 	mv composer.phar /usr/local/bin/composer
 
-install-deps update-deps:
-	composer update --dev
+install-deps:
+	composer install
 
-update-prod-deps update-production-deps:
+update-deps:
 	composer update
 
 test:
@@ -23,6 +23,9 @@ test-all:
 
 lint:
 	./vendor/bin/phpcs --standard=test/phpcs-ruleset.xml class test view
+
+lint-md:
+	./vendor/bin/phpmd class text cleancode
 
 lint-json:
 	./vendor/bin/jsonlint composer.json
