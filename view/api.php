@@ -8,6 +8,7 @@ $viewName = array_shift($param);
 
 header('Content-Type: application/json; charset=UTF-8');
 
+
 // first, look in app/api/routname.php
 $apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
 if (!file_exists($apiViewFileName)) {

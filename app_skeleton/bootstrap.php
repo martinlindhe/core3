@@ -14,7 +14,6 @@ spl_autoload_register(function ($class)
     }
 });
 
-
 // register project autoloader
 spl_autoload_register(function ($class)
 {
