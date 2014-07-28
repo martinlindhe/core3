@@ -1,3 +1,5 @@
 core3
 tags
 scss/compiled
+composer.lock
+vendor
