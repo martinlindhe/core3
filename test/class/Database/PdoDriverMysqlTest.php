@@ -4,7 +4,7 @@
 /**
  * @group Database
  */
-class test2Table extends \Model\DatabaseTable
+class test2Table extends \Core3\Model\DatabaseTable
 {
     var $id;
     var $name;
@@ -17,7 +17,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
 {
     private function getConnection()
     {
-        $db = new \Database\PdoDriver('mysql');
+        $db = new \Core3\Database\PdoDriver('mysql');
         $db->setServer('127.0.0.1');
         $db->setDatabase('test');
         $db->setUsername('root');

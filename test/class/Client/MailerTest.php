@@ -12,7 +12,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
 
     function testValidMail()
     {
-        $mailer = new \Client\Mailer();
+        $mailer = new \Core3\Client\Mailer();
         $this->assertEquals(true, $mailer->isValidMail('user.name@sub.domain.com'));
 
         $this->assertEquals(false, $mailer->isValidMail('user.name'));
@@ -25,7 +25,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
             "hello world\n".
             "åäö va va va";
 
-        $mailer = new \Client\Mailer();
+        $mailer = new \Core3\Client\Mailer();
         $mailer->setFrom('noreply@example.com');
         $mailer->addRecipient($this->toAddress);
         $mailer->setSubject('text mail åäö');
@@ -42,7 +42,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
             </html>
             ';
 
-        $mailer = new \Client\Mailer();
+        $mailer = new \Core3\Client\Mailer();
         $mailer->setFrom('noreply@example.com');
         $mailer->addRecipient($this->toAddress);
         $mailer->setSubject('html mail åäö');
@@ -53,7 +53,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
     {
         $msg = 'see attachment';
 
-        $mailer = new \Client\Mailer();
+        $mailer = new \Core3\Client\Mailer();
         $mailer->setFrom('noreply@example.com');
         $mailer->addRecipient($this->toAddress);
         $mailer->setSubject('attached data mail åäö');
@@ -67,12 +67,12 @@ class MailerTest extends \PHPUnit_Framework_TestCase
     {
         // NOTE this shows how to embed attached image in html mail
 
-        $mailer = new \Client\Mailer();
+        $mailer = new \Core3\Client\Mailer();
         $mailer->setFrom('noreply@example.com');
         $mailer->addRecipient($this->toAddress);
         $mailer->setSubject('attached embedded image mail åäö');
 
-        $qr = new \Writer\Barcode2D\Qrcode();
+        $qr = new \Core3\Writer\Barcode2D\Qrcode();
         $data = $qr->renderAsPng('hello world :-)');
 
         $contentId = $mailer->embedData($data, 'qr.png', 'image/png');
@@ -86,7 +86,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
 
     function testSendTemplate()
     {
-        $mailer = new \Client\Mailer();
+        $mailer = new \Core3\Client\Mailer();
         $mailer->addRecipient($this->toAddress);
 
         $vars = array(
@@ -102,7 +102,7 @@ class MailerTest extends \PHPUnit_Framework_TestCase
     {
         $msg = "hello world";
 
-        $mailer = new \Client\Mailer();
+        $mailer = new \Core3\Client\Mailer();
         $mailer->setFrom('noreply@example.com', 'Example Name');
 
         $mailer->setReplyTo('noreply@example.com', 'do not reply');

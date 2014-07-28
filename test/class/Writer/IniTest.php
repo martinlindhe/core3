@@ -11,7 +11,7 @@ class WriterIniTest extends \PHPUnit_Framework_TestCase
             "key1=val\n".
             "key2=other\n";
 
-        $iniStructure = \Reader\Ini::parse($data);
+        $iniStructure = \Core3\Reader\Ini::parse($data);
         $iniStructure->set('Section', 'key1', 'kalle');
 
         $this->assertEquals(
@@ -20,7 +20,7 @@ class WriterIniTest extends \PHPUnit_Framework_TestCase
             "\n".
             "key1=kalle\n".
             "key2=other\n",
-            \Writer\Ini::render($iniStructure)
+            \Core3\Writer\Ini::render($iniStructure)
         );
     }
 }

@@ -6,12 +6,12 @@ class WebRequestTest extends \PHPUnit_Framework_TestCase
 {
     function test1()
     {
-        $req = new \Client\WebRequest();
-        
+        $req = new \Core3\Client\WebRequest();
+
         $headers = array('User-Agent' => 'testbot 1.0');
         $response = $req->get('http://www.google.se', $headers);
 
-        $this->assertInstanceOf('\Client\WebResponse', $response);
+        $this->assertInstanceOf('\Core3\Client\WebResponse', $response);
 
         $this->assertEquals(
             200,

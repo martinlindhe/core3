@@ -7,9 +7,9 @@ the geoip-database-contrib keeps local database up-to-date
 
 == Install on MAC
 
-    brew tap homebrew/php
-    brew install homebrew/php/php54-geoip --without-homebrew-php
-*   brew install geoipupdate
+  brew tap homebrew/php
+  brew install homebrew/php/php54-geoip --without-homebrew-php
+  brew install geoipupdate
 
 Run
   ```geoipupdate```

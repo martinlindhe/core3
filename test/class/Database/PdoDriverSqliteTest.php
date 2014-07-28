@@ -12,7 +12,7 @@ class PdoDriverSqliteTest extends \PHPUnit_Framework_TestCase
     {
         $this->dbFile = tempnam("/tmp", "sqlite");
 
-        $this->db = new Database\PdoDriver('sqlite:'.$this->dbFile);
+        $this->db = new \Core3\Database\PdoDriver('sqlite:'.$this->dbFile);
 
         $this->db->query(
             'CREATE TABLE CoreUser ('.

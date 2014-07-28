@@ -1,5 +1,5 @@
 <?php
-namespace Writer;
+namespace Core3\Writer;
 
 /**
  * @group Writer

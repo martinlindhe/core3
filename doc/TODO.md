@@ -37,9 +37,3 @@
 
 # TODO linter
 - phpcs: disable warning for <?=, php 5.4 no longer considers this a "short tag" and is encouraged
-
-
-
-# TODO setup
-- NAMESPACES: follow https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md
-	The fully qualified class name MUST have a top-level namespace name, also known as a "vendor namespace".

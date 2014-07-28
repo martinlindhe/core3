@@ -1,5 +1,5 @@
 <?php
-namespace Core\Password;
+namespace Core3\Core\Password;
 
 /**
  * @group Core

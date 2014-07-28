@@ -9,7 +9,7 @@ class ResponseErrorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '{"code":400,"message":"General error"}',
-            \Api\ResponseError::render(400)
+            \Core3\Api\ResponseError::render(400)
         );
     }
 
@@ -17,10 +17,10 @@ class ResponseErrorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '{"code":999,"message":"whats up"}',
-            \Api\ResponseError::render(999, 'whats up')
+            \Core3\Api\ResponseError::render(999, 'whats up')
         );
     }
-    
+
     function testExceptionToJson()
     {
         $json =
@@ -35,7 +35,7 @@ class ResponseErrorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $json,
-            \Api\ResponseError::exceptionToJson(new \InvalidArgumentException())
+            \Core3\Api\ResponseError::exceptionToJson(new \InvalidArgumentException())
         );
     }
 }

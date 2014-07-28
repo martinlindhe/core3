@@ -8,7 +8,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '2010-01-01T22:11:39+00:00',
-            (new \Present\DateTime(strtotime('2010-01-01 22:11:39')))->render()
+            (new \Core3\Present\DateTime(strtotime('2010-01-01 22:11:39')))->render()
         );
     }
 
@@ -16,7 +16,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '2010-01-01 22:11:39',
-            \Present\DateTime::localized('sv_SE', strtotime('2010-01-01 22:11:39'))
+            \Core3\Present\DateTime::localized('sv_SE', strtotime('2010-01-01 22:11:39'))
         );
     }
 
@@ -24,7 +24,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '2010-01-01 22:11:39',
-            \Present\DateTime::localized('de_DE', strtotime('2010-01-01 22:11:39'))
+            \Core3\Present\DateTime::localized('de_DE', strtotime('2010-01-01 22:11:39'))
         );
     }
 
@@ -32,7 +32,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             '01/01/2010 10:11:39 PM',
-            \Present\DateTime::localized('en_US', strtotime('2010-01-01 22:11:39'))
+            \Core3\Present\DateTime::localized('en_US', strtotime('2010-01-01 22:11:39'))
         );
     }
 }

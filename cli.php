@@ -6,10 +6,10 @@
 
 require 'internalBootstrap.php';
 
-$router = new \Cli\ApplicationRouter();
+$router = new \Core3\Cli\ApplicationRouter();
 
 if (count($argv) < 2) {
-    echo "Usage: <go to app root>\n";
+    echo "Usage: <in app root>\n";
     $router->printAvailableRoutes($argv[0]);
     die;
 }

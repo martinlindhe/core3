@@ -25,7 +25,7 @@ function isClientCachingDocument($etag)
 
 $viewName = $param[0]; ///< base name of the scss file
 
-$scss = new \Writer\Scss();
+$scss = new \Core3\Writer\Scss();
 $scss->setImportPath($this->applicationDirectoryRoot.'/scss');
 
 header('Content-Type: text/css');
@@ -79,5 +79,5 @@ try {
 
     $this->setHttpResponseCode(400); // Bad Request
     header('Content-Type: application/json');
-    echo \Api\ResponseError::exceptionToJson($ex);
+    echo \Core3\Api\ResponseError::exceptionToJson($ex);
 }

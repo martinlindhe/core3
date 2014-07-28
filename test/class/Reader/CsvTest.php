@@ -23,7 +23,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
     {
         $data = '"AAPL",357.05,357.01,194.06,360.00';
 
-        $reader = new \Reader\Csv();
+        $reader = new \Core3\Reader\Csv();
         $rows = $reader->parse($data);
 
         $this->assertEquals(1, count($rows));
@@ -34,7 +34,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
     {
         $data = 'a,,c,d,,';
 
-        $reader = new \Reader\Csv();
+        $reader = new \Core3\Reader\Csv();
         $rows = $reader->parse($data);
 
         $this->assertEquals(1, count($rows));
@@ -44,7 +44,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
     {
          $data = '"a""ha",b,c';
 
-        $reader = new \Reader\Csv();
+        $reader = new \Core3\Reader\Csv();
         $rows = $reader->parse($data);
 
         $this->assertEquals(1, count($rows));
@@ -55,7 +55,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
     {
         $data = "a;b;c";
 
-        $reader = new \Reader\Csv();
+        $reader = new \Core3\Reader\Csv();
         $reader->setDelimiter(';');
         $rows = $reader->parse($data);
 
@@ -70,7 +70,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
         "a,b,c\n".
         "d,e,f\n";
 
-        $reader = new \Reader\Csv();
+        $reader = new \Core3\Reader\Csv();
         $reader->setStartLine(2);
         $rows = $reader->parse($data);
 
@@ -85,7 +85,7 @@ class ReaderCsvTest extends \PHPUnit_Framework_TestCase
             "a,b,c\n".
             "1,2,3\n";
 
-        $reader = new \Reader\Csv();
+        $reader = new \Core3\Reader\Csv();
         $objs = $reader->parseToObjects($data, new MyCsvColumn());
         $this->assertEquals(2, count($objs));
 

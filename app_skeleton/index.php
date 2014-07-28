@@ -17,10 +17,10 @@ if (!isset($_SERVER['REQUEST_METHOD'])) {
 }
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-$router = new \Web\RequestRouter();
+$router = new \Core3\Web\RequestRouter();
 $router->setApplicationDirectoryRoot(__DIR__);
 $router->setApplicationWebRoot(dirname($_SERVER['SCRIPT_NAME']));
 
-\Writer\HttpHeader::sendContentType('text/html; charset=utf-8');
+\Core3\Writer\HttpHeader::sendContentType('text/html; charset=utf-8');
 
 echo $router->route($request, $requestMethod);

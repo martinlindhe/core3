@@ -1,5 +1,8 @@
 <?php
 
+// register core3 composer autoloader
+require_once __DIR__.'/../vendor/autoload.php';
+
 // register core3 autoloader
 spl_autoload_register(function ($class)
 {

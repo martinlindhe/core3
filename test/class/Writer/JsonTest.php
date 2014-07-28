@@ -13,7 +13,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '{"name":"hej","vals":[1,2,3]}',
-            \Writer\Json::encode($o)
+            \Core3\Writer\Json::encode($o)
         );
     }
 
@@ -24,7 +24,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '{"name":"h\u00f6j"}',
-            \Writer\Json::encode($o)
+            \Core3\Writer\Json::encode($o)
         );
     }
 
@@ -35,7 +35,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '{"name":"höj"}',
-            \Writer\Json::encodeSlim($o)
+            \Core3\Writer\Json::encodeSlim($o)
         );
     }
 
@@ -46,7 +46,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '{"name":"path/to/file"}',
-            \Writer\Json::encodeSlim($o)
+            \Core3\Writer\Json::encodeSlim($o)
         );
     }
 
@@ -57,7 +57,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '{"name":"path\/to\/file"}',
-            \Writer\Json::encode($o)
+            \Core3\Writer\Json::encode($o)
         );
     }
 
@@ -69,18 +69,17 @@ class JsonTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             '{"name":"test","var":null}',
-            \Writer\Json::encode($o)
+            \Core3\Writer\Json::encode($o)
         );
 
         $this->assertEquals(
             '{"name":"test"}',
-            \Writer\Json::encodeSkipNullValues($o)
+            \Core3\Writer\Json::encodeSkipNullValues($o)
         );
 
         $this->assertEquals(
             '[{"name":"test"}]',
-            \Writer\Json::encodeSkipNullValues(array($o))
+            \Core3\Writer\Json::encodeSkipNullValues(array($o))
         );
-
     }
 }

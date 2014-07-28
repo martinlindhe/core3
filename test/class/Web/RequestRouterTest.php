@@ -1,5 +1,4 @@
 <?php
-namespace Web;
 
 /**
  * @group Web
@@ -9,7 +8,7 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
     function testAppInHostRoot()
     {
         // NOTE: test config where the app is served from the root directory of the webserver, like http://localhost/
-        $router = new \Web\RequestRouter();
+        $router = new \Core3\Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         //$router->setApplicationWebRoot('/app1');
 
@@ -22,7 +21,7 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
     function testAppInHostSubdirectory()
     {
         // NOTE: test config where the app is served from a subdirectory of the webserver, like http://localhost/app1
-        $router = new \Web\RequestRouter();
+        $router = new \Core3\Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         $router->setApplicationWebRoot('/app1');
 
@@ -33,7 +32,7 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
 
     function testSstripApplicationPrefix()
     {
-        $router = new \Web\RequestRouter();
+        $router = new \Core3\Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
 
         $router->setApplicationWebRoot('/app1');
@@ -54,7 +53,7 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
     function testRoutedResult404()
     {
         // NOTE: test config where the app is served from a subdirectory of the webserver, like http://localhost/app1
-        $router = new \Web\RequestRouter();
+        $router = new \Core3\Web\RequestRouter();
         $router->setApplicationDirectoryRoot(__DIR__);
         $router->setApplicationWebRoot('/');
 
@@ -72,7 +71,6 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
             "</html>\n",
             $res
         );
-
     }
 
     /**
@@ -80,13 +78,13 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
      */
     function testInvalidApplicationDirectoryRoot()
     {
-        $router = new \Web\RequestRouter();
+        $router = new \Core3\Web\RequestRouter();
         $router->setApplicationDirectoryRoot('/no/such/path');
     }
 
     function testValidViewName()
     {
-        $router = new \Web\RequestRouter();
+        $router = new \Core3\Web\RequestRouter();
         $this->assertEquals(true, $router->isValidViewName('index'));
         $this->assertEquals(false, $router->isValidViewName(str_repeat('a', 40)));
         $this->assertEquals(true, $router->isValidViewName('123numbers'));

@@ -1,5 +1,5 @@
 <?php
-namespace Reader;
+namespace Core3\Reader;
 
 /**
  * @group Reader

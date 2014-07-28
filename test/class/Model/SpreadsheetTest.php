@@ -11,7 +11,7 @@ class SpreadsheetTest extends \PHPUnit_Framework_TestCase
      */
     function testDefineColumnsInvalid()
     {
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(4);
     }
 
@@ -20,7 +20,7 @@ class SpreadsheetTest extends \PHPUnit_Framework_TestCase
      */
     function testAddRowInvalid()
     {
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->addRow(4);
     }
 
@@ -29,17 +29,17 @@ class SpreadsheetTest extends \PHPUnit_Framework_TestCase
      */
     function testAddRowWrongColumns()
     {
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('c1','c2'));
         $model->addRow(array(1,2,3));
     }
-    
+
     /**
      * @expectedException \InvalidArgumentException
      */
     function testSetFooterInvalid()
     {
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->setFooter(4);
     }
 }

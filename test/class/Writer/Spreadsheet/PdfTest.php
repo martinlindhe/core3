@@ -1,5 +1,5 @@
 <?php
-namespace Writer\Spreadsheet;
+namespace Core3\Writer\Spreadsheet;
 
 /**
 * @group HhvmIncompatible
@@ -17,28 +17,28 @@ class PdfTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('application/pdf'),
-            \Debug\XdebugExtras::findHeaders('Content-Type')
+            \Core3\Debug\XdebugExtras::findHeaders('Content-Type')
         );
 
         $this->assertEquals(
             array('attachment; filename="'.$fileName.'"'),
-            \Debug\XdebugExtras::findHeaders('Content-Disposition')
+            \Core3\Debug\XdebugExtras::findHeaders('Content-Disposition')
         );
 
         $this->assertEquals(
             array('no-cache'),
-            \Debug\XdebugExtras::findHeaders('Pragma')
+            \Core3\Debug\XdebugExtras::findHeaders('Pragma')
         );
 
         $this->assertEquals(
             array('Sat, 26 Jul 1997 05:00:00 GMT'),
-            \Debug\XdebugExtras::findHeaders('Expires')
+            \Core3\Debug\XdebugExtras::findHeaders('Expires')
         );
     }
 
     function testUsageExample()
     {
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('id', 'name'));
         $model->addRow(array('1', 'kalle'));
         $model->addRow(array('2', 'olle'));
@@ -53,7 +53,7 @@ class PdfTest extends \PHPUnit_Framework_TestCase
 
         $this->assertGreaterThan(1000, strlen($data), 'Some data was returned');
 
-        $reader = new \Reader\BinaryData\Document();
+        $reader = new \Core3\Reader\BinaryData\Document();
         $this->assertEquals(true, $reader->isRecognized($data));
         $this->assertEquals(true, $reader->isPdfData($data));
     }
@@ -77,7 +77,7 @@ class PdfTest extends \PHPUnit_Framework_TestCase
     {
         // NOTE: to embed images, use <img src=""> tag but specify a path to an existing file
 
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('id', 'name'));
         $model->addRow(array('1', 'kalle'));
         $model->addRow(array('2', 'olle'));
@@ -94,9 +94,8 @@ class PdfTest extends \PHPUnit_Framework_TestCase
 
         unlink($imgFile);
 
-        $reader = new \Reader\BinaryData\Document();
+        $reader = new \Core3\Reader\BinaryData\Document();
         $this->assertEquals(true, $reader->isRecognized($data));
         $this->assertEquals(true, $reader->isPdfData($data));
     }
-
 }

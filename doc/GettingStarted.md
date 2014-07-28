@@ -3,6 +3,10 @@
 in dev root dir:
 
   git clone core3 https://github.com/martinlindhe/core3
+  cd core3
+  composer install
+  cd ..
+
   mkdir core3_collect
   ln -s ../core3
   core3/cli init-app

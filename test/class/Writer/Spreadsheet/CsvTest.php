@@ -1,5 +1,5 @@
 <?php
-namespace Writer\Spreadsheet;
+namespace Core3\Writer\Spreadsheet;
 
 /**
  * @group HhvmIncompatible
@@ -16,22 +16,22 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array('text/csv'),
-            \Debug\XdebugExtras::findHeaders('Content-Type')
+            \Core3\Debug\XdebugExtras::findHeaders('Content-Type')
         );
 
         $this->assertEquals(
             array('attachment; filename="'.$fileName.'"'),
-            \Debug\XdebugExtras::findHeaders('Content-Disposition')
+            \Core3\Debug\XdebugExtras::findHeaders('Content-Disposition')
         );
 
         $this->assertEquals(
             array('no-cache'),
-            \Debug\XdebugExtras::findHeaders('Pragma')
+            \Core3\Debug\XdebugExtras::findHeaders('Pragma')
         );
 
         $this->assertEquals(
             array('Sat, 26 Jul 1997 05:00:00 GMT'),
-            \Debug\XdebugExtras::findHeaders('Expires')
+            \Core3\Debug\XdebugExtras::findHeaders('Expires')
         );
     }
 
@@ -39,7 +39,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
     {
         // NOTE shows basic usage
 
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('id', 'col 2', 'date_stamp'));
         $model->addRow(array(37, 'hej', '2000-05-05'));
         $model->addRow(array(38, 'nej', '2000-05-06'));
@@ -64,7 +64,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
                 array(3, "lisa")
             );
 
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->addRows($data);
 
         $writer = new Csv();
@@ -79,7 +79,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
     function testSetDelimiter()
     {
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('id', 'name'));
         $model->addRow(array(37, 'hej'));
 
@@ -97,7 +97,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
     {
         // NOTE verifies that columns with special characters are escaped properly
 
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('ti,tel', 'namn', 'datum', 'antal'));
         $model->addRow(array('a 1', 'böp,på', 'cdwd', 'devef'));
 

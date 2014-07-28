@@ -19,11 +19,11 @@ class JsonSpreadsheetTest extends \PHPUnit_Framework_TestCase
 {
     function testBasicUsage()
     {
-        $model = new Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->addRow(array(37, 'hej', '2000-05-05'));
         $model->addRow(array(11, 'vö rääå', '2010-12-31'));
 
-        $writer = new Writer\Spreadsheet\Json();
+        $writer = new \Core3\Writer\Spreadsheet\Json();
 
         $this->assertEquals(
             '[[37,"hej","2000-05-05"],[11,"vö rääå","2010-12-31"]]',
@@ -47,10 +47,10 @@ class JsonSpreadsheetTest extends \PHPUnit_Framework_TestCase
         $rowTwo->decimalNumber = 5.559;
         $rowTwo->datestamp = "2014-05-01 12:00:00";
 
-        $model = new Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->addRows(array($rowOne, $rowTwo));
 
-        $writer = new Writer\Spreadsheet\Json();
+        $writer = new \Core3\Writer\Spreadsheet\Json();
 
         $this->assertEquals(
             '['.
@@ -60,5 +60,4 @@ class JsonSpreadsheetTest extends \PHPUnit_Framework_TestCase
             $writer->render($model)
         );
     }
-
 }

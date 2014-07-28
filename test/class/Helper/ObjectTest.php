@@ -29,7 +29,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             "prop1: hej\n".
             "prop3: hallå",
-            \Helper\Object::describePropertiesWithValues($o)
+            \Core3\Helper\Object::describePropertiesWithValues($o)
         );
     }
 
@@ -38,6 +38,6 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      */
     function testBadInput()
     {
-        \Helper\Object::describePropertiesWithValues("hej");
+        \Core3\Helper\Object::describePropertiesWithValues("hej");
     }
 }

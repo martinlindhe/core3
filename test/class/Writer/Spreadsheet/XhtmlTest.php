@@ -1,5 +1,5 @@
 <?php
-namespace Writer\Spreadsheet;
+namespace Core3\Writer\Spreadsheet;
 
 /**
  * @group Writer
@@ -10,12 +10,12 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         // NOTE shows basic usage
 
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('id', 'result'));
         $model->addRow(array(1, 200.57));
         $model->addRow(array(2, 319.11));
 
-        $writer = new \Writer\Spreadsheet\Xhtml();
+        $writer = new \Core3\Writer\Spreadsheet\Xhtml();
         $writer->setClassName('css_class');
 
         $this->assertEquals(
@@ -32,13 +32,13 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         // NOTE tests that footer column colspan is calculated correctly
 
-        $model = new \Model\Spreadsheet();
+        $model = new \Core3\Model\Spreadsheet();
         $model->defineColumns(array('id', 'name', 'result'));
         $model->addRow(array(1, 'a', 200.57));
         $model->addRow(array(2, 'b', 319.11));
         $model->setFooter(array('SUMMARY', 'TOTAL'));
 
-        $writer = new \Writer\Spreadsheet\Xhtml();
+        $writer = new \Core3\Writer\Spreadsheet\Xhtml();
 
         $this->assertEquals(
             $writer->render($model),
