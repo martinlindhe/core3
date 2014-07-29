@@ -1,6 +1,9 @@
 <?php
 namespace Core3\Web;
 
+// TODO make $db available for  "view" views. do this automatically from RequestRouter
+// TODO look on ApplicationRouter, merge code?
+
 class RequestRouter
 {
     protected $applicationDirectoryRoot;

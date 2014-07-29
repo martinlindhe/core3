@@ -1,7 +1,9 @@
 <?php
 
-if ($requestMethod != 'GET') {
-    throw new \Exception('api request method not allowed');
+class Ping
+{
+    public function handleGet()
+    {
+        echo \Core3\Writer\Json::encodeSlim(array('ping' => 'ok'));
+    }
 }
-
-echo \Writer\Json::encodeSlim(array('ping' => 'ok'));

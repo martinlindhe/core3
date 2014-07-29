@@ -8,25 +8,7 @@ $viewName = array_shift($param);
 
 header('Content-Type: application/json; charset=UTF-8');
 
+$apiRouter = new \Core3\Api\ApiRouter();
+$apiRouter->setApplicationDirectoryRoot($this->applicationDirectoryRoot);
 
-// first, look in app/api/routname.php
-$apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
-if (!file_exists($apiViewFileName)) {
-    // next, look in core3/api/routename.php
-    $apiViewFileName = __DIR__.'/../api/'.$viewName.'.php';
-    if (!file_exists($apiViewFileName)) {
-        $this->setHttpResponseCode(400); // Bad Request
-        echo \Core3\Writer\Json::encodeSlim(array('error' => 'route not available'));
-        die;
-    }
-}
-
-try {
-    include $apiViewFileName;
-} catch (\FileNotFoundException $ex) {
-    $this->setHttpResponseCode(404); // File Not Found
-    echo \Core3\Api\ResponseError::exceptionToJson($ex);
-} catch (\Exception $ex) {
-    $this->setHttpResponseCode(400); // Bad Request
-    echo \Core3\Api\ResponseError::exceptionToJson($ex);
-}
+$apiRouter->routeView($viewName, $param, $_SERVER['REQUEST_METHOD']);
