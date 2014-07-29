@@ -26,8 +26,12 @@ app skeleton files and directorires will be created
 From your application root,
 the following commands will output a suitable vhost entry:
 
-  core3/console apache22-vhost      # for Apache 2.2
+```
+core3/console apache22-vhost      # for Apache 2.2
+```
 
 or
 
-  core3/console apache24-vhost      # for Apache 2.4
+```
+core3/console apache24-vhost      # for Apache 2.4
+```
