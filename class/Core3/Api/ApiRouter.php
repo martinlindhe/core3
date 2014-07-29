@@ -22,11 +22,13 @@ class ApiRouter extends \Core3\Web\RequestRouter
 
     public function routeView($viewName, array $param, $requestMethod)
     {
+        $viewClassName = self::convertToCamelCase($viewName);
+
         // first, look in app/api/routname.php
-        $apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewName.'.php';
+        $apiViewFileName = $this->applicationDirectoryRoot.'/api/'.$viewClassName.'.php';
         if (!file_exists($apiViewFileName)) {
             // next, look in core3/api/routename.php
-            $apiViewFileName = __DIR__.'/../../../api/'.$viewName.'.php';
+            $apiViewFileName = __DIR__.'/../../../api/'.$viewClassName.'.php';
             if (!file_exists($apiViewFileName)) {
                 $this->setHttpResponseCode(400); // Bad Request
                 echo \Core3\Writer\Json::encodeSlim(array('error' => 'route not available'));
@@ -35,8 +37,6 @@ class ApiRouter extends \Core3\Web\RequestRouter
         }
 
         try {
-            $viewClassName = self::convertToCamelCase($viewName);
-
             // TODO use camel case file names too
             include $apiViewFileName;
 
