@@ -35,9 +35,10 @@ class ApiRouter extends \Core3\Web\RequestRouter
         }
 
         try {
-            include $apiViewFileName;
-
             $viewClassName = self::convertToCamelCase($viewName);
+
+            // TODO use camel case file names too
+            include $apiViewFileName;
 
             $apiClass = new $viewClassName();
 
@@ -53,7 +54,7 @@ class ApiRouter extends \Core3\Web\RequestRouter
                     if (method_exists($apiClass, $handleMethod)) {
                         include $this->applicationDirectoryRoot.'/settings/database.php';
 
-                        $apiClass->$handleMethod($db);
+                        $apiClass->$handleMethod($param, $db);
                         return;
                     } else {
                         throw new \Exception($requestMethod.' not available');
