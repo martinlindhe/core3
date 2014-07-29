@@ -8,7 +8,7 @@
 
 echo "Initial setup for ".getcwd()." ...\n";
 
-$defaultDirectories = array('api', 'cli', 'css', 'class', 'img', 'fonts', 'js', 'scss', 'test', 'view');
+$defaultDirectories = array('api', 'cli', 'css', 'class', 'img', 'fonts', 'js', 'scss', 'settings', 'test', 'view');
 foreach ($defaultDirectories as $dirName) {
     if (!is_dir($dirName)) {
         mkdir($dirName);
@@ -19,9 +19,10 @@ foreach ($defaultDirectories as $dirName) {
 
 
 // allow apache to write into compiled dir
-mkdir('scss/compiled');
-chmod('scss/compiled', 0777);  // FIXME what is proper flags?
-
+if (!is_dir('scss/compiled')) {
+    mkdir('scss/compiled');
+    chmod('scss/compiled', 0777);  // FIXME what is proper flags?
+}
 
 $skeletonDir = __DIR__.'/../app_skeleton';
 
