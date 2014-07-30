@@ -2,6 +2,7 @@
 	"require": {
 		"php": ">=5.3.0",
 		"swiftmailer/swiftmailer": "v5.2.1",
+		"michelf/php-markdown": "1.4.1",
 		"ircmaxell/password-compat": "1.0.3",
 		"martinlindhe/http_response_code_compat": "1.0.0",
 		"leafo/scssphp": "0.0.12",
