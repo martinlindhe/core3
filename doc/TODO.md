@@ -1,15 +1,21 @@
-# TODO
+# TODO wiki
+
+ * maybe fully render text client side instead?
+ * show historu
+ * edit wiki
+ * api file (POST/PUT/GET/DELETE)
+
 
 
 
 # TODO cli
-- task runner for the project, instead of the Makefile
-  in order to automate things like db upgrade on the project's configured db
-
-
 - tool that verifies all tables & columns exist. use reflection to find all
   classes extending from PdoTable, use their public variables as column names,
   verify db structure!
+
+
+- task runner for the project, instead of the Makefile
+  in order to automate things like db upgrade on the project's configured db
 
 
 
