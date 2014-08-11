@@ -58,5 +58,12 @@ class IniFile
                 return;
             }
         }
+
+        // section didnt exist, create it
+        if (!$currentSection) {
+            $this->lines[] = '['.$section.']';
+            $this->lines[] = $key.'='.$val;
+            $this->lines[] = '';
+        }
     }
 }

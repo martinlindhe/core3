@@ -23,4 +23,17 @@ class WriterIniTest extends \PHPUnit_Framework_TestCase
             \Core3\Writer\Ini::render($iniStructure)
         );
     }
+
+    public function testWriteToEmpty()
+    {
+        // NOTE fills empty ini file
+        $iniStructure = \Core3\Reader\Ini::parse("");
+        $iniStructure->set('Section', 'key1', 'kalle');
+
+        $this->assertEquals(
+            "[Section]\n".
+            "key1=kalle\n",
+            \Core3\Writer\Ini::render($iniStructure)
+        );
+    }
 }

@@ -13,7 +13,6 @@ class Ini
 
     public static function renderToFile(\Core3\Structure\IniFile $struct, $fileName)
     {
-        $data = self::render($struct);
-        file_put_contents($fileName, $data);
+        file_put_contents($fileName, self::render($struct));
     }
 }
