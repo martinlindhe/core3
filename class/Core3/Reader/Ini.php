@@ -24,6 +24,10 @@ class Ini
 
     public static function parseFile($fileName)
     {
-        return self::parse(file_get_contents($fileName));
+        $data = '';
+        if (file_exists($fileName)) {
+            $data = file_get_contents($fileName);
+        }
+        return self::parse($data);
     }
 }

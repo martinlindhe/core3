@@ -53,17 +53,18 @@ class IniFile
 
             $currentKey = substr($line, 0, $separatorPos);
 
+            // update existing key
             if ($currentSection == $section && $currentKey == $key) {
                 $this->lines[$currentLine] = $key.'='.$val;
                 return;
             }
         }
 
-        // section didnt exist, create it
-        if (!$currentSection) {
+        // create new section
+        if ($currentSection != $section) {
             $this->lines[] = '['.$section.']';
-            $this->lines[] = $key.'='.$val;
-            $this->lines[] = '';
         }
+        // add new key
+        $this->lines[] = $key.'='.$val;
     }
 }

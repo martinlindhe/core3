@@ -8,7 +8,7 @@ class Ini
 {
     public static function render(\Core3\Structure\IniFile $struct)
     {
-        return implode("\n", $struct->lines);
+        return trim(implode("\n", $struct->lines))."\n";
     }
 
     public static function renderToFile(\Core3\Structure\IniFile $struct, $fileName)
