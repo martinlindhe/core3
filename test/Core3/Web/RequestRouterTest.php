@@ -74,7 +74,7 @@ class RequestRouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException DirectoryNotFoundRexception
+     * @expectedException \Core3\Exception\DirectoryNotFound
      */
     function testInvalidApplicationDirectoryRoot()
     {

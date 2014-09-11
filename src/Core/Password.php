@@ -5,7 +5,7 @@ abstract class Password
 {
     public function getForbiddenPasswordsFilename()
     {
-        return dirname(__FILE__).'/../../../data/Password.forbidden.txt';
+        return dirname(__FILE__).'/../../data/Password.forbidden.txt';
     }
 
     public function isRepeatedLetter($s)

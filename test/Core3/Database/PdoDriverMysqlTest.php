@@ -26,7 +26,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-	 * @expectedException ConnectionFailedException
+	 * @expectedException \Core3\Exception\ConnectionFailed
 	 */
     function testConnectionFailure()
     {
@@ -37,7 +37,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-	 * @expectedException AlreadyConnectedException
+	 * @expectedException \Core3\Exception\AlreadyConnected
 	 */
     function testConnectionWhenAlreadyConnected()
     {
@@ -83,7 +83,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-	 * @expectedException InvalidResultException
+	 * @expectedException \Core3\Exception\InvalidResult
 	 */
     function testSelectItemMultiRowsResultFailure()
     {
@@ -106,7 +106,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidResultException
+     * @expectedException \Core3\Exception\InvalidResult
      */
     function testSelectItemMultipleColumnsFailure()
     {
@@ -175,7 +175,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidResultException
+     * @expectedException \Core3\Exception\InvalidResult
      */
     function testSelectRowMultipleRowsFailure()
     {
@@ -196,7 +196,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidResultException
+     * @expectedException \Core3\Exception\InvalidResult
      */
     function testSelectRowNoResult()
     {
@@ -270,7 +270,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidResultException
+     * @expectedException \Core3\Exception\InvalidResult
      */
     function testSelect1dFailure()
     {
@@ -307,7 +307,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidResultException
+     * @expectedException \Core3\Exception\InvalidResult
      */
     function testSelectMappedFailure()
     {
@@ -325,7 +325,7 @@ class PdoDriverMysqlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidQueryException
+     * @expectedException \Core3\Exception\InvalidQuery
      */
     function testSelectInvalidQueryFailure()
     {

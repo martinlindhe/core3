@@ -14,5 +14,10 @@
         "phpmd/phpmd": "dev-master",
         "phpunit/phpunit": "4.1.3",
         "seld/jsonlint": "1.1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core3\\": "src"
+        }
     }
 }

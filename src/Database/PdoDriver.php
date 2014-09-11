@@ -69,7 +69,7 @@ class PdoDriver
             $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         } catch (\PDOException $e) {
-            throw new \ConnectionFailedException();
+            throw new \Core3\Exception\ConnectionFailed();
         }
 
         return $pdo;
@@ -78,7 +78,7 @@ class PdoDriver
     public function connect()
     {
         if ($this->dbHandle !== null) {
-            throw new \AlreadyConnectedException();
+            throw new \Core3\Exception\AlreadyConnected();
         }
 
         $config = array();
@@ -143,7 +143,7 @@ class PdoDriver
         try {
             $res = $stmt->execute($args[1]);
         } catch (\PDOException $e) {
-            throw new \InvalidQueryException();
+            throw new \Core3\Exception\InvalidQuery();
         }
 
         return $stmt;
@@ -200,11 +200,11 @@ class PdoDriver
         $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         if (count($res) > 1) {
-            throw new \InvalidResultException('returned '.count($res).' rows');
+            throw new \Core3\Exception\InvalidResult('returned '.count($res).' rows');
         }
 
         if (!$res) {
-            throw new \InvalidResultException();
+            throw new \Core3\Exception\InvalidResult();
         }
 
         return $res[0];
@@ -215,13 +215,13 @@ class PdoDriver
         $stmt = $this->execute(func_get_args());
 
         if ($stmt->columnCount() != 1) {
-            throw new \InvalidResultException('expected 1 column, got '.$stmt->columnCount().' columns');
+            throw new \Core3\Exception\InvalidResult('expected 1 column, got '.$stmt->columnCount().' columns');
         }
 
         $res = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         if (count($res) != 1 || count($res[0]) != 1) {
-            throw new \InvalidResultException();
+            throw new \Core3\Exception\InvalidResult();
         }
 
         return array_shift($res[0]);
@@ -237,7 +237,7 @@ class PdoDriver
         $data = array();
 
         if ($stmt->columnCount() != 1) {
-            throw new \InvalidResultException('not 1d');
+            throw new \Core3\Exception\InvalidResult('not 1d');
         }
 
         $res = $stmt->fetchAll(\PDO::FETCH_COLUMN);
@@ -255,7 +255,7 @@ class PdoDriver
         $data = array();
 
         if ($stmt->columnCount() != 2) {
-            throw new \InvalidResultException('not mapped');
+            throw new \Core3\Exception\InvalidResult('not mapped');
         }
 
         $fetched = $stmt->fetchAll(\PDO::FETCH_NUM);

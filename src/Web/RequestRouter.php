@@ -14,7 +14,7 @@ class RequestRouter
     public function setApplicationDirectoryRoot($path)
     {
         if (!is_dir($path)) {
-            throw new \DirectoryNotFoundRexception();
+            throw new \Core3\Exception\DirectoryNotFound();
         }
 
         $this->applicationDirectoryRoot = realpath($path);
@@ -127,7 +127,7 @@ class RequestRouter
         }
 
         // system template
-        $fileName = realpath(__DIR__.'/../../..').'/view/'.$viewName.'.php';
+        $fileName = realpath(__DIR__.'/../..').'/view/'.$viewName.'.php';
         if (!file_exists($fileName)) {
              return $this->getViewFilename('404notfound');
         }
