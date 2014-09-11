@@ -28,7 +28,7 @@ class Spreadsheet
     public function defineColumns($cols)
     {
         if (!is_array($cols) && !is_object($cols)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
         $this->columns = $cols;
     }
@@ -43,11 +43,11 @@ class Spreadsheet
     public function addRow($row)
     {
         if (!is_array($row) && !is_object($row)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
 
         if (count($this->columns) != 0 && count($row) != count($this->columns)) {
-            throw new \InvalidArgumentException('column count mismatch');
+            throw new \Core3\Exception\InvalidArgument('column count mismatch');
         }
 
         $this->rows[] = $row;
@@ -56,7 +56,7 @@ class Spreadsheet
     public function setFooter($cols)
     {
         if (!is_array($cols) && !is_object($cols)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
 
         $this->footer = $cols;

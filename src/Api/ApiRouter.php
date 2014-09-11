@@ -64,7 +64,7 @@ class ApiRouter extends \Core3\Web\RequestRouter
 
             throw new \Exception('no methods available on '.$viewName.' resource');
 
-        } catch (\FileNotFoundException $ex) {
+        } catch (\Core3\Exception\FileNotFound $ex) {
             $this->setHttpResponseCode(404); // File Not Found
             echo \Core3\Api\ResponseError::exceptionToJson($ex);
         } catch (\Exception $ex) {

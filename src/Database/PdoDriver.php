@@ -127,7 +127,7 @@ class PdoDriver
     private function execute($args)
     {
         if (!$args[0]) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
 
         if ($this->dbHandle === null) {

@@ -9,7 +9,7 @@ class Object
     public static function describePropertiesWithValues($obj, array $excludeProperties = array())
     {
         if (!is_object($obj)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
 
         $res = array();

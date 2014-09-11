@@ -84,7 +84,7 @@ class Mailer
     public function addRecipient($to, $toName = '')
     {
         if (!$this->isValidMail($to)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
         $adr = new MailAddress();
         $adr->setAddress($to);
@@ -95,7 +95,7 @@ class Mailer
     public function setFrom($from, $fromName = '')
     {
         if (!$this->isValidMail($from)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
         $adr = new MailAddress();
         $adr->setAddress($from);
@@ -106,7 +106,7 @@ class Mailer
     public function setReplyTo($replyTo, $replyToName = '')
     {
         if (!$this->isValidMail($replyTo)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
         $adr = new MailAddress();
         $adr->setAddress($replyTo);
@@ -117,7 +117,7 @@ class Mailer
     public function addCc($cc, $ccName = '')
     {
         if (!$this->isValidMail($cc)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
         $adr = new MailAddress();
         $adr->setAddress($cc);
@@ -128,7 +128,7 @@ class Mailer
     public function addBcc($bcc, $bccName = '')
     {
         if (!$this->isValidMail($bcc)) {
-            throw new \InvalidArgumentException();
+            throw new \Core3\Exception\InvalidArgument();
         }
         $adr = new MailAddress();
         $adr->setAddress($bcc);
@@ -195,7 +195,7 @@ class Mailer
     public function attachFile($fileName, $contentId = '')
     {
         if (!file_exists($fileName)) {
-            throw new \FileNotFoundException($fileName);
+            throw new \Core3\Exception\FileNotFound($fileName);
         }
 
         $data = file_get_contents($fileName);

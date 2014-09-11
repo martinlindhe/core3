@@ -34,7 +34,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Core3\Exception\InvalidArgument
      */
     function testBadInput()
     {

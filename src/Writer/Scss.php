@@ -75,7 +75,7 @@ class Scss
         $cachedFile = $this->getCachedFileName($viewName);
 
         if (!file_exists($cachedFile)) {
-            throw new \FileNotFoundException('Scss not found');
+            throw new \Core3\Exception\FileNotFound('Scss not found');
         }
 
         return filemtime($cachedFile);
@@ -85,10 +85,10 @@ class Scss
     {
         $dstDir = dirname($outFile);
         if (!is_dir($dstDir)) {
-            throw new \DirectoryNotFoundRexception($dstDir);
+            throw new \Core3\Exception\DirectoryNotFound($dstDir);
         }
         if (!is_writable($dstDir)) {
-           throw new \WritePermissionDeniedException($dstDir);
+           throw new \Core3\Exception\WritePermissionDenied($dstDir);
         }
 
         file_put_contents($outFile, $data);
@@ -115,7 +115,7 @@ class Scss
     {
         $scssFile = $this->getScssFileName($viewName);
         if (!file_exists($scssFile)) {
-            throw new \FileNotFoundException();
+            throw new \Core3\Exception\FileNotFound();
         }
 
         $scss = new \scssc();

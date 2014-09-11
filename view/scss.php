@@ -37,7 +37,7 @@ try {
 
     $scssFile = $scss->getScssFileName($viewName);
     if (!file_exists($scssFile)) {
-        throw new \FileNotFoundException();
+        throw new \Core3\Exception\FileNotFound();
     }
 
     $cachedFile = $scss->getCachedFileName($viewName);
@@ -66,12 +66,12 @@ try {
     header('Last-Modified: '.gmdate('D, d M Y H:i:s ', $timestamp).'GMT');
 
     if (isClientCachingDocument($etag)) {
-        throw new \CachedInClientException();
+        throw new \Core3\Exception\CachedInClient();
     }
 
     echo $data;
 
-} catch (\CachedInClientException $ex) {
+} catch (\Core3\Exception\CachedInClient $ex) {
 
     $this->setHttpResponseCode(304); // Not Modified
 

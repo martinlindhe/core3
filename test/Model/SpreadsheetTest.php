@@ -7,7 +7,7 @@ namespace Model;
 class SpreadsheetTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Core3\Exception\InvalidArgument
      */
     function testDefineColumnsInvalid()
     {
@@ -16,7 +16,7 @@ class SpreadsheetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Core3\Exception\InvalidArgument
      */
     function testAddRowInvalid()
     {
@@ -25,7 +25,7 @@ class SpreadsheetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Core3\Exception\InvalidArgument
      */
     function testAddRowWrongColumns()
     {
@@ -35,7 +35,7 @@ class SpreadsheetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Core3\Exception\InvalidArgument
      */
     function testSetFooterInvalid()
     {

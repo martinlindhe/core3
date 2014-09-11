@@ -27,7 +27,7 @@ class ResponseErrorTest extends \PHPUnit_Framework_TestCase
             '{'.
             '"code":420,'.
             '"status":"exception",'.
-            '"exception":"InvalidArgumentException",'.
+            '"exception":"Core3\\\\Exception\\\\InvalidArgument",'.
             '"message":"",'.
             '"file":"'.__FILE__.'",'.
             '"line":'.(__LINE__+5).
@@ -35,7 +35,7 @@ class ResponseErrorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $json,
-            \Core3\Api\ResponseError::exceptionToJson(new \InvalidArgumentException())
+            \Core3\Api\ResponseError::exceptionToJson(new \Core3\Exception\InvalidArgument())
         );
     }
 }
