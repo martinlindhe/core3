@@ -27,8 +27,9 @@
 
 
 
-# TODO scss (compiled css) support
-- WISH: scssphp dont support the latest scss features
+# TODO scss
+- WISH: scssphp dont support scss 3.3 features, like "More Flexible &":
+    http://blog.sass-lang.com/posts/184094-sass-33-is-released
 
 
 
