@@ -143,7 +143,7 @@ class PdoDriver
         try {
             $res = $stmt->execute($args[1]);
         } catch (\PDOException $e) {
-            throw new \Core3\Exception\InvalidQuery();
+            throw new \Core3\Exception\InvalidQuery($e->getMessage());
         }
 
         return $stmt;
