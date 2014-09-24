@@ -24,8 +24,4 @@
 		</blacklist>
 	</filter>
 
-	<logging>
-		<log type="coverage-html" target="coverage-report-html"/>
-	</logging>
-
 </phpunit>
