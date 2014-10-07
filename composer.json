@@ -9,6 +9,7 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "martinlindhe/core3-sql": "dev-master",
         "swiftmailer/swiftmailer": "5.2.1",
         "michelf/php-markdown": "1.4.1",
         "ircmaxell/password-compat": "1.0.3",

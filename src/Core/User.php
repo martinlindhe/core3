@@ -1,7 +1,7 @@
 <?php
 namespace Core3\Core;
 
-class User extends \Core3\Model\DatabaseTable
+class User extends \Core3\Sql\DatabaseTable
 {
     public static $tableName = 'CoreUser';
 
