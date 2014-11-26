@@ -24,7 +24,7 @@ class GeoIp
 {
     public function getRecord($s)
     {
-        $arr = geoip_record_by_name($s);
+        $arr = \geoip_record_by_name($s);
 
         $res = new GeoIpRecord();
         $res->continentCode = $arr['continent_code'];
@@ -43,13 +43,13 @@ class GeoIp
 
     public function getCountry($s)
     {
-        return geoip_country_code_by_name($s);
+        return \geoip_country_code_by_name($s);
     }
 
     public function getTimezone($s)
     {
         $r = $this->getRecord($s);
-        return geoip_time_zone_by_country_and_region($r->countryCode, $r->region);
+        return \geoip_time_zone_by_country_and_region($r->countryCode, $r->region);
     }
 
     public function getDatabaseVersions()
@@ -71,17 +71,17 @@ class GeoIp
         $res = array();
 
         foreach ($dbs as $name => $id) {
-            if (!geoip_db_avail($id)) {
+            if (!\geoip_db_avail($id)) {
                 continue;
             }
 
-            $info = geoip_database_info($id);
+            $info = \geoip_database_info($id);
 
             $x = explode(' ', $info);
 
             $res[] = array(
             'name' => $name,
-            'file' => geoip_db_filename($id),
+            'file' => \geoip_db_filename($id),
             'date' => $x[1], //sql_date( ts($x[1]) ),
             'version' => $x[0]
             );
