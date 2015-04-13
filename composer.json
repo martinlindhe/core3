@@ -9,19 +9,19 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "martinlindhe/core3-sql": "dev-master",
-        "swiftmailer/swiftmailer": "5.2.1",
-        "michelf/php-markdown": "1.4.1",
-        "ircmaxell/password-compat": "1.0.3",
+        "martinlindhe/core3-sql": "~0.0",
+        "swiftmailer/swiftmailer": "5.2.*",
+        "michelf/php-markdown": "1.4.*",
+        "ircmaxell/password-compat": "1.0.*",
         "leafo/scssphp": "0.1.1",
         "tecnick.com/tcpdf": "6.0.093"
     },
     "require-dev": {
         "packagist/closurecompiler-bin": "dev-master",
-        "squizlabs/php_codesniffer": "2.0.0RC1",
-        "phpmd/phpmd": "2.1.1",
-        "phpunit/phpunit": "4.2.6",
-        "seld/jsonlint": "1.3.0"
+        "squizlabs/php_codesniffer": "~2.0",
+        "phpmd/phpmd": "~2.1",
+        "phpunit/phpunit": "~4.6",
+        "seld/jsonlint": "1.3.*"
     },
     "autoload": {
         "psr-4": {
